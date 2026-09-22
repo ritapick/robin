@@ -53,9 +53,9 @@ body {
   position: absolute;
   font-size: 200px;
   opacity: 0.06;
-  right: -40px;
+  right: -20px;
   top: 50%;
-  transform: translateY(-50%) rotate(-15deg);
+  transform: translateY(-25%) rotate(-15deg);
   pointer-events: none;
 }
 .hero-content { 
@@ -63,7 +63,7 @@ body {
   z-index: 2; 
   max-width: 1000px; 
   margin: 0 auto;
-  padding-right: 140px; /* Chừa khoảng trống bên phải để chữ không đè lên nút ở màn hình nhỏ */
+  padding-right: 70px; /* Chừa khoảng trống bên phải để chữ không đè lên nút ở màn hình nhỏ */
 }
 .hero-logo {
   font-size: clamp(20px, 6vw, 28px);
@@ -831,7 +831,7 @@ async function loadTourList() {
     return;
   }
   
-  title.textContent = isSuperAdmin() ? '📋 Tất cả giải đấu (Admin)' : (CURRENT_USER ? '📋 Giải của tôi' : '📋 Tất cả giải đấu');
+  title.textContent = isSuperAdmin() ? '📋 Danh sách giải đấu (Admin)' : (CURRENT_USER ? '📋 Giải của tôi' : '📋 Danh sách giải đấu');
   
   c.innerHTML = filtered.map(t => {
     const isOwner = canManageTour(t);
@@ -1057,7 +1057,7 @@ function renderMatch(m) {
           <button class="btn btn-success btn-sm" onclick="saveScore('${m.id}')">💾 Lưu</button>
           ${done ? `<button class="btn btn-danger btn-sm" onclick="resetScore('${m.id}')">↺ Reset</button>` : ''}
         </div>`
-      : `<div class="match-status" style="color:${done ? '#059669' : 'var(--ts)'}">${done ? '✅ Đã đấu' : '⏳ Chưa đấu'}</div>`}
+      : `<div class="match-status" style="color:${done ? '#055096' : 'var(--ts)'}">${done ? '🔒 Đã đấu' : '⏳ Chưa đấu'}</div>`}
   </div>`;
 }
 
@@ -1161,7 +1161,7 @@ async function exportStandings() {
               <th>Thắng</th>
               <th>Thua</th>
               <th>Điểm</th>
-              <th>Hiệu số</th>
+              <th>HS</th>
             </tr>
           </thead>
           <tbody>
@@ -1185,7 +1185,7 @@ async function exportStandings() {
         </table>
       </div>
       <div class="export-footer">
-        🎾 Pickleball Pro Manager · ${new Date().toLocaleString('vi-VN')}
+        🎾 Designed by Ly Dung RITA · ${new Date().toLocaleString('vi-VN')}
       </div>
     </div>
   `;
