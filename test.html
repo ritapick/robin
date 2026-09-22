@@ -275,6 +275,8 @@ tr:hover td { background: #f8fafc; }
   <div id="tourDetailScreen" style="display:none">
     <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
       <button class="btn btn-ghost-dark btn-sm" onclick="backToList()">← Quay lại</button>
+      <!-- 🌟 NÚT CẬP NHẬT THỦ CÔNG (FALLBACK HOÀN HẢO) -->
+      <button class="btn btn-ghost-dark btn-sm" onclick="loadData()" title="Làm mới dữ liệu ngay lập tức">🔄 Cập nhật</button>
       <button class="btn btn-danger btn-sm admin-only" onclick="deleteCurrentTour()" style="margin-left:auto">🗑️ Xóa giải</button>
     </div>
     <div class="card" style="background:var(--grad-primary);color:#fff;border:none">
@@ -413,6 +415,7 @@ let CURRENT_USER = null;
 let CURRENT_TOUR = null;
 let IS_TOUR_OWNER = false; 
 let TEAMS = [], MATCHES = [];
+let fallbackTimer = null; // 🌟 Biến cho cơ chế Fallback Polling
 
 function toast(msg, err = false) {
   const t = document.getElementById('toast');
@@ -492,6 +495,7 @@ async function deleteTour(ma_giai, tourName) {
   if (!confirm(`🔴 XÁC NHẬN LẦN CUỐI: XÓA GIẢI "${tourName}"?\n\nHành động này KHÔNG THỂ HOÀN TÁC!`)) return;
   toast('🗑️ Đang xóa giải...');
   sb.removeAllChannels();
+  stopFallbackPolling(); // 🌟 Tắt polling khi xóa
   if (CURRENT_TOUR && CURRENT_TOUR.ma_giai === ma_giai) { CURRENT_TOUR = null; IS_TOUR_OWNER = false; }
   const { error: e1 } = await sb.from('robin_tran_dau').delete().eq('ma_giai', ma_giai); if (e1) return toast('Lỗi: ' + e1.message, true);
   const { error: e2 } = await sb.from('robin_team').delete().eq('ma_giai', ma_giai); if (e2) return toast('Lỗi: ' + e2.message, true);
@@ -557,7 +561,25 @@ async function createNewTour() {
   closeModal('createTourModal'); toast('✅ Đã tạo giải!'); loadTourList();
 }
 
-// ===== CORE REALTIME OPTIMIZATION =====
+// 🌟 HÀM BẬT/TẮT FALLBACK POLLING (15 GIÂY)
+function startFallbackPolling(mg) {
+  stopFallbackPolling();
+  fallbackTimer = setInterval(async () => {
+    if (CURRENT_TOUR && CURRENT_TOUR.ma_giai === mg && !document.hidden) {
+      console.log('⏱️ Fallback: Đang kiểm tra cập nhật...');
+      await loadData();
+    }
+  }, 15000);
+}
+
+function stopFallbackPolling() {
+  if (fallbackTimer) {
+    clearInterval(fallbackTimer);
+    fallbackTimer = null;
+  }
+}
+
+// 🌟 CORE REALTIME OPTIMIZATION (TÁCH KÊNH ĐỂ ỔN ĐỊNH)
 async function openTour(mg) {
   const { data: tour } = await sb.from('robin_tour').select('*').eq('ma_giai', mg).single();
   if (!tour) return toast('Không tìm thấy giải', true);
@@ -581,24 +603,31 @@ async function openTour(mg) {
   
   await loadData();
   
-  // 1. Hủy các kênh cũ để tránh trùng lặp listener
   sb.removeAllChannels();
+  console.log(`📡 Đang kết nối Realtime cho giải: ${mg}...`);
   
-  // 2. Thiết lập kênh Realtime để lắng nghe thay đổi từ server
-  sb.channel('tour_' + mg)
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'robin_team', filter: 'ma_giai=eq.' + mg }, () => {
+  // Kênh 1: Lắng nghe thay đổi đội
+  sb.channel('tour_teams_' + mg)
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'robin_team', filter: `ma_giai=eq.${mg}` }, () => {
       console.log('📡 Realtime: Dữ liệu đội đã thay đổi');
-      loadData(true);
-    })
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'robin_tran_dau', filter: 'ma_giai=eq.' + mg }, () => {
-      console.log('📡 Realtime: Tỷ số trận đấu đã thay đổi');
-      loadData(true);
+      loadData();
     })
     .subscribe((status) => {
-      if (status === 'SUBSCRIBED') {
-        console.log('✅ Đã kết nối Realtime thành công cho giải:', mg);
-      }
+      if (status === 'SUBSCRIBED') console.log('✅ Kênh đội đã kết nối thành công');
     });
+  
+  // Kênh 2: Lắng nghe thay đổi trận đấu
+  sb.channel('tour_matches_' + mg)
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'robin_tran_dau', filter: `ma_giai=eq.${mg}` }, () => {
+      console.log('📡 Realtime: Tỷ số trận đấu đã thay đổi');
+      loadData();
+    })
+    .subscribe((status) => {
+      if (status === 'SUBSCRIBED') console.log('✅ Kênh trận đấu đã kết nối thành công');
+    });
+
+  // 🌟 Bật Fallback Polling dự phòng
+  startFallbackPolling(mg);
 }
 
 async function editTourName() {
@@ -613,12 +642,12 @@ async function editTourName() {
 function backToList() {
   CURRENT_TOUR = null;
   IS_TOUR_OWNER = false;
-  sb.removeAllChannels(); // Ngắt kết nối real-time khi rời đi để tiết kiệm tài nguyên
+  sb.removeAllChannels();
+  stopFallbackPolling(); // 🌟 Tắt polling khi rời đi
   loadTourList();
 }
 
-// Hàm loadData được tối ưu với cờ isRealtime để ghi log hoặc xử lý riêng nếu cần
-async function loadData(isRealtime = false) {
+async function loadData() {
   if (!CURRENT_TOUR) return;
   const mg = CURRENT_TOUR.ma_giai;
   
@@ -631,10 +660,6 @@ async function loadData(isRealtime = false) {
   renderTeams(); 
   renderSchedule(); 
   renderStandings();
-  
-  if (isRealtime && !IS_TOUR_OWNER) {
-    console.log('🔄 Giao diện người xem đã được cập nhật tự động!');
-  }
 }
 
 async function addTeam() {
@@ -790,6 +815,14 @@ async function exportStandings() {
     }, 'image/png');
   } catch (e) { console.error(e); toast('Lỗi: ' + e.message, true); }
 }
+
+// 🌟 MAGIC FIX CHO IOS: Tự động load lại dữ liệu khi người dùng quay lại tab Safari
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && CURRENT_TOUR) {
+    console.log('📱 Người dùng quay lại tab, đang cập nhật dữ liệu mới nhất...');
+    loadData();
+  }
+});
 
 (async () => {
   const u = sessionStorage.getItem('pb_admin');
