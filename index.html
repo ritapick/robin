@@ -37,80 +37,37 @@ body {
 
 /* ===== HERO SECTION - STICKY & COMPACT ===== */
 .hero {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: var(--grad-pickle);
-  color: #fff;
-  padding: 16px 16px 48px; /* Tăng padding dưới để chứa nút góc dưới */
-  text-align: center;
-  overflow: hidden;
-  border-bottom: 3px solid #fbbf24;
+  position: sticky; top: 0; z-index: 50;
+  background: var(--grad-pickle); color: #fff;
+  padding: 16px 16px 48px; text-align: center;
+  overflow: hidden; border-bottom: 3px solid #fbbf24;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 .hero::before {
-  content: '🎾';
-  position: absolute;
-  font-size: 200px;
-  opacity: 0.06;
-  right: -20px;
-  top: 50%;
-  transform: translateY(-25%) rotate(-15deg);
-  pointer-events: none;
+  content: '🎾'; position: absolute; font-size: 200px; opacity: 0.06;
+  right: -20px; top: 50%; transform: translateY(-25%) rotate(-15deg); pointer-events: none;
 }
 .hero-content { 
-  position: relative; 
-  z-index: 2; 
-  max-width: 1000px; 
-  margin: 0 auto;
-  padding-right: 70px; /* Chừa khoảng trống bên phải để chữ không đè lên nút ở màn hình nhỏ */
+  position: relative; z-index: 2; max-width: 1000px; margin: 0 auto;
+  padding-right: 70px; 
 }
 .hero-logo {
-  font-size: clamp(20px, 6vw, 28px);
-  font-weight: 900;
-  letter-spacing: -0.5px;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  margin-bottom: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
+  font-size: clamp(20px, 6vw, 28px); font-weight: 900; letter-spacing: -0.5px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.2); margin-bottom: 4px;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
 }
 .hero-logo span { color: #fbbf24; }
-.hero-tagline {
-  font-size: 11px;
-  font-weight: 700;
-  opacity: 0.9;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
+.hero-tagline { font-size: 11px; font-weight: 700; opacity: 0.9; letter-spacing: 1px; text-transform: uppercase; }
 
-/* ===== AUTH BUTTONS (BOTTOM RIGHT, SMALL) ===== */
-.hero-auth {
-  position: absolute;
-  bottom: 12px;
-  right: 12px;
-  display: flex;
-  gap: 6px;
-  z-index: 10;
-}
-.hero-auth .btn {
-  padding: 5px 10px;
-  font-size: 11px;
-  min-height: 30px;
-  border-radius: 6px;
-}
-.user-label { 
-  color: #fff; font-weight: 700; font-size: 11px; 
-  padding: 4px 8px; background: rgba(0,0,0,0.2); border-radius: 20px; 
-  display: flex; align-items: center;
-}
+/* ===== AUTH BUTTONS ===== */
+.hero-auth { position: absolute; bottom: 12px; right: 12px; display: flex; gap: 6px; z-index: 10; }
+.hero-auth .btn { padding: 5px 10px; font-size: 11px; min-height: 30px; border-radius: 6px; }
+.user-label { color: #fff; font-weight: 700; font-size: 11px; padding: 4px 8px; background: rgba(0,0,0,0.2); border-radius: 20px; display: flex; align-items: center; }
 .super-admin-badge { background: #fbbf24; color: #000; font-size: 8px; padding: 1px 4px; border-radius: 3px; font-weight: 900; margin-left: 4px; text-transform: uppercase; }
 
 /* ===== BUTTONS ===== */
 .btn {
-  padding: 8px 12px; border: none; border-radius: 8px;
-  font-size: 12px; font-weight: 700; cursor: pointer;
+  padding: 8px 12px; border: none; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer;
   transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 4px;
   text-decoration: none; white-space: nowrap; min-height: 36px;
 }
@@ -121,145 +78,44 @@ body {
 .btn-ghost-dark { background: #fff; color: var(--tx); border: 1px solid var(--bd); }
 .btn-sm { padding: 6px 10px; font-size: 11px; border-radius: 6px; min-height: 32px; }
 .btn-icon { padding: 4px; border-radius: 6px; background: #f1f5f9; color: var(--ts); border: none; cursor: pointer; font-size: 12px; min-width: 28px; min-height: 28px; }
-.btn-export {
-  background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
-  color: #fff; box-shadow: 0 4px 10px rgba(239,68,68,0.3);
-  width: 100%; max-width: 300px;
-}
+.btn-export { background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%); color: #fff; box-shadow: 0 4px 10px rgba(239,68,68,0.3); width: 100%; max-width: 300px; }
 
 /* ===== LAYOUT ===== */
 .container { max-width: 1000px; margin: 0 auto; padding: 12px; }
-.card {
-  background: var(--c); border-radius: var(--r); padding: 12px;
-  margin-bottom: 12px; box-shadow: var(--shadow); border: 1px solid var(--bd);
-}
-.card-header {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 10px; border-bottom: 2px solid #f1f5f9; padding-bottom: 6px;
-  gap: 8px; flex-wrap: wrap;
-}
+.card { background: var(--c); border-radius: var(--r); padding: 12px; margin-bottom: 12px; box-shadow: var(--shadow); border: 1px solid var(--bd); }
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 2px solid #f1f5f9; padding-bottom: 6px; gap: 8px; flex-wrap: wrap; }
 .card-title { font-size: 14px; font-weight: 800; color: var(--tx); display: flex; align-items: center; gap: 6px; }
 
-/* ===== TOUR LIST - 3D GLOSSY GRAY STYLE ===== */
+/* ===== TOUR LIST - 3D GLOSSY ===== */
 .tour-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
 .tour-card {
-  /* Hiệu ứng 3D xám bóng hiện đại */
   background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 50%, #e2e8f0 100%);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 
-    0 4px 6px -1px rgba(0, 0, 0, 0.1), 
-    0 2px 4px -1px rgba(0, 0, 0, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8); /* Viền sáng bên trong tạo cảm giác bóng */
-  border-radius: 16px;
-  padding: 12px 12px 12px 12px;
-  height: 95px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.6); border-bottom: 1px solid rgba(0, 0, 0, 0.1); border-right: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border-radius: 16px; padding: 12px; height: 95px; display: flex; flex-direction: column; justify-content: space-between;
+  position: relative; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .tour-card:hover { 
   transform: translateY(-3px); 
-  box-shadow: 
-    0 10px 15px -3px rgba(0, 0, 0, 0.1), 
-    0 4px 6px -2px rgba(0, 0, 0, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9);
   border-color: rgba(99, 102, 241, 0.4);
 }
-.tour-card::before { 
-  content: ''; 
-  position: absolute; 
-  top: 0; left: 0; 
-  width: 4px; 
-  height: 100%; 
-  background: var(--grad-primary); 
-  border-radius: 16px 0 0 16px; 
-}
+.tour-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--grad-primary); border-radius: 16px 0 0 16px; }
+.tour-card h3 { font-size: 14px; font-weight: 800; color: var(--tx); line-height: 1.3; margin-bottom: 4px; padding-right: 75px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.tour-info { font-size: 12px; color: var(--ts); line-height: 1.4; }
+.tour-info p { margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.tour-card h3 {
-  font-size: 14px;
-  font-weight: 800;
-  color: var(--tx);
-  line-height: 1.3;
-  margin-bottom: 4px;
-  padding-right: 75px;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.tour-info {
-  font-size: 12px;
-  color: var(--ts);
-  line-height: 1.4;
-}
-.tour-info p {
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.badge-own, .badge-admin-manage {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  font-size: 9px;
-  font-weight: 800;
-  padding: 2px 6px;
-  border-radius: 12px;
-  text-transform: uppercase;
-  text-align: right;
-  line-height: 1.2;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
+.badge-own, .badge-admin-manage { position: absolute; top: 8px; right: 8px; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 12px; text-transform: uppercase; text-align: right; line-height: 1.2; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 .badge-own { background: #fef3c7; color: #92400e; }
 .badge-admin-manage { background: #dbeafe; color: #1e40af; }
-.badge-admin-manage small {
-  font-size: 8px;
-  font-weight: 600;
-  display: block;
-  margin-top: 1px;
-  opacity: 0.8;
-  text-transform: none;
-}
+.badge-admin-manage small { font-size: 8px; font-weight: 600; display: block; margin-top: 1px; opacity: 0.8; text-transform: none; }
 
-.tour-delete-btn {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  background: #fee2e2;
-  color: #dc2626;
-  border: 1px solid #fecaca;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 10px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  min-height: 28px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
+.tour-delete-btn { position: absolute; bottom: 8px; right: 8px; background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 3px; min-height: 28px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 .tour-delete-btn:hover { background: #dc2626; color: #fff; border-color: #dc2626; }
 
 /* ===== TABS ===== */
-.tabs {
-  display: flex; background: #f1f5f9; border-radius: 10px;
-  padding: 3px; margin-bottom: 12px;
-}
-.tab-btn {
-  flex: 1; padding: 8px 4px; background: transparent; border: none;
-  font-weight: 700; font-size: 12px; color: var(--ts);
-  cursor: pointer; border-radius: 8px; transition: 0.2s;
-  min-height: 38px;
-}
+.tabs { display: flex; background: #f1f5f9; border-radius: 10px; padding: 3px; margin-bottom: 12px; }
+.tab-btn { flex: 1; padding: 8px 4px; background: transparent; border: none; font-weight: 700; font-size: 12px; color: var(--ts); cursor: pointer; border-radius: 8px; transition: 0.2s; min-height: 38px; }
 .tab-btn.active { background: #fff; color: #6366f1; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 .tab { display: none; animation: fadeIn 0.3s; }
 .tab.active { display: block; }
@@ -268,15 +124,8 @@ body {
 /* ===== STANDINGS TABLE ===== */
 .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -4px; padding: 0 4px; }
 table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 300px; }
-th {
-  background: #f8fafc; color: var(--ts); font-size: 9px; font-weight: 800;
-  text-transform: uppercase; padding: 8px 4px; text-align: center;
-  letter-spacing: 0.3px; border-bottom: 2px solid var(--bd); white-space: nowrap;
-}
-td {
-  padding: 8px 4px; border-bottom: 1px solid var(--bd);
-  text-align: center; font-variant-numeric: tabular-nums; white-space: nowrap;
-}
+th { background: #f8fafc; color: var(--ts); font-size: 9px; font-weight: 800; text-transform: uppercase; padding: 8px 4px; text-align: center; letter-spacing: 0.3px; border-bottom: 2px solid var(--bd); white-space: nowrap; }
+td { padding: 8px 4px; border-bottom: 1px solid var(--bd); text-align: center; font-variant-numeric: tabular-nums; white-space: nowrap; }
 tr:last-child td { border-bottom: none; }
 tr:hover td { background: #f8fafc; }
 .rank-1 td { background: #fef9c3 !important; font-weight: 800; }
@@ -291,16 +140,8 @@ tr:hover td { background: #f8fafc; }
 
 /* ===== MATCH ROW ===== */
 .round-block { margin-bottom: 12px; border: 1px solid var(--bd); border-radius: var(--r); overflow: hidden; background: #fff; }
-.round-head {
-  background: #f8fafc; padding: 8px 12px; font-weight: 800;
-  font-size: 12px; color: #6366f1; border-bottom: 1px solid var(--bd);
-  display: flex; justify-content: space-between;
-}
-.match-row {
-  display: grid; grid-template-columns: 1fr 40px 24px 40px 1fr;
-  gap: 4px; align-items: center; padding: 10px 8px;
-  border-bottom: 1px solid var(--bd); transition: 0.2s;
-}
+.round-head { background: #f8fafc; padding: 8px 12px; font-weight: 800; font-size: 12px; color: #6366f1; border-bottom: 1px solid var(--bd); display: flex; justify-content: space-between; }
+.match-row { display: grid; grid-template-columns: 1fr 40px 24px 40px 1fr; gap: 4px; align-items: center; padding: 10px 8px; border-bottom: 1px solid var(--bd); transition: 0.2s; }
 .match-row:last-child { border-bottom: none; }
 .match-row.da-dau { background: #f0fdf4; }
 .team-name { font-weight: 700; font-size: 12px; line-height: 1.3; word-break: break-word; }
@@ -308,52 +149,24 @@ tr:hover td { background: #f8fafc; }
 .team-b { text-align: left; }
 .vs { text-align: center; font-weight: 900; color: var(--ts); font-size: 10px; }
 .score { text-align: center; font-weight: 900; font-size: 16px; color: var(--tx); }
-.score-input {
-  width: 100%; padding: 4px 2px; border: 2px solid var(--bd); border-radius: 6px;
-  text-align: center; font-size: 15px; font-weight: 800; background: #fff;
-  min-height: 34px;
-}
+.score-input { width: 100%; padding: 4px 2px; border: 2px solid var(--bd); border-radius: 6px; text-align: center; font-size: 15px; font-weight: 800; background: #fff; min-height: 34px; }
 .score-input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
 .winner-text { color: #059669 !important; font-weight: 900 !important; }
 .winner-score { color: #059669 !important; font-weight: 900 !important; font-size: 18px; }
-.match-actions {
-  grid-column: 1 / -1; display: flex; justify-content: center;
-  gap: 6px; margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--bd);
-}
-.match-status {
-  grid-column: 1 / -1; text-align: center; margin-top: 4px;
-  font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
-}
+.match-actions { grid-column: 1 / -1; display: flex; justify-content: center; gap: 6px; margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--bd); }
+.match-status { grid-column: 1 / -1; text-align: center; margin-top: 4px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
 
 /* ===== FORM & MODAL ===== */
 .form-row { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
-.form-row input {
-  flex: 1; min-width: 0; padding: 10px 12px; border: 2px solid var(--bd);
-  border-radius: 10px; font-size: 15px; font-weight: 600;
-  min-height: 42px;
-}
+.form-row input { flex: 1; min-width: 0; padding: 10px 12px; border: 2px solid var(--bd); border-radius: 10px; font-size: 15px; font-weight: 600; min-height: 42px; }
 .form-row input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
-.modal-overlay {
-  display: none; position: fixed; inset: 0;
-  background: rgba(15,23,42,0.6); backdrop-filter: blur(4px);
-  z-index: 1000; align-items: center; justify-content: center; padding: 16px;
-}
-.modal-box {
-  background: #fff; padding: 20px; border-radius: 20px;
-  width: 100%; max-width: 360px;
-  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: modalPop 0.3s;
-}
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.6); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 16px; }
+.modal-box { background: #fff; padding: 20px; border-radius: 20px; width: 100%; max-width: 360px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: modalPop 0.3s; }
 @keyframes modalPop { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .modal-box h2 { font-size: 18px; font-weight: 800; margin-bottom: 14px; text-align: center; }
 
 /* ===== TOAST ===== */
-#toast {
-  position: fixed; top: 70px; left: 50%; transform: translateX(-50%);
-  background: #0f172a; color: #fff; padding: 10px 16px; border-radius: 10px;
-  font-size: 13px; font-weight: 700; z-index: 2000; display: none;
-  box-shadow: 0 10px 15px rgba(0,0,0,0.2); border-left: 4px solid #10b981;
-  max-width: calc(100vw - 24px); text-align: center;
-}
+#toast { position: fixed; top: 70px; left: 50%; transform: translateX(-50%); background: #0f172a; color: #fff; padding: 10px 16px; border-radius: 10px; font-size: 13px; font-weight: 700; z-index: 2000; display: none; box-shadow: 0 10px 15px rgba(0,0,0,0.2); border-left: 4px solid #10b981; max-width: calc(100vw - 24px); text-align: center; }
 #toast.show { display: block; animation: slideIn 0.3s; }
 #toast.err { border-left-color: #ef4444; background: #450a0a; }
 @keyframes slideIn { from { transform: translate(-50%,-20px); opacity: 0; } to { transform: translate(-50%,0); opacity: 1; } }
@@ -363,22 +176,11 @@ tr:hover td { background: #f8fafc; }
 .is-owner .admin-only { display: flex !important; }
 .is-owner .admin-block { display: block !important; }
 .admin-block { display: none; }
-.team-counter {
-  background: #6366f1; color: #fff; padding: 2px 8px;
-  border-radius: 20px; font-size: 11px; font-weight: 800; margin-left: 6px;
-}
-.edit-name-btn {
-  background: none; border: none; color: rgba(255,255,255,0.7);
-  cursor: pointer; font-size: 14px; padding: 4px; border-radius: 6px;
-  min-width: 32px; min-height: 32px;
-}
+.team-counter { background: #6366f1; color: #fff; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 800; margin-left: 6px; }
+.edit-name-btn { background: none; border: none; color: rgba(255,255,255,0.7); cursor: pointer; font-size: 14px; padding: 4px; border-radius: 6px; min-width: 32px; min-height: 32px; }
 .edit-name-btn:hover { background: rgba(255,255,255,0.2); color: #fff; }
 .teams-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-.team-tag {
-  background: #f1f5f9; padding: 5px 8px; border-radius: 8px;
-  font-size: 12px; font-weight: 700; display: flex; align-items: center;
-  gap: 5px; border: 1px solid var(--bd);
-}
+.team-tag { background: #f1f5f9; padding: 5px 8px; border-radius: 8px; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 5px; border: 1px solid var(--bd); }
 
 /* ===== EMPTY STATE ===== */
 .empty-state { text-align: center; padding: 30px 14px; color: var(--ts); }
@@ -386,41 +188,23 @@ tr:hover td { background: #f8fafc; }
 .empty-state h3 { font-size: 15px; margin-bottom: 4px; color: var(--tx); }
 .empty-state p { font-size: 12px; }
 
-/* ===== EXPORT AREA - CHỮ XANH DƯƠNG ===== */
+/* ===== EXPORT AREA ===== */
 #exportArea { position: absolute; left: -9999px; top: 0; width: 800px; }
 .export-card {
   width: 800px; min-height: 600px; padding: 40px;
-  background: 
-    linear-gradient(135deg, rgba(30,64,175,0.95) 0%, rgba(37,99,235,0.95) 50%, rgba(59,130,246,0.95) 100%),
-    repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(255,255,255,0.04) 30px, rgba(255,255,255,0.04) 60px),
-    repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(255,255,255,0.04) 30px, rgba(255,255,255,0.04) 60px);
+  background: linear-gradient(135deg, rgba(30,64,175,0.95) 0%, rgba(37,99,235,0.95) 50%, rgba(59,130,246,0.95) 100%),
+  repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(255,255,255,0.04) 30px, rgba(255,255,255,0.04) 60px),
+  repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(255,255,255,0.04) 30px, rgba(255,255,255,0.04) 60px);
   color: #fff; font-family: 'Inter', system-ui, sans-serif; position: relative; overflow: hidden;
 }
-.export-card::before {
-  content: '🎾'; position: absolute; font-size: 300px; opacity: 0.08;
-  right: -50px; bottom: -80px; transform: rotate(-15deg);
-}
+.export-card::before { content: '🎾'; position: absolute; font-size: 300px; opacity: 0.08; right: -50px; bottom: -80px; transform: rotate(-15deg); }
 .export-header { text-align: center; margin-bottom: 30px; position: relative; z-index: 1; }
-.export-title { 
-  font-size: 40px; font-weight: 900; letter-spacing: -1px; 
-  text-shadow: 0 4px 12px rgba(0,0,0,0.3); margin-bottom: 8px;
-  color: #fbbf24;
-}
+.export-title { font-size: 40px; font-weight: 900; letter-spacing: -1px; text-shadow: 0 4px 12px rgba(0,0,0,0.3); margin-bottom: 8px; color: #fbbf24; }
 .export-subtitle { font-size: 16px; opacity: 0.95; font-weight: 600; color: #fff; }
-.export-table {
-  background: rgba(255,255,255,0.98); border-radius: 16px; overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; z-index: 1;
-}
+.export-table { background: rgba(255,255,255,0.98); border-radius: 16px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; z-index: 1; }
 .export-table table { width: 100%; border-collapse: collapse; font-size: 16px; min-width: 0; }
-.export-table th {
-  background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%); color: #fff;
-  font-size: 13px; font-weight: 800; text-transform: uppercase; padding: 16px 12px; letter-spacing: 0.5px;
-}
-.export-table td { 
-  padding: 14px 12px; border-bottom: 1px solid #e2e8f0; font-size: 15px;
-  color: #1e3a8a !important;
-  font-weight: 600;
-}
+.export-table th { background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%); color: #fff; font-size: 13px; font-weight: 800; text-transform: uppercase; padding: 16px 12px; letter-spacing: 0.5px; }
+.export-table td { padding: 14px 12px; border-bottom: 1px solid #e2e8f0; font-size: 15px; color: #1e3a8a !important; font-weight: 600; }
 .export-table tr:last-child td { border-bottom: none; }
 .export-table .rank-1 td { background: #fef9c3 !important; color: #1e40af !important; font-weight: 800; }
 .export-table .rank-2 td { background: #f1f5f9 !important; color: #1e40af !important; font-weight: 700; }
@@ -433,11 +217,7 @@ tr:hover td { background: #f8fafc; }
 .export-table .minus { color: #dc2626 !important; font-weight: 800; }
 .export-table .thang { color: #059669 !important; font-weight: 800; }
 .export-table .thua { color: #dc2626 !important; font-weight: 800; }
-.export-footer { 
-  text-align: center; margin-top: 24px; font-size: 13px; 
-  opacity: 0.9; font-weight: 600; position: relative; z-index: 1;
-  color: #fff;
-}
+.export-footer { text-align: center; margin-top: 24px; font-size: 13px; opacity: 0.9; font-weight: 600; position: relative; z-index: 1; color: #fff; }
 
 /* ===== RESPONSIVE ===== */
 @media (min-width: 480px) {
@@ -449,7 +229,7 @@ tr:hover td { background: #f8fafc; }
   .tour-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (min-width: 640px) {
-  .hero-content { padding-right: 0; } /* Bỏ padding phải trên màn hình lớn vì không còn nguy cơ đè chữ */
+  .hero-content { padding-right: 0; }
   .container { padding: 16px; }
   .match-row { grid-template-columns: 1fr 60px 36px 60px 1fr; padding: 14px 18px; gap: 8px; }
   .team-name { font-size: 14px; }
@@ -475,7 +255,6 @@ tr:hover td { background: #f8fafc; }
 
 <div id="toast"></div>
 
-<!-- HERO SECTION - STICKY -->
 <header class="hero">
   <div class="hero-content">
     <div class="hero-logo">🎾 <span>PICKLEBALL</span> ROBIN</div>
@@ -496,6 +275,8 @@ tr:hover td { background: #f8fafc; }
   <div id="tourDetailScreen" style="display:none">
     <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
       <button class="btn btn-ghost-dark btn-sm" onclick="backToList()">← Quay lại</button>
+      <!-- 🌟 NÚT CẬP NHẬT THỦ CÔNG (FALLBACK HOÀN HẢO) -->
+      <button class="btn btn-ghost-dark btn-sm" onclick="loadData()" title="Làm mới dữ liệu ngay lập tức">🔄 Cập nhật</button>
       <button class="btn btn-danger btn-sm admin-only" onclick="deleteCurrentTour()" style="margin-left:auto">🗑️ Xóa giải</button>
     </div>
     <div class="card" style="background:var(--grad-primary);color:#fff;border:none">
@@ -572,7 +353,6 @@ tr:hover td { background: #f8fafc; }
 
 <div id="exportArea"></div>
 
-<!-- MODAL ĐĂNG NHẬP -->
 <div id="loginModal" class="modal-overlay">
   <div class="modal-box">
     <h2>🔑 Đăng nhập</h2>
@@ -588,7 +368,6 @@ tr:hover td { background: #f8fafc; }
   </div>
 </div>
 
-<!-- MODAL ĐĂNG KÝ -->
 <div id="registerModal" class="modal-overlay">
   <div class="modal-box">
     <h2>📝 Đăng ký</h2>
@@ -601,7 +380,6 @@ tr:hover td { background: #f8fafc; }
   </div>
 </div>
 
-<!-- MODAL ĐỔI MẬT KHẨU -->
 <div id="changePwdModal" class="modal-overlay">
   <div class="modal-box">
     <h2>🔑 Đổi mật khẩu</h2>
@@ -615,7 +393,6 @@ tr:hover td { background: #f8fafc; }
   </div>
 </div>
 
-<!-- MODAL TẠO GIẢI -->
 <div id="createTourModal" class="modal-overlay">
   <div class="modal-box">
     <h2>🎉 Tạo giải mới</h2>
@@ -638,6 +415,7 @@ let CURRENT_USER = null;
 let CURRENT_TOUR = null;
 let IS_TOUR_OWNER = false; 
 let TEAMS = [], MATCHES = [];
+let fallbackTimer = null; // 🌟 Biến cho cơ chế Fallback Polling
 
 function toast(msg, err = false) {
   const t = document.getElementById('toast');
@@ -655,29 +433,17 @@ function switchTab(name, btn) {
   if (name === 'standings') renderStandings();
 }
 
-function isSuperAdmin() {
-  return CURRENT_USER && CURRENT_USER.username.toLowerCase() === 'admin';
-}
-function canManageTour(tour) {
-  if (!CURRENT_USER) return false;
-  return isSuperAdmin() || (tour.admin_id === CURRENT_USER.id);
-}
+function isSuperAdmin() { return CURRENT_USER && CURRENT_USER.username.toLowerCase() === 'admin'; }
+function canManageTour(tour) { if (!CURRENT_USER) return false; return isSuperAdmin() || (tour.admin_id === CURRENT_USER.id); }
 
 function updateAuthUI() {
   const c = document.getElementById('authBtns');
   if (CURRENT_USER) {
     const adminBadge = isSuperAdmin() ? '<span class="super-admin-badge">SUPER ADMIN</span>' : '';
-    c.innerHTML = `
-      <span class="user-label">👤 ${CURRENT_USER.username}${adminBadge}</span>
-      <button class="btn btn-ghost btn-sm" onclick="showModal('changePwdModal')">🔑 Đổi MK</button>
-      <button class="btn btn-ghost btn-sm" onclick="doLogout()">Thoát</button>
-    `;
+    c.innerHTML = `<span class="user-label">👤 ${CURRENT_USER.username}${adminBadge}</span><button class="btn btn-ghost btn-sm" onclick="showModal('changePwdModal')">🔑 Đổi MK</button><button class="btn btn-ghost btn-sm" onclick="doLogout()">Thoát</button>`;
     document.body.classList.add('is-owner');
   } else {
-    c.innerHTML = `
-      <button class="btn btn-ghost btn-sm" onclick="showModal('loginModal')">🔑 Đăng nhập</button>
-      <button class="btn btn-ghost btn-sm" onclick="showModal('registerModal')">📝 Đăng ký</button>
-    `;
+    c.innerHTML = `<button class="btn btn-ghost btn-sm" onclick="showModal('loginModal')">🔑 Đăng nhập</button><button class="btn btn-ghost btn-sm" onclick="showModal('registerModal')">📝 Đăng ký</button>`;
     document.body.classList.remove('is-owner');
   }
 }
@@ -688,211 +454,132 @@ async function doRegister() {
   if (!user || !pass) return toast('Nhập đầy đủ thông tin', true);
   if (user.includes(' ')) return toast('Tên không được có khoảng trắng', true);
   if (user === 'admin') return toast('Tên này đã được hệ thống sử dụng', true);
-  
   const { error } = await sb.from('admin_users').insert({ username: user, password: pass });
-  if (error) {
-    if (error.code === '23505') return toast('Tên đã tồn tại!', true);
-    return toast('Lỗi: ' + error.message, true);
-  }
-  closeModal('registerModal');
-  toast('✅ Đăng ký thành công!');
-  showModal('loginModal');
-  document.getElementById('loginUser').value = user;
+  if (error) { if (error.code === '23505') return toast('Tên đã tồn tại!', true); return toast('Lỗi: ' + error.message, true); }
+  closeModal('registerModal'); toast('✅ Đăng ký thành công!'); showModal('loginModal'); document.getElementById('loginUser').value = user;
 }
 
 async function doLogin() {
   const user = document.getElementById('loginUser').value.trim().toLowerCase();
   const pass = document.getElementById('loginPass').value.trim();
   if (!user || !pass) return toast('Vui lòng nhập tên và mật khẩu', true);
-
   const { data, error } = await sb.from('admin_users').select('*').eq('username', user).eq('password', pass).single();
   if (error || !data) return toast('Sai tên đăng nhập hoặc mật khẩu!', true);
-  
-  CURRENT_USER = data;
-  sessionStorage.setItem('pb_admin', JSON.stringify(data));
-  closeModal('loginModal');
-  updateAuthUI();
-  toast('✅ Chào, ' + CURRENT_USER.username);
-  loadTourList();
+  CURRENT_USER = data; sessionStorage.setItem('pb_admin', JSON.stringify(data));
+  closeModal('loginModal'); updateAuthUI(); toast('✅ Chào, ' + CURRENT_USER.username); loadTourList();
 }
 
-function doLogout() {
-  CURRENT_USER = null;
-  sessionStorage.removeItem('pb_admin');
-  updateAuthUI();
-  backToList();
-  toast('Đã đăng xuất');
-}
+function doLogout() { CURRENT_USER = null; sessionStorage.removeItem('pb_admin'); updateAuthUI(); backToList(); toast('Đã đăng xuất'); }
 
 async function handleChangePassword() {
   const current = document.getElementById('cp_current').value.trim();
   const newPwd = document.getElementById('cp_new').value.trim();
   const confirm = document.getElementById('cp_confirm').value.trim();
-
   if (!current || !newPwd || !confirm) return toast('Vui lòng nhập đầy đủ', true);
   if (newPwd !== confirm) return toast('Mật khẩu mới không khớp', true);
   if (newPwd.length < 3) return toast('Mật khẩu mới quá ngắn', true);
-
   const { data, error: vErr } = await sb.from('admin_users').select('id').eq('id', CURRENT_USER.id).eq('password', current).single();
   if (vErr || !data) return toast('Mật khẩu hiện tại không đúng', true);
-
   const { error: uErr } = await sb.from('admin_users').update({ password: newPwd }).eq('id', CURRENT_USER.id);
   if (uErr) return toast('Lỗi: ' + uErr.message, true);
-
-  toast('✅ Đổi mật khẩu thành công!');
-  closeModal('changePwdModal');
-  document.getElementById('cp_current').value = '';
-  document.getElementById('cp_new').value = '';
-  document.getElementById('cp_confirm').value = '';
+  toast('✅ Đổi mật khẩu thành công!'); closeModal('changePwdModal');
+  document.getElementById('cp_current').value = ''; document.getElementById('cp_new').value = ''; document.getElementById('cp_confirm').value = '';
 }
 
 async function deleteTour(ma_giai, tourName) {
   if (!CURRENT_USER) return toast('Vui lòng đăng nhập', true);
-  
   const { data: tour, error: fetchErr } = await sb.from('robin_tour').select('*').eq('ma_giai', ma_giai).single();
   if (fetchErr || !tour) return toast('Không tìm thấy giải', true);
   if (!canManageTour(tour)) return toast('Bạn không có quyền xóa giải này', true);
-  
   if (!confirm(`⚠️ Bạn có chắc muốn xóa giải "${tourName}"?\n\nToàn bộ đội, lịch thi đấu và điểm số sẽ bị XÓA VĨNH VIỄN!`)) return;
   if (!confirm(`🔴 XÁC NHẬN LẦN CUỐI: XÓA GIẢI "${tourName}"?\n\nHành động này KHÔNG THỂ HOÀN TÁC!`)) return;
-  
   toast('🗑️ Đang xóa giải...');
-  
   sb.removeAllChannels();
-  if (CURRENT_TOUR && CURRENT_TOUR.ma_giai === ma_giai) {
-    CURRENT_TOUR = null;
-    IS_TOUR_OWNER = false;
-  }
-  
-  const { error: e1 } = await sb.from('robin_tran_dau').delete().eq('ma_giai', ma_giai);
-  if (e1) return toast('Lỗi xóa trận đấu: ' + e1.message, true);
-  
-  const { error: e2 } = await sb.from('robin_team').delete().eq('ma_giai', ma_giai);
-  if (e2) return toast('Lỗi xóa đội: ' + e2.message, true);
-  
-  const { error: e3 } = await sb.from('robin_tour').delete().eq('ma_giai', ma_giai);
-  if (e3) return toast('Lỗi xóa giải: ' + e3.message, true);
-  
-  toast('✅ Đã xóa giải: ' + tourName);
-  await loadTourList();
+  stopFallbackPolling(); // 🌟 Tắt polling khi xóa
+  if (CURRENT_TOUR && CURRENT_TOUR.ma_giai === ma_giai) { CURRENT_TOUR = null; IS_TOUR_OWNER = false; }
+  const { error: e1 } = await sb.from('robin_tran_dau').delete().eq('ma_giai', ma_giai); if (e1) return toast('Lỗi: ' + e1.message, true);
+  const { error: e2 } = await sb.from('robin_team').delete().eq('ma_giai', ma_giai); if (e2) return toast('Lỗi: ' + e2.message, true);
+  const { error: e3 } = await sb.from('robin_tour').delete().eq('ma_giai', ma_giai); if (e3) return toast('Lỗi: ' + e3.message, true);
+  toast('✅ Đã xóa giải: ' + tourName); await loadTourList();
 }
-
-async function deleteCurrentTour() {
-  if (!CURRENT_TOUR) return;
-  await deleteTour(CURRENT_TOUR.ma_giai, CURRENT_TOUR.ten_giai);
-}
+async function deleteCurrentTour() { if (!CURRENT_TOUR) return; await deleteTour(CURRENT_TOUR.ma_giai, CURRENT_TOUR.ten_giai); }
 
 async function deleteTeam(id, teamName) {
   if (!IS_TOUR_OWNER) return toast('Bạn không có quyền quản lý giải này', true);
   if (!confirm(`Xóa đội "${teamName}"?\n\nCác trận đấu liên quan cũng sẽ bị xóa.`)) return;
-  
   toast('🗑️ Đang xóa đội...');
   const { error } = await sb.from('robin_team').delete().eq('id', id);
-  
-  if (error) {
-    console.error('Lỗi xóa đội:', error);
-    return toast('Lỗi: ' + error.message, true);
-  }
-  
-  toast('✅ Đã xóa đội: ' + teamName);
-  await loadData();
+  if (error) { console.error('Lỗi xóa đội:', error); return toast('Lỗi: ' + error.message, true); }
+  toast('✅ Đã xóa đội: ' + teamName); await loadData();
 }
 
 async function loadTourList() {
   document.getElementById('tourListScreen').style.display = 'block';
   document.getElementById('tourDetailScreen').style.display = 'none';
-  
-  const { data: tours, error } = await sb.from('robin_tour')
-    .select('*')
-    .order('ngay_to_chuc', { ascending: false })
-    .order('created_at', { ascending: false });
-  
-  const c = document.getElementById('tourListContainer');
-  const title = document.getElementById('listTitle');
-  
+  const { data: tours, error } = await sb.from('robin_tour').select('*').order('ngay_to_chuc', { ascending: false }).order('created_at', { ascending: false });
+  const c = document.getElementById('tourListContainer'); const title = document.getElementById('listTitle');
   if (error || !tours || tours.length === 0) {
     c.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="icon">🎾</div><h3>Chưa có giải đấu nào</h3><p>Đăng ký và tạo giải đầu tiên!</p></div>`;
-    title.textContent = '📋 Danh sách giải';
-    return;
+    title.textContent = '📋 Danh sách giải'; return;
   }
-  
   const { data: users } = await sb.from('admin_users').select('id, username');
-  const userMap = {};
-  if (users) users.forEach(u => userMap[u.id] = u.username);
-  
+  const userMap = {}; if (users) users.forEach(u => userMap[u.id] = u.username);
   let filtered = tours;
-  if (CURRENT_USER && !isSuperAdmin()) {
-    filtered = tours.filter(t => t.admin_id === CURRENT_USER.id);
-  }
-  
+  if (CURRENT_USER && !isSuperAdmin()) { filtered = tours.filter(t => t.admin_id === CURRENT_USER.id); }
   if (filtered.length === 0) {
     c.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="icon">📭</div><h3>Bạn chưa có giải nào</h3><p>Bấm "➕ Tạo giải" để bắt đầu.</p></div>`;
-    title.textContent = isSuperAdmin() ? '📋 Quản lý tất cả (Admin)' : '📋 Giải của tôi';
-    return;
+    title.textContent = isSuperAdmin() ? '📋 Quản lý tất cả (Admin)' : '📋 Giải của tôi'; return;
   }
-  
   title.textContent = isSuperAdmin() ? '📋 Danh sách giải đấu (Admin)' : (CURRENT_USER ? '📋 Giải của tôi' : '📋 Danh sách giải đấu');
-  
   c.innerHTML = filtered.map(t => {
     const isOwner = canManageTour(t);
     const creatorName = userMap[t.admin_id] || 'Không xác định';
     const ngayStr = new Date(t.ngay_to_chuc).toLocaleDateString('vi-VN');
-    
     let badgeHtml = '';
     if (isSuperAdmin()) {
-      if (t.admin_id === CURRENT_USER.id) {
-        badgeHtml = '<div class="badge-own">Của bạn</div>';
-      } else {
-        badgeHtml = `<div class="badge-admin-manage">👑 Admin QL<br><small>Tạo bởi: ${creatorName}</small></div>`;
-      }
-    } else if (isOwner) {
-      badgeHtml = '<div class="badge-own">Của bạn</div>';
-    }
-
-    const deleteBtnHtml = isOwner 
-      ? `<button class="tour-delete-btn" onclick="event.stopPropagation(); deleteTour('${t.ma_giai}', '${t.ten_giai.replace(/'/g, "\\'")}')">🗑️ Xóa</button>` 
-      : '';
-
-    return `<div class="tour-card" onclick="openTour('${t.ma_giai}')">
-      ${badgeHtml}
-      <h3>${t.ten_giai}</h3>
-      <div class="tour-info">
-        <p>📍 ${t.dia_diem || 'Chưa cập nhật'}</p>
-        <p>📅 ${ngayStr}</p>
-      </div>
-      ${deleteBtnHtml}
-    </div>`;
+      if (t.admin_id === CURRENT_USER.id) badgeHtml = '<div class="badge-own">Của bạn</div>';
+      else badgeHtml = `<div class="badge-admin-manage">👑 Admin QL<br><small>Tạo bởi: ${creatorName}</small></div>`;
+    } else if (isOwner) { badgeHtml = '<div class="badge-own">Của bạn</div>'; }
+    const deleteBtnHtml = isOwner ? `<button class="tour-delete-btn" onclick="event.stopPropagation(); deleteTour('${t.ma_giai}', '${t.ten_giai.replace(/'/g, "\\'")}')">🗑️ Xóa</button>` : '';
+    return `<div class="tour-card" onclick="openTour('${t.ma_giai}')">${badgeHtml}<h3>${t.ten_giai}</h3><div class="tour-info"><p>📍 ${t.dia_diem || 'Chưa cập nhật'}</p><p>📅 ${ngayStr}</p></div>${deleteBtnHtml}</div>`;
   }).join('');
 }
 
-function showCreateTourModal() {
-  if (!CURRENT_USER) return showModal('loginModal');
-  document.getElementById('c_ngay').valueAsDate = new Date();
-  showModal('createTourModal');
-}
+function showCreateTourModal() { if (!CURRENT_USER) return showModal('loginModal'); document.getElementById('c_ngay').valueAsDate = new Date(); showModal('createTourModal'); }
 
 async function createNewTour() {
   const ten = document.getElementById('c_ten_giai').value.trim();
   const dd = document.getElementById('c_dia_diem').value.trim();
   const ngay = document.getElementById('c_ngay').value;
   if (!ten || !ngay) return toast('Nhập tên giải và ngày', true);
-  
   const { data: last } = await sb.from('robin_tour').select('ma_giai').order('ma_giai', { ascending: false }).limit(1);
   let n = 1;
-  if (last && last.length && last[0].ma_giai.startsWith('G')) {
-    const cur = parseInt(last[0].ma_giai.substring(1), 10);
-    if (!isNaN(cur)) n = cur + 1;
-  }
+  if (last && last.length && last[0].ma_giai.startsWith('G')) { const cur = parseInt(last[0].ma_giai.substring(1), 10); if (!isNaN(cur)) n = cur + 1; }
   const mg = 'G' + String(n).padStart(3, '0');
-  
   const { error } = await sb.from('robin_tour').insert({ ma_giai: mg, ten_giai: ten, dia_diem: dd, ngay_to_chuc: ngay, admin_id: CURRENT_USER.id });
   if (error) return toast('Lỗi: ' + error.message, true);
-  
-  closeModal('createTourModal');
-  toast('✅ Đã tạo giải!');
-  loadTourList();
+  closeModal('createTourModal'); toast('✅ Đã tạo giải!'); loadTourList();
 }
 
+// 🌟 HÀM BẬT/TẮT FALLBACK POLLING (15 GIÂY)
+function startFallbackPolling(mg) {
+  stopFallbackPolling();
+  fallbackTimer = setInterval(async () => {
+    if (CURRENT_TOUR && CURRENT_TOUR.ma_giai === mg && !document.hidden) {
+      console.log('⏱️ Fallback: Đang kiểm tra cập nhật...');
+      await loadData();
+    }
+  }, 15000);
+}
+
+function stopFallbackPolling() {
+  if (fallbackTimer) {
+    clearInterval(fallbackTimer);
+    fallbackTimer = null;
+  }
+}
+
+// 🌟 CORE REALTIME OPTIMIZATION (TÁCH KÊNH ĐỂ ỔN ĐỊNH)
 async function openTour(mg) {
   const { data: tour } = await sb.from('robin_tour').select('*').eq('ma_giai', mg).single();
   if (!tour) return toast('Không tìm thấy giải', true);
@@ -917,66 +604,78 @@ async function openTour(mg) {
   await loadData();
   
   sb.removeAllChannels();
-  sb.channel('tour_' + mg)
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'robin_team', filter: 'ma_giai=eq.' + mg }, loadData)
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'robin_tran_dau', filter: 'ma_giai=eq.' + mg }, loadData)
-    .subscribe();
+  console.log(`📡 Đang kết nối Realtime cho giải: ${mg}...`);
+  
+  // Kênh 1: Lắng nghe thay đổi đội
+  sb.channel('tour_teams_' + mg)
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'robin_team', filter: `ma_giai=eq.${mg}` }, () => {
+      console.log('📡 Realtime: Dữ liệu đội đã thay đổi');
+      loadData();
+    })
+    .subscribe((status) => {
+      if (status === 'SUBSCRIBED') console.log('✅ Kênh đội đã kết nối thành công');
+    });
+  
+  // Kênh 2: Lắng nghe thay đổi trận đấu
+  sb.channel('tour_matches_' + mg)
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'robin_tran_dau', filter: `ma_giai=eq.${mg}` }, () => {
+      console.log('📡 Realtime: Tỷ số trận đấu đã thay đổi');
+      loadData();
+    })
+    .subscribe((status) => {
+      if (status === 'SUBSCRIBED') console.log('✅ Kênh trận đấu đã kết nối thành công');
+    });
+
+  // 🌟 Bật Fallback Polling dự phòng
+  startFallbackPolling(mg);
 }
 
 async function editTourName() {
   if (!IS_TOUR_OWNER) return toast('Bạn không có quyền', true);
   const n = prompt('Tên giải mới:', CURRENT_TOUR.ten_giai);
   if (!n || !n.trim() || n === CURRENT_TOUR.ten_giai) return;
-  
   const { error } = await sb.from('robin_tour').update({ ten_giai: n.trim() }).eq('ma_giai', CURRENT_TOUR.ma_giai);
   if (error) return toast('Lỗi: ' + error.message, true);
-  
-  CURRENT_TOUR.ten_giai = n.trim();
-  document.getElementById('tourNameText').textContent = n.trim();
-  toast('✅ Đã đổi tên');
+  CURRENT_TOUR.ten_giai = n.trim(); document.getElementById('tourNameText').textContent = n.trim(); toast('✅ Đã đổi tên');
 }
 
 function backToList() {
   CURRENT_TOUR = null;
   IS_TOUR_OWNER = false;
   sb.removeAllChannels();
+  stopFallbackPolling(); // 🌟 Tắt polling khi rời đi
   loadTourList();
 }
 
 async function loadData() {
   if (!CURRENT_TOUR) return;
   const mg = CURRENT_TOUR.ma_giai;
+  
   const { data: t } = await sb.from('robin_team').select('*').eq('ma_giai', mg).order('created_at');
   TEAMS = t || [];
+  
   const { data: m } = await sb.from('robin_tran_dau').select('*').eq('ma_giai', mg).order('vong').order('created_at');
   MATCHES = m || [];
-  renderTeams(); renderSchedule(); renderStandings();
+  
+  renderTeams(); 
+  renderSchedule(); 
+  renderStandings();
 }
 
 async function addTeam() {
   if (!IS_TOUR_OWNER) return toast('Bạn không có quyền quản lý giải này', true);
   const name = document.getElementById('newTeamName').value.trim();
   if (!name) return toast('Vui lòng nhập tên đội', true);
-  
   const { error } = await sb.from('robin_team').insert({ ma_giai: CURRENT_TOUR.ma_giai, ten_doi: name });
   if (error) return toast('Lỗi: ' + error.message, true);
-  
-  document.getElementById('newTeamName').value = '';
-  toast('✅ Đã thêm: ' + name);
-  await loadData();
+  document.getElementById('newTeamName').value = ''; toast('✅ Đã thêm: ' + name); await loadData();
 }
 
 function renderTeams() {
   document.getElementById('teamCountBadge').textContent = TEAMS.length;
   const c = document.getElementById('teamsList');
   if (!TEAMS.length) { c.innerHTML = '<span style="color:var(--ts);font-size:11px;font-style:italic">Chưa có đội.</span>'; return; }
-  
-  c.innerHTML = TEAMS.map(t => `
-    <div class="team-tag">
-      🎾 ${t.ten_doi}
-      <button class="btn-icon" style="padding:2px 5px;font-size:10px" onclick="deleteTeam('${t.id}', '${t.ten_doi.replace(/'/g, "\\'")}')">✕</button>
-    </div>
-  `).join('');
+  c.innerHTML = TEAMS.map(t => `<div class="team-tag">🎾 ${t.ten_doi}<button class="btn-icon" style="padding:2px 5px;font-size:10px" onclick="deleteTeam('${t.id}', '${t.ten_doi.replace(/'/g, "\\'")}')">✕</button></div>`).join('');
 }
 
 function roundRobin(teams) {
@@ -998,24 +697,19 @@ async function generateSchedule() {
   if (!IS_TOUR_OWNER) return toast('Bạn không có quyền quản lý giải này', true);
   if (TEAMS.length < 2) return toast('Cần ít nhất 2 đội', true);
   if (!confirm('Tạo lịch cho ' + TEAMS.length + ' đội?\nLịch cũ sẽ bị XÓA.')) return;
-  
   toast('⏳ Đang tạo lịch...');
   await sb.from('robin_tran_dau').delete().eq('ma_giai', CURRENT_TOUR.ma_giai);
   const matches = roundRobin(TEAMS).map(m => ({ ...m, ma_giai: CURRENT_TOUR.ma_giai }));
   const { error } = await sb.from('robin_tran_dau').insert(matches);
-  
   if (error) return toast('Lỗi: ' + error.message, true);
-  
-  toast('✅ Đã tạo ' + matches.length + ' trận');
-  await loadData();
+  toast('✅ Đã tạo ' + matches.length + ' trận'); await loadData();
 }
 
 async function resetSchedule() {
   if (!IS_TOUR_OWNER) return toast('Bạn không có quyền quản lý giải này', true);
   if (!confirm('Xóa toàn bộ lịch và điểm?')) return;
   await sb.from('robin_tran_dau').delete().eq('ma_giai', CURRENT_TOUR.ma_giai);
-  toast('Đã xóa');
-  await loadData();
+  toast('Đã xóa'); await loadData();
 }
 
 function tn(id) { const t = TEAMS.find(x => x.id === id); return t ? t.ten_doi : '???'; }
@@ -1024,17 +718,10 @@ function renderSchedule() {
   document.getElementById('totalMatches').textContent = MATCHES.length;
   document.getElementById('completedMatches').textContent = MATCHES.filter(m => m.trang_thai === 'da_dau').length;
   const c = document.getElementById('scheduleList');
-  if (!MATCHES.length) {
-    c.innerHTML = '<div class="empty-state"><div class="icon">📅</div><h3>Chưa có lịch</h3><p>' + (IS_TOUR_OWNER ? 'Bấm "⚡ Tạo lịch".' : 'Đang chờ admin.') + '</p></div>';
-    return;
-  }
+  if (!MATCHES.length) { c.innerHTML = '<div class="empty-state"><div class="icon">📅</div><h3>Chưa có lịch</h3><p>' + (IS_TOUR_OWNER ? 'Bấm "⚡ Tạo lịch".' : 'Đang chờ admin.') + '</p></div>'; return; }
   const byR = {};
   MATCHES.forEach(m => { if (!byR[m.vong]) byR[m.vong] = []; byR[m.vong].push(m); });
-  c.innerHTML = Object.keys(byR).sort((a, b) => a - b).map(r => `
-    <div class="round-block">
-      <div class="round-head"><span>VÒNG ${r}</span><span style="font-weight:400;color:var(--ts)">${byR[r].length} trận</span></div>
-      ${byR[r].map(m => renderMatch(m)).join('')}
-    </div>`).join('');
+  c.innerHTML = Object.keys(byR).sort((a, b) => a - b).map(r => `<div class="round-block"><div class="round-head"><span>VÒNG ${r}</span><span style="font-weight:400;color:var(--ts)">${byR[r].length} trận</span></div>${byR[r].map(m => renderMatch(m)).join('')}</div>`).join('');
 }
 
 function renderMatch(m) {
@@ -1070,24 +757,17 @@ async function saveScore(id) {
   if (a < 0 || b < 0) return toast('Tỷ số không âm', true);
   const { error } = await sb.from('robin_tran_dau').update({ diem_a: a, diem_b: b, trang_thai: 'da_dau' }).eq('id', id);
   if (error) return toast('Lỗi: ' + error.message, true);
-  toast('✅ Đã lưu');
-  await loadData();
+  toast('✅ Đã lưu'); await loadData();
 }
 
 async function resetScore(id) {
   if (!IS_TOUR_OWNER) return toast('Bạn không có quyền', true);
   if (!confirm('Reset trận này?')) return;
   await sb.from('robin_tran_dau').update({ diem_a: null, diem_b: null, trang_thai: 'chua_dau' }).eq('id', id);
-  toast('Đã reset');
-  await loadData();
+  toast('Đã reset'); await loadData();
 }
 
-function getMedal(rank) {
-  if (rank === 1) return '<span class="medal">🥇</span>';
-  if (rank === 2) return '<span class="medal">🥈</span>';
-  if (rank === 3) return '<span class="medal">🥉</span>';
-  return '';
-}
+function getMedal(rank) { if (rank === 1) return '<span class="medal">🥇</span>'; if (rank === 2) return '<span class="medal">🥈</span>'; if (rank === 3) return '<span class="medal">🥉</span>'; return ''; }
 
 function computeStandings() {
   const total = Math.max(0, TEAMS.length - 1);
@@ -1096,28 +776,15 @@ function computeStandings() {
   MATCHES.filter(m => m.trang_thai === 'da_dau').forEach(m => {
     const a = s[m.doi_a_id], b = s[m.doi_b_id];
     if (!a || !b) return;
-    a.tran++; b.tran++;
-    a.dt += m.diem_a; a.db += m.diem_b;
-    b.dt += m.diem_b; b.db += m.diem_a;
-    if (m.diem_a > m.diem_b) { a.thang++; a.diem++; b.thua++; }
-    else { b.thang++; b.diem++; a.thua++; }
+    a.tran++; b.tran++; a.dt += m.diem_a; a.db += m.diem_b; b.dt += m.diem_b; b.db += m.diem_a;
+    if (m.diem_a > m.diem_b) { a.thang++; a.diem++; b.thua++; } else { b.thang++; b.diem++; a.thua++; }
   });
-  return {
-    sorted: Object.values(s).map(x => ({ ...x, hs: x.dt - x.db })).sort((x, y) => {
-      if (y.diem !== x.diem) return y.diem - x.diem;
-      if (y.hs !== x.hs) return y.hs - x.hs;
-      return x.ten.localeCompare(y.ten);
-    }),
-    total
-  };
+  return { sorted: Object.values(s).map(x => ({ ...x, hs: x.dt - x.db })).sort((x, y) => { if (y.diem !== x.diem) return y.diem - x.diem; if (y.hs !== x.hs) return y.hs - x.hs; return x.ten.localeCompare(y.ten); }), total };
 }
 
 function renderStandings() {
   const tbody = document.getElementById('standingsBody');
-  if (!TEAMS.length) {
-    tbody.innerHTML = '<tr><td colspan="7" style="padding:28px;color:var(--ts)">Chưa có đội</td></tr>';
-    return;
-  }
+  if (!TEAMS.length) { tbody.innerHTML = '<tr><td colspan="7" style="padding:28px;color:var(--ts)">Chưa có đội</td></tr>'; return; }
   const { sorted, total } = computeStandings();
   tbody.innerHTML = sorted.map((x, i) => {
     const r = i + 1;
@@ -1125,15 +792,7 @@ function renderStandings() {
     const hc = x.hs > 0 ? 'plus' : x.hs < 0 ? 'minus' : '';
     const hs = x.hs > 0 ? '+' + x.hs : x.hs;
     const medal = getMedal(r);
-    return `<tr class="${cls}">
-      <td class="td-rank">${medal}${r}</td>
-      <td class="td-team">${x.ten}</td>
-      <td><b>${x.tran}</b>/${total}</td>
-      <td style="color:#059669;font-weight:800">${x.thang}</td>
-      <td style="color:#ef4444;font-weight:800">${x.thua}</td>
-      <td class="td-points">${x.diem}</td>
-      <td class="${hc}">${hs}</td>
-    </tr>`;
+    return `<tr class="${cls}"><td class="td-rank">${medal}${r}</td><td class="td-team">${x.ten}</td><td><b>${x.tran}</b>/${total}</td><td style="color:#059669;font-weight:800">${x.thang}</td><td style="color:#ef4444;font-weight:800">${x.thua}</td><td class="td-points">${x.diem}</td><td class="${hc}">${hs}</td></tr>`;
   }).join('');
 }
 
@@ -1142,71 +801,28 @@ async function exportStandings() {
   toast('📸 Đang tạo ảnh...');
   const { sorted, total } = computeStandings();
   const ngayStr = new Date(CURRENT_TOUR.ngay_to_chuc).toLocaleDateString('vi-VN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-  
   const exportArea = document.getElementById('exportArea');
-  exportArea.innerHTML = `
-    <div class="export-card">
-      <div class="export-header">
-        <div style="font-size:56px;margin-bottom:8px">🏆</div>
-        <div class="export-title">${CURRENT_TOUR.ten_giai}</div>
-        <div class="export-subtitle">📅 ${ngayStr}${CURRENT_TOUR.dia_diem ? ' · 📍 ' + CURRENT_TOUR.dia_diem : ''}</div>
-      </div>
-      <div class="export-table">
-        <table>
-          <thead>
-            <tr>
-              <th style="width:50px;text-align:center">#</th>
-              <th style="text-align:left">Đội</th>
-              <th>Trận</th>
-              <th>Thắng</th>
-              <th>Thua</th>
-              <th>Điểm</th>
-              <th>HS</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${sorted.map((x, i) => {
-              const r = i + 1;
-              const cls = r === 1 ? 'rank-1' : r === 2 ? 'rank-2' : r === 3 ? 'rank-3' : '';
-              const hc = x.hs > 0 ? 'plus' : x.hs < 0 ? 'minus' : '';
-              const hs = x.hs > 0 ? '+' + x.hs : x.hs;
-              const medal = getMedal(r);
-              return `<tr class="${cls}">
-                <td class="td-rank" style="text-align:center">${medal}${r}</td>
-                <td class="td-team">${x.ten}</td>
-                <td style="text-align:center"><b>${x.tran}</b>/${total}</td>
-                <td class="thang" style="text-align:center">${x.thang}</td>
-                <td class="thua" style="text-align:center">${x.thua}</td>
-                <td class="td-points" style="text-align:center">${x.diem}</td>
-                <td class="${hc}" style="text-align:center">${hs}</td>
-              </tr>`;
-            }).join('')}
-          </tbody>
-        </table>
-      </div>
-      <div class="export-footer">
-        🎾 Designed by Ly Dung RITA · ${new Date().toLocaleString('vi-VN')}
-      </div>
-    </div>
-  `;
+  exportArea.innerHTML = `<div class="export-card"><div class="export-header"><div style="font-size:56px;margin-bottom:8px">🏆</div><div class="export-title">${CURRENT_TOUR.ten_giai}</div><div class="export-subtitle">📅 ${ngayStr}${CURRENT_TOUR.dia_diem ? ' · 📍 ' + CURRENT_TOUR.dia_diem : ''}</div></div><div class="export-table"><table><thead><tr><th style="width:50px;text-align:center">#</th><th style="text-align:left">Đội</th><th>Trận</th><th>Thắng</th><th>Thua</th><th>Điểm</th><th>HS</th></tr></thead><tbody>${sorted.map((x, i) => { const r = i + 1; const cls = r === 1 ? 'rank-1' : r === 2 ? 'rank-2' : r === 3 ? 'rank-3' : ''; const hc = x.hs > 0 ? 'plus' : x.hs < 0 ? 'minus' : ''; const hs = x.hs > 0 ? '+' + x.hs : x.hs; const medal = getMedal(r); return `<tr class="${cls}"><td class="td-rank" style="text-align:center">${medal}${r}</td><td class="td-team">${x.ten}</td><td style="text-align:center"><b>${x.tran}</b>/${total}</td><td class="thang" style="text-align:center">${x.thang}</td><td class="thua" style="text-align:center">${x.thua}</td><td class="td-points" style="text-align:center">${x.diem}</td><td class="${hc}" style="text-align:center">${hs}</td></tr>`; }).join('')}</tbody></table></div><div class="export-footer">🎾 Designed by Ly Dung RITA · ${new Date().toLocaleString('vi-VN')}</div></div>`;
   await new Promise(r => setTimeout(r, 100));
   try {
     const card = exportArea.querySelector('.export-card');
     const canvas = await html2canvas(card, { scale: 2, useCORS: true, backgroundColor: null, logging: false });
     canvas.toBlob(blob => {
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `BXH_${CURRENT_TOUR.ten_giai.replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.png`;
-      document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      const a = document.createElement('a'); a.href = url; a.download = `BXH_${CURRENT_TOUR.ten_giai.replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.png`;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
       toast('✅ Đã tải ảnh!');
     }, 'image/png');
-  } catch (e) {
-    console.error(e);
-    toast('Lỗi: ' + e.message, true);
-  }
+  } catch (e) { console.error(e); toast('Lỗi: ' + e.message, true); }
 }
+
+// 🌟 MAGIC FIX CHO IOS: Tự động load lại dữ liệu khi người dùng quay lại tab Safari
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && CURRENT_TOUR) {
+    console.log('📱 Người dùng quay lại tab, đang cập nhật dữ liệu mới nhất...');
+    loadData();
+  }
+});
 
 (async () => {
   const u = sessionStorage.getItem('pb_admin');
