@@ -169,10 +169,6 @@ header p { color: var(--text-dim); margin-top: 4px; font-size: 0.78rem; word-bre
 .vdv-chip .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .vdv-chip button { background: none; border: none; color: var(--red); cursor: pointer; font-weight: 700; padding: 0 2px; flex-shrink: 0; }
 
-/* Debug info */
-.debug-info { background: rgba(0,180,216,0.08); border: 1px solid rgba(0,180,216,0.2); border-radius: 8px; padding: 8px 10px; margin-bottom: 12px; font-size: 0.7rem; color: var(--secondary); line-height: 1.5; }
-.debug-info b { color: var(--accent); }
-
 @media (max-width: 480px) {
     .wrapper { padding: 6px; }
     header { padding: 12px 4px 10px; }
@@ -191,7 +187,6 @@ header p { color: var(--text-dim); margin-top: 4px; font-size: 0.78rem; word-bre
     .btn { font-size: 0.72rem; padding: 6px 10px; min-height: 32px; }
     .btn-sm { font-size: 0.65rem; padding: 4px 8px; min-height: 28px; }
 }
-
 @media (max-width: 360px) {
     .rank-table td:nth-child(2) { max-width: 70px; }
     .mc-team-names { font-size: 0.68rem; }
@@ -236,14 +231,12 @@ header p { color: var(--text-dim); margin-top: 4px; font-size: 0.78rem; word-bre
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:6px;flex-wrap:wrap">
                 <span style="font-size:0.75rem;color:var(--text-dim)">Đã đăng ký: <b id="vdvCount" style="color:var(--accent)">0</b> VĐV</span>
                 <div style="display:flex;gap:4px;flex-wrap:wrap">
-                    <button class="btn btn-success btn-sm" onclick="generateSchedule()">⚡ Tạo lịch 2v2</button>
+                    <button class="btn btn-success btn-sm" id="btnGenSchedule" onclick="generateSchedule()">⚡ Tạo lịch 2v2</button>
                     <button class="btn btn-danger btn-sm" onclick="resetSchedule()">Xóa lịch</button>
                 </div>
             </div>
             <div id="vdvList" style="display:flex;flex-wrap:wrap;gap:5px"></div>
         </div>
-
-        <div id="scheduleDebug" class="debug-info" style="display:none"></div>
 
         <section class="section">
             <div class="section-head">
@@ -268,6 +261,7 @@ header p { color: var(--text-dim); margin-top: 4px; font-size: 0.78rem; word-bre
     </div>
 </div>
 
+<!-- Modals -->
 <div id="loginModal" class="modal-overlay">
     <div class="modal-box">
         <h2>🔑 Đăng nhập Admin</h2>
@@ -489,222 +483,178 @@ async function deleteVdv(id) {
     toast('Đã xóa'); await loadData();
 }
 
-// ============================================================
-// 🌟 THUẬT TOÁN GHÉP CẶP 2v2 VỚI BACKTRACKING
-// ============================================================
-// Quy tắc:
-//   1. Mỗi lượt chia VĐV thành các đội 2 người
-//   2. Mỗi VĐV ghép với tất cả VĐV còn lại đúng 1 lần (không lặp đồng đội)
-//   3. Ghép 2 đội thành 1 trận đấu 2v2
-//   4. Nếu cách ghép hiện tại làm lượt sau không thể ghép đủ → backtrack, thử cách khác
-//   5. Xoay vòng đến khi mỗi VĐV đã ghép với tất cả VĐV còn lại
-//
-// Ví dụ 4 VĐV A,B,C,D:
-//   Lượt 1: (A+B) vs (C+D)
-//   Lượt 2: (A+C) vs (B+D)
-//   Lượt 3: (A+D) vs (B+C)
-// ============================================================
+/* ============================================================
+   🌟 THUẬT TOÁN GHÉP CẶP 2v2 BACKTRACKING
+   ============================================================
+   Nguyên tắc:
+   1. Mỗi lượt chia VĐV thành các đội 2 người (perfect matching)
+   2. Không cặp đồng đội nào được lặp lại giữa các lượt
+   3. Sau khi tạo đội, ghép 2 đội thành 1 trận đấu
+   4. Nếu cách ghép hiện tại khiến lượt sau không đủ cặp
+      → backtracking: quay lại, thử phương án khác
+   5. Lặp đến khi mỗi VĐV đã ghép với tất cả VĐV còn lại
 
+   Ví dụ 4 VĐV A,B,C,D:
+     Lượt 1: (A+B) vs (C+D)
+     Lượt 2: (A+C) vs (B+D)
+     Lượt 3: (A+D) vs (B+C)
+   ============================================================ */
 function generate2v2Schedule() {
-    const players = VDVS.map(v => v.id);
-    const n = players.length;
-    if (n < 4) return [];
+    let players = VDVS.map(v => ({ id: v.id, name: v.ten_vdv }));
+    const originalCount = players.length;
+    if (originalCount < 4) return [];
 
-    // Tạo tập tất cả cặp đồng đội có thể: n*(n-1)/2 cặp
-    const allPossiblePairs = [];
-    for (let i = 0; i < n; i++)
-        for (let j = i + 1; j < n; j++)
-            allPossiblePairs.push([players[i], players[j]]);
-
-    const totalPairsNeeded = allPossiblePairs.length;
-    const pairsPerRound = Math.floor(n / 2);  // Số đội mỗi vòng
-    const maxRounds = n - 1;                   // Số vòng tối đa
-
-    const usedPairs = new Set();
-    const allMatches = [];
-    let solveAttempts = 0;
-
-    function pk(a, b) { return a < b ? a + '|' + b : b + '|' + a; }
-
-    function shuffle(arr) {
-        const a = [...arr];
-        for (let i = a.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [a[i], a[j]] = [a[j], a[i]];
-        }
-        return a;
+    // Thêm BYE để tổng số chia hết cho 4
+    let byeCount = 0;
+    while (players.length % 4 !== 0) {
+        players.push({ id: '__bye_' + (byeCount++) + '__', name: 'BYE' });
     }
 
-    // Tìm 1 perfect matching: chọn `need` cặp không giao nhau từ `avail`
-    function findMatching(avail, need, idx, chosen, usedPlayers) {
-        if (chosen.length === need) return true;
-        // Tối ưu: nếu không còn đủ cặp → cắt nhánh
-        if (avail.length - idx < need - chosen.length) return false;
+    const total = players.length;
+    const numRounds = total - 1;       // Số lượt để mỗi người gặp tất cả
+    const pairsPerRound = total / 2;   // Số đội mỗi lượt
 
-        for (let i = idx; i < avail.length; i++) {
-            const [a, b] = avail[i];
-            if (usedPlayers.has(a) || usedPlayers.has(b)) continue;
+    // Key duy nhất cho mỗi cặp
+    const pairKey = (a, b) => Math.min(a, b) + '-' + Math.max(a, b);
 
-            chosen.push(avail[i]);
-            usedPlayers.add(a);
-            usedPlayers.add(b);
+    const result = [];           // result[round] = [[i,j], [k,l], ...]
+    const usedPairs = new Set(); // Các cặp đồng đội đã dùng
+    let callCount = 0;
+    const startTime = Date.now();
+    const TIMEOUT = 8000; // 8 giây timeout
 
-            if (findMatching(avail, need, i + 1, chosen, usedPlayers)) return true;
+    function solve(roundIdx, pairsInRound) {
+        // Kiểm tra timeout mỗi 5000 lần gọi
+        if ((++callCount & 4095) === 0 && Date.now() - startTime > TIMEOUT) return false;
 
-            chosen.pop();
-            usedPlayers.delete(a);
-            usedPlayers.delete(b);
+        // ✅ Hoàn thành tất cả lượt → thành công!
+        if (roundIdx === numRounds) return true;
+
+        // ✅ Hoàn thành lượt hiện tại → sang lượt tiếp
+        if (pairsInRound.length === pairsPerRound) {
+            result.push([...pairsInRound]);
+            if (solve(roundIdx + 1, [])) return true;
+            result.pop(); // ← Backtrack: quay lại thử cách khác
+            return false;
         }
+
+        // Tìm VĐV đầu tiên chưa được ghép trong lượt này
+        const usedInRound = new Set();
+        for (const p of pairsInRound) { usedInRound.add(p[0]); usedInRound.add(p[1]); }
+
+        let firstFree = -1;
+        for (let i = 0; i < total; i++) {
+            if (!usedInRound.has(i)) { firstFree = i; break; }
+        }
+        if (firstFree === -1) return false;
+
+        // Thử ghép firstFree với từng VĐV còn lại
+        for (let j = firstFree + 1; j < total; j++) {
+            if (usedInRound.has(j)) continue;
+            const key = pairKey(firstFree, j);
+            if (usedPairs.has(key)) continue; // Cặp này đã từng là đồng đội → bỏ qua
+
+            // Thử chọn cặp này
+            pairsInRound.push([firstFree, j]);
+            usedPairs.add(key);
+
+            if (solve(roundIdx, pairsInRound)) return true;
+
+            // ← Backtrack: cặp này không ổn, rút lại thử cặp khác
+            pairsInRound.pop();
+            usedPairs.delete(key);
+        }
+
+        // Không tìm được cách ghép → báo thất bại để backtrack lên trên
         return false;
     }
 
-    // Backtracking chính: thử ghép từng vòng
-    function solve(roundIdx) {
-        solveAttempts++;
-        if (solveAttempts > 50000) return false; // Giới hạn an toàn
+    const found = solve(0, []);
 
-        // ✅ Hoàn thành: tất cả cặp đồng đội đã được dùng
-        if (usedPairs.size >= totalPairsNeeded) return true;
-        if (roundIdx >= maxRounds) return usedPairs.size >= totalPairsNeeded;
-
-        // Lấy các cặp chưa dùng, shuffle để thử ngẫu nhiên
-        const available = shuffle(allPossiblePairs.filter(([a, b]) => !usedPairs.has(pk(a, b))));
-        const need = pairsPerRound;
-
-        // Thử nhiều cách ghép khác nhau cho vòng này
-        for (let attempt = 0; attempt < 100; attempt++) {
-            const shuffled = shuffle(available);
-            const chosen = [];
-            const usedPlayers = new Set();
-
-            if (findMatching(shuffled, need, 0, chosen, usedPlayers)) {
-                // Đánh dấu các cặp đồng đội đã dùng
-                const keys = chosen.map(([a, b]) => pk(a, b));
-                keys.forEach(k => usedPairs.add(k));
-
-                // Ghép 2 đội liên tiếp thành 1 trận 2v2
-                const roundMatches = [];
-                for (let i = 0; i + 1 < chosen.length; i += 2) {
-                    roundMatches.push({
-                        vong: roundIdx + 1,
-                        doi_a_1: chosen[i][0],
-                        doi_a_2: chosen[i][1],
-                        doi_b_1: chosen[i + 1][0],
-                        doi_b_2: chosen[i + 1][1],
-                        trang_thai: 'chua_dau'
-                    });
-                }
-                allMatches.push(...roundMatches);
-
-                // Đệ quy sang vòng tiếp theo
-                if (solve(roundIdx + 1)) return true;
-
-                // ❌ Lượt sau không thể ghép đủ → BACKTRACK, thử cách khác
-                for (let i = 0; i < roundMatches.length; i++) allMatches.pop();
-                keys.forEach(k => usedPairs.delete(k));
-            }
-        }
-
-        return false;
+    if (!found) {
+        toast('⚠️ Không tìm được lịch tối ưu, dùng phương án dự phòng', true);
+        return generateFallback(players, originalCount);
     }
 
-    // Chạy backtracking
-    const success = solve(0);
-
-    if (success && allMatches.length > 0) {
-        showDebugInfo(true, totalPairsNeeded, allMatches.length, solveAttempts);
-        return allMatches;
-    }
-
-    // Fallback: Circle Method (luôn đúng cho N chẵn)
-    showDebugInfo(false, totalPairsNeeded, 0, solveAttempts);
-    return circleMethodFallback(players);
-}
-
-// Fallback: Circle Method (dùng khi backtracking quá chậm)
-function circleMethodFallback(players) {
-    let list = [...players];
-    while (list.length % 2 !== 0) list.push('__BYE__');
-    const N = list.length;
+    // Chuyển đổi pairs thành trận đấu (ghép 2 đội = 1 trận)
     const matches = [];
-    const fixed = list[0];
-    let rotating = list.slice(1);
+    for (let r = 0; r < result.length; r++) {
+        const pairs = result[r];
+        for (let i = 0; i < pairs.length; i += 2) {
+            const p1 = players[pairs[i][0]], p2 = players[pairs[i][1]];
+            const p3 = players[pairs[i + 1][0]], p4 = players[pairs[i + 1][1]];
 
-    for (let round = 0; round < N - 1; round++) {
-        const current = [fixed, ...rotating];
-        const pairs = [];
-        for (let i = 0; i < N / 2; i++) {
-            pairs.push([current[i], current[N - 1 - i]]);
-        }
-        const realPairs = pairs.filter(([a, b]) => a !== '__BYE__' && b !== '__BYE__');
-        for (let i = 0; i + 1 < realPairs.length; i += 2) {
+            // Bỏ qua trận có BYE
+            if ([p1, p2, p3, p4].some(p => p.id.startsWith('__bye_'))) continue;
+
             matches.push({
-                vong: round + 1,
-                doi_a_1: realPairs[i][0], doi_a_2: realPairs[i][1],
-                doi_b_1: realPairs[i + 1][0], doi_b_2: realPairs[i + 1][1],
+                vong: r + 1,
+                doi_a_1: p1.id, doi_a_2: p2.id,
+                doi_b_1: p3.id, doi_b_2: p4.id,
                 trang_thai: 'chua_dau'
             });
         }
-        rotating = [rotating[rotating.length - 1], ...rotating.slice(0, rotating.length - 1)];
     }
+
+    // Đánh số lại vòng cho gọn (bỏ vòng trống do BYE)
+    let nextRound = 1;
+    const roundMap = {};
+    matches.forEach(m => {
+        if (!roundMap[m.vong]) roundMap[m.vong] = nextRound++;
+        m.vong = roundMap[m.vong];
+    });
+
     return matches;
 }
 
-function showDebugInfo(backtrackSuccess, totalPairs, totalMatches, attempts) {
-    const el = document.getElementById('scheduleDebug');
-    if (!el) return;
-    el.style.display = 'block';
-    const method = backtrackSuccess ? '✅ Backtracking' : '⚠️ Circle Method (fallback)';
-    el.innerHTML = `<b>Phương pháp:</b> ${method}<br>` +
-        `<b>Tổng cặp đồng đội:</b> ${totalPairs} | <b>Tổng trận:</b> ${totalMatches} | <b>Số lần thử:</b> ${attempts.toLocaleString()}`;
+// Phương án dự phòng (Circle Method) nếu backtracking timeout
+function generateFallback(players, originalCount) {
+    const n = players.length;
+    const matches = [];
+    const fixed = players[0];
+    let rotating = players.slice(1);
+    for (let round = 0; round < n - 1; round++) {
+        const current = [fixed, ...rotating];
+        const pairs = [];
+        for (let i = 0; i < n / 2; i++) pairs.push([current[i], current[n - 1 - i]]);
+        for (let i = 0; i < pairs.length; i += 2) {
+            const tA = pairs[i], tB = pairs[i + 1];
+            if ([...tA, ...tB].some(p => p.id.startsWith('__bye_'))) continue;
+            matches.push({ vong: round + 1, doi_a_1: tA[0].id, doi_a_2: tA[1].id, doi_b_1: tB[0].id, doi_b_2: tB[1].id, trang_thai: 'chua_dau' });
+        }
+        rotating = [rotating[rotating.length - 1], ...rotating.slice(0, rotating.length - 1)];
+    }
+    let nr = 1; const rm = {};
+    matches.forEach(m => { if (!rm[m.vong]) rm[m.vong] = nr++; m.vong = rm[m.vong]; });
+    return matches;
 }
 
 async function generateSchedule() {
     if (!IS_TOUR_OWNER) return toast('Không có quyền', true);
     if (VDVS.length < 4) return toast('Cần ít nhất 4 VĐV để đánh đôi 2v2', true);
     if (!confirm('Tạo lịch mới sẽ XÓA toàn bộ lịch và điểm số cũ. Tiếp tục?')) return;
-    toast('⏳ Đang tính toán ghép cặp...');
 
-    // Xóa lịch cũ
+    const btn = document.getElementById('btnGenSchedule');
+    btn.disabled = true; btn.textContent = '⏳ Đang tính...';
+    toast('⏳ Đang tính lịch tối ưu (backtracking)...');
+
+    // Dùng setTimeout để UI kịp cập nhật nút
+    await new Promise(r => setTimeout(r, 50));
+
     await sb.from('robin_canhan_tran_dau').delete().eq('ma_giai', CURRENT_TOUR.ma_giai);
-
-    // Tạo lịch mới bằng backtracking
-    const t0 = performance.now();
     const matches = generate2v2Schedule().map(m => ({ ...m, ma_giai: CURRENT_TOUR.ma_giai }));
-    const elapsed = Math.round(performance.now() - t0);
-
-    if (matches.length === 0) return toast('Không thể tạo lịch', true);
+    if (matches.length === 0) { btn.disabled = false; btn.textContent = '⚡ Tạo lịch 2v2'; return toast('Không thể tạo lịch', true); }
 
     const { error } = await sb.from('robin_canhan_tran_dau').insert(matches);
+    btn.disabled = false; btn.textContent = '⚡ Tạo lịch 2v2';
     if (error) return toast('Lỗi: ' + error.message, true);
-
-    // Validation: kiểm tra không có cặp đồng đội lặp
-    const pairCheck = new Set();
-    let duplicates = 0;
-    matches.forEach(m => {
-        const k1 = m.doi_a_1 < m.doi_a_2 ? m.doi_a_1 + '|' + m.doi_a_2 : m.doi_a_2 + '|' + m.doi_a_1;
-        const k2 = m.doi_b_1 < m.doi_b_2 ? m.doi_b_1 + '|' + m.doi_b_2 : m.doi_b_2 + '|' + m.doi_b_1;
-        if (pairCheck.has(k1)) duplicates++;
-        if (pairCheck.has(k2)) duplicates++;
-        pairCheck.add(k1);
-        pairCheck.add(k2);
-    });
-
-    const debugEl = document.getElementById('scheduleDebug');
-    if (debugEl) {
-        const existing = debugEl.innerHTML;
-        debugEl.innerHTML = existing + `<br><b>Thời gian:</b> ${elapsed}ms | <b>Cặp trùng:</b> ${duplicates === 0 ? '✅ Không có' : '⚠️ ' + duplicates}`;
-    }
-
-    toast(`✅ Đã tạo ${matches.length} trận (${elapsed}ms)`);
-    await loadData();
+    toast(`✅ Đã tạo ${matches.length} trận`); await loadData();
 }
 
 async function resetSchedule() {
     if (!IS_TOUR_OWNER) return toast('Không có quyền', true);
     if (!confirm('Xóa toàn bộ lịch và điểm?')) return;
     await sb.from('robin_canhan_tran_dau').delete().eq('ma_giai', CURRENT_TOUR.ma_giai);
-    document.getElementById('scheduleDebug').style.display = 'none';
     toast('Đã xóa'); await loadData();
 }
 
@@ -718,7 +668,6 @@ function renderMatches() {
     }
     const byR = {};
     MATCHES.forEach(m => { if (!byR[m.vong]) byR[m.vong] = []; byR[m.vong].push(m); });
-
     let h = '<div class="match-grid">';
     Object.keys(byR).sort((a, b) => a - b).forEach(round => {
         byR[round].forEach((m, idx) => {
@@ -726,7 +675,6 @@ function renderMatches() {
             const stCls = done ? 'done' : 'wait';
             const stTxt = done ? 'Hoàn thành' : 'Chờ đấu';
             const delay = Math.min(idx * 0.03, 1.2);
-
             h += `<div class="match-card" style="animation-delay:${delay}s">`;
             h += `<div class="mc-head"><span class="mc-round">Vòng ${m.vong}</span><span class="mc-status ${stCls}">${stTxt}</span></div>`;
             h += `<div class="mc-body"><div class="mc-teams">`;
@@ -734,22 +682,17 @@ function renderMatches() {
             h += `<div class="mc-vs"><div class="vs-circle">VS</div>`;
             if (IS_TOUR_OWNER) {
                 h += `<div class="mc-score-row">
-                    <input type="number" class="score-input" id="sa-${m.id}" value="${m.diem_a ?? ''}" placeholder="-"
-                        onfocus="IS_EDITING_SCORE=true" onblur="IS_EDITING_SCORE=false">
+                    <input type="number" class="score-input" id="sa-${m.id}" value="${m.diem_a ?? ''}" placeholder="-" onfocus="IS_EDITING_SCORE=true" onblur="IS_EDITING_SCORE=false">
                     <span class="mc-score sep">-</span>
-                    <input type="number" class="score-input" id="sb-${m.id}" value="${m.diem_b ?? ''}" placeholder="-"
-                        onfocus="IS_EDITING_SCORE=true" onblur="IS_EDITING_SCORE=false">
+                    <input type="number" class="score-input" id="sb-${m.id}" value="${m.diem_b ?? ''}" placeholder="-" onfocus="IS_EDITING_SCORE=true" onblur="IS_EDITING_SCORE=false">
                 </div>
                 <div class="mc-actions">
                     <button class="btn btn-success btn-sm" onclick="saveScore('${m.id}')">💾 Lưu</button>
                     ${done ? `<button class="btn btn-danger btn-sm" onclick="resetScore('${m.id}')">↺</button>` : ''}
                 </div>`;
             } else {
-                if (done) {
-                    h += `<div class="mc-score-row"><span class="mc-score s1">${m.diem_a}</span><span class="mc-score sep">-</span><span class="mc-score s2">${m.diem_b}</span></div>`;
-                } else {
-                    h += `<span class="mc-noscore">Chưa đấu</span>`;
-                }
+                if (done) h += `<div class="mc-score-row"><span class="mc-score s1">${m.diem_a}</span><span class="mc-score sep">-</span><span class="mc-score s2">${m.diem_b}</span></div>`;
+                else h += `<span class="mc-noscore">Chưa đấu</span>`;
             }
             h += `</div>`;
             h += `<div class="mc-team"><span class="mc-team-label">Đội 2</span><div class="mc-team-names">${getVdvName(m.doi_b_1)}<span class="amp">&</span>${getVdvName(m.doi_b_2)}</div></div>`;
@@ -785,16 +728,13 @@ function renderRanking() {
     if (!VDVS.length) {
         el.innerHTML = '<div class="err-box"><h3>Chưa có dữ liệu</h3><p>Admin hãy thêm VĐV.</p></div>'; return;
     }
-
     const stats = {};
     VDVS.forEach(v => {
         const totalMatches = MATCHES.filter(m =>
-            m.doi_a_1 === v.id || m.doi_a_2 === v.id ||
-            m.doi_b_1 === v.id || m.doi_b_2 === v.id
+            m.doi_a_1 === v.id || m.doi_a_2 === v.id || m.doi_b_1 === v.id || m.doi_b_2 === v.id
         ).length;
         stats[v.id] = { id: v.id, ten: v.ten_vdv, tran_da_dau: 0, tran_tong: totalMatches, thang: 0, thua: 0, diem: 0, dt: 0, db: 0, hs: 0 };
     });
-
     MATCHES.filter(m => m.trang_thai === 'da_dau').forEach(m => {
         const a1 = stats[m.doi_a_1], a2 = stats[m.doi_a_2];
         const b1 = stats[m.doi_b_1], b2 = stats[m.doi_b_2];
@@ -809,13 +749,11 @@ function renderRanking() {
             [a1, a2].forEach(p => { p.thua++; p.dt += m.diem_a; p.db += m.diem_b; p.hs -= Math.abs(diff); });
         }
     });
-
     const sorted = Object.values(stats).sort((x, y) => {
         if (y.diem !== x.diem) return y.diem - x.diem;
         if (y.hs !== x.hs) return y.hs - x.hs;
         return x.ten.localeCompare(y.ten);
     });
-
     let h = '<div class="rank-wrap"><table class="rank-table"><thead><tr><th>#</th><th>Vận Động Viên</th><th>Trận</th><th>Thắng</th><th>Thua</th><th>Điểm</th><th>HS</th></tr></thead><tbody>';
     sorted.forEach((s, i) => {
         const r = i + 1;
