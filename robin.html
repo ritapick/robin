@@ -278,6 +278,7 @@ header p { color: var(--text-dim); margin-top: 6px; font-size: 0.85rem; }
 </div>
 
 <script>
+// Lưu ý: Hãy đảm bảo URL và KEY này khớp với dự án Supabase của bạn
 const SUPABASE_URL = 'https://mvefkcaqvjflrgmaybev.supabase.co'.trim().replace(/\/+$/, '');
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12ZWZrY2FxdmpmbHJnbWF5YmV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2MDAzOTksImV4cCI6MjEwMjE3NjM5OX0.vCY4_JlSBqi6QRh7DYWAe42Ot-pChKaVSHn7DY2C34Q'.trim();
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -447,28 +448,38 @@ async function deleteVdv(id) {
     toast('Đã xóa'); await loadData();
 }
 
-// 🌟 THUẬT TOÁN GHÉP CẶP 2v2 THÔNG MINH
+// 🌟 THUẬT TOÁN GHÉP CẶP 2v2 TỐI ƯU (Fisher-Yates Shuffle)
 function generate2v2Schedule() {
     let list = VDVS.map(v => ({ id: v.id, name: v.ten_vdv }));
+    const originalCount = list.length;
+    
     // Thêm BYE để chia hết cho 4
-    while (list.length % 4 !== 0) list.push({ id: 'bye', name: 'BYE' });
+    while (list.length % 4 !== 0) {
+        list.push({ id: 'bye', name: 'BYE' });
+    }
     
     const matches = [];
-    const numRounds = Math.max(3, list.length - 1); // Tối thiểu 3 vòng
-    
+    const numRounds = Math.max(3, originalCount - 1); 
+
     for (let r = 0; r < numRounds; r++) {
-        // Xáo trộn ngẫu nhiên mỗi vòng để giảm thiểu gặp lại đối thủ cũ
-        list.sort(() => Math.random() - 0.5);
+        // Xáo trộn Fisher-Yates để ngẫu nhiên đều hơn, giảm thiểu trùng lặp
+        for (let i = list.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [list[i], list[j]] = [list[j], list[i]];
+        }
         
         for (let i = 0; i < list.length; i += 4) {
             const p1 = list[i], p2 = list[i+1], p3 = list[i+2], p4 = list[i+3];
-            // Nếu có BYE trong nhóm 4, bỏ qua trận này (những người còn lại được nghỉ vòng này)
+            
+            // Bỏ qua nếu có BYE trong nhóm 4
             if (p1.id === 'bye' || p2.id === 'bye' || p3.id === 'bye' || p4.id === 'bye') continue;
             
             matches.push({
                 vong: r + 1,
-                doi_a_1: p1.id, doi_a_2: p2.id,
-                doi_b_1: p3.id, doi_b_2: p4.id,
+                doi_a_1: p1.id, 
+                doi_a_2: p2.id,
+                doi_b_1: p3.id, 
+                doi_b_2: p4.id,
                 trang_thai: 'chua_dau'
             });
         }
