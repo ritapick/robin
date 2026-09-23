@@ -38,7 +38,6 @@ body::before {
 }
 .wrapper { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 8px; }
 
-/* Header */
 header { text-align: center; padding: 16px 4px 14px; position: relative; }
 .badge {
     display: inline-flex; align-items: center; gap: 6px;
@@ -58,12 +57,10 @@ header h1 {
 header p { color: var(--text-dim); margin-top: 4px; font-size: 0.78rem; word-break: break-word; }
 .divider { width: 50px; height: 3px; background: linear-gradient(90deg, var(--primary), var(--accent)); margin: 10px auto 0; border-radius: 2px; }
 
-/* Auth Buttons */
 .auth-btns { position: absolute; top: 10px; right: 8px; display: flex; gap: 6px; z-index: 10; align-items: center; }
 .auth-btns .btn { padding: 5px 10px; font-size: 0.7rem; min-height: 30px; border-radius: 8px; }
 .auth-btns .user-label { font-size: 0.72rem; font-weight: 600; color: var(--text); max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-/* Buttons */
 .btn {
     border: none; border-radius: 8px; font-family: 'Inter', sans-serif;
     font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
@@ -78,7 +75,6 @@ header p { color: var(--text-dim); margin-top: 4px; font-size: 0.78rem; word-bre
 .btn-success { background: rgba(34,197,94,0.15); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
 .btn-sm { padding: 5px 9px; font-size: 0.68rem; min-height: 30px; }
 
-/* Section */
 .section { margin-bottom: 20px; }
 .section-head { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
 .section-icon { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
@@ -88,7 +84,6 @@ header p { color: var(--text-dim); margin-top: 4px; font-size: 0.78rem; word-bre
 .section-head h2 span { color: var(--accent); }
 .badge-count { margin-left: auto; background: var(--bg-card); border: 1px solid var(--border); padding: 2px 8px; border-radius: 12px; font-size: 0.68rem; color: var(--text-dim); font-family: 'Oswald', sans-serif; }
 
-/* Admin Controls */
 .admin-controls { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 16px; }
 .admin-controls h3 { font-family: 'Oswald', sans-serif; font-size: 0.85rem; color: var(--accent); margin-bottom: 8px; text-transform: uppercase; }
 .input-row { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
@@ -99,14 +94,13 @@ header p { color: var(--text-dim); margin-top: 4px; font-size: 0.78rem; word-bre
 .is-owner .admin-block { display: block !important; }
 .admin-block { display: none; }
 
-/* Ranking Table - Responsive */
 .rank-wrap { background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border); overflow-x: auto; -webkit-overflow-scrolling: touch; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
 .rank-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
-.rank-table thead th { 
-    background: rgba(255,107,53,0.12); padding: 8px 4px; 
-    font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 0.65rem; 
-    text-transform: uppercase; letter-spacing: 0.5px; text-align: center; 
-    color: var(--accent); border-bottom: 2px solid var(--primary); 
+.rank-table thead th {
+    background: rgba(255,107,53,0.12); padding: 8px 4px;
+    font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 0.65rem;
+    text-transform: uppercase; letter-spacing: 0.5px; text-align: center;
+    color: var(--accent); border-bottom: 2px solid var(--primary);
     white-space: nowrap; position: sticky; top: 0; z-index: 2;
 }
 .rank-table thead th:first-child { width: 32px; padding-left: 6px; }
@@ -127,7 +121,6 @@ header p { color: var(--text-dim); margin-top: 4px; font-size: 0.78rem; word-bre
 .match-count { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 0.72rem; color: var(--text-dim); white-space: nowrap; }
 .match-count .played { color: var(--accent); }
 
-/* Match Cards - Responsive */
 .match-grid { display: grid; gap: 10px; }
 .match-card { background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; transition: all 0.2s ease; animation: fadeUp 0.4s ease forwards; opacity: 0; position: relative; }
 .match-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,107,53,0.1); border-color: rgba(255,107,53,0.2); }
@@ -155,19 +148,16 @@ header p { color: var(--text-dim); margin-top: 4px; font-size: 0.78rem; word-bre
 .score-input:focus { outline: none; border-color: var(--primary); }
 .mc-actions { margin-top: 5px; display: flex; gap: 3px; justify-content: center; }
 
-/* Modal */
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(11,15,25,0.85); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 12px; }
 .modal-box { background: var(--bg-card); border: 1px solid var(--border); padding: 20px; border-radius: 16px; width: 100%; max-width: 380px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); animation: modalPop 0.3s; }
 @keyframes modalPop { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .modal-box h2 { font-family: 'Oswald', sans-serif; font-size: 1.2rem; text-align: center; margin-bottom: 14px; color: var(--accent); text-transform: uppercase; }
 
-/* Toast */
 #toast { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); background: var(--bg-card); color: var(--text); padding: 9px 16px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; z-index: 2000; display: none; box-shadow: 0 10px 15px rgba(0,0,0,0.3); border-left: 4px solid var(--green); max-width: 92vw; text-align: center; }
 #toast.show { display: block; animation: slideIn 0.3s; }
 #toast.err { border-left-color: var(--red); }
 @keyframes slideIn { from { transform: translate(-50%,-20px); opacity: 0; } to { transform: translate(-50%,0); opacity: 1; } }
 
-/* Loader & Empty */
 .loader { display: flex; flex-direction: column; align-items: center; padding: 24px 10px; gap: 10px; }
 .spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: rotate 0.7s linear infinite; }
 @keyframes rotate { to { transform: rotate(360deg); } }
@@ -175,12 +165,14 @@ header p { color: var(--text-dim); margin-top: 4px; font-size: 0.78rem; word-bre
 .err-box h3 { color: var(--red); margin-bottom: 4px; font-size: 0.9rem; }
 .err-box p { font-size: 0.78rem; color: var(--text-dim); }
 
-/* VDV List */
 .vdv-chip { background: var(--bg-card-hover); border: 1px solid var(--border); padding: 3px 8px; border-radius: 12px; font-size: 0.72rem; display: inline-flex; align-items: center; gap: 5px; max-width: 100%; }
 .vdv-chip .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .vdv-chip button { background: none; border: none; color: var(--red); cursor: pointer; font-weight: 700; padding: 0 2px; flex-shrink: 0; }
 
-/* Mobile Optimization */
+/* Debug info */
+.debug-info { background: rgba(0,180,216,0.08); border: 1px solid rgba(0,180,216,0.2); border-radius: 8px; padding: 8px 10px; margin-bottom: 12px; font-size: 0.7rem; color: var(--secondary); line-height: 1.5; }
+.debug-info b { color: var(--accent); }
+
 @media (max-width: 480px) {
     .wrapper { padding: 6px; }
     header { padding: 12px 4px 10px; }
@@ -219,7 +211,6 @@ header p { color: var(--text-dim); margin-top: 4px; font-size: 0.78rem; word-bre
         <div class="divider"></div>
     </header>
 
-    <!-- Tour List Screen -->
     <div id="tourListScreen">
         <div class="section-head">
             <div class="section-icon icon-match">📋</div>
@@ -229,7 +220,6 @@ header p { color: var(--text-dim); margin-top: 4px; font-size: 0.78rem; word-bre
         <div id="tourListContainer" class="match-grid"></div>
     </div>
 
-    <!-- Tour Detail Screen -->
     <div id="tourDetailScreen" style="display:none">
         <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap">
             <button class="btn btn-secondary btn-sm" onclick="backToList()">← Quay lại</button>
@@ -237,7 +227,6 @@ header p { color: var(--text-dim); margin-top: 4px; font-size: 0.78rem; word-bre
             <button class="btn btn-danger btn-sm admin-only" onclick="deleteCurrentTour()" style="margin-left:auto">🗑️ Xóa giải</button>
         </div>
 
-        <!-- Admin Controls -->
         <div class="admin-controls admin-block">
             <h3>⚙️ Quản lý Giải đấu</h3>
             <div class="input-row">
@@ -254,7 +243,8 @@ header p { color: var(--text-dim); margin-top: 4px; font-size: 0.78rem; word-bre
             <div id="vdvList" style="display:flex;flex-wrap:wrap;gap:5px"></div>
         </div>
 
-        <!-- Ranking -->
+        <div id="scheduleDebug" class="debug-info" style="display:none"></div>
+
         <section class="section">
             <div class="section-head">
                 <div class="section-icon icon-rank">🏆</div>
@@ -265,7 +255,6 @@ header p { color: var(--text-dim); margin-top: 4px; font-size: 0.78rem; word-bre
             </div>
         </section>
 
-        <!-- Matches -->
         <section class="section">
             <div class="section-head">
                 <div class="section-icon icon-match">⚡</div>
@@ -279,7 +268,6 @@ header p { color: var(--text-dim); margin-top: 4px; font-size: 0.78rem; word-bre
     </div>
 </div>
 
-<!-- Modals -->
 <div id="loginModal" class="modal-overlay">
     <div class="modal-box">
         <h2>🔑 Đăng nhập Admin</h2>
@@ -408,7 +396,6 @@ async function loadTourList() {
     }
     let filtered = tours;
     if (CURRENT_USER && !isSuperAdmin()) filtered = tours.filter(t => t.admin_id === CURRENT_USER.id);
-    
     c.innerHTML = filtered.map(t => {
         const isOwner = canManageTour(t);
         const deleteBtn = isOwner ? `<button class="btn btn-danger btn-sm" style="position:absolute;top:10px;right:10px;z-index:2" onclick="event.stopPropagation();deleteTour('${t.ma_giai}','${t.ten_giai.replace(/'/g,"\\'")}')">🗑️</button>` : '';
@@ -468,20 +455,15 @@ function createDataHash() {
 async function loadData() {
     if (!CURRENT_TOUR) return;
     if (IS_EDITING_SCORE) return;
-    
     const mg = CURRENT_TOUR.ma_giai;
     const { data: v } = await sb.from('robin_canhan_vdv').select('*').eq('ma_giai', mg).order('created_at');
     VDVS = v || [];
     const { data: m } = await sb.from('robin_canhan_tran_dau').select('*').eq('ma_giai', mg).order('vong').order('created_at');
     MATCHES = m || [];
-    
     const newHash = createDataHash();
     if (newHash === LAST_RENDER_HASH) return;
     LAST_RENDER_HASH = newHash;
-    
-    renderVdvs(); 
-    renderMatches(); 
-    renderRanking();
+    renderVdvs(); renderMatches(); renderRanking();
 }
 
 async function addVdv() {
@@ -497,10 +479,7 @@ function renderVdvs() {
     document.getElementById('vdvCount').textContent = VDVS.length;
     const c = document.getElementById('vdvList');
     if (!VDVS.length) { c.innerHTML = '<span style="font-size:0.75rem;color:var(--text-dim)">Chưa có VĐV nào.</span>'; return; }
-    c.innerHTML = VDVS.map(v => `<span class="vdv-chip">
-        🎾 <span class="name">${v.ten_vdv}</span>
-        <button onclick="deleteVdv('${v.id}')">✕</button>
-    </span>`).join('');
+    c.innerHTML = VDVS.map(v => `<span class="vdv-chip">🎾 <span class="name">${v.ten_vdv}</span><button onclick="deleteVdv('${v.id}')">✕</button></span>`).join('');
 }
 
 async function deleteVdv(id) {
@@ -510,73 +489,222 @@ async function deleteVdv(id) {
     toast('Đã xóa'); await loadData();
 }
 
+// ============================================================
+// 🌟 THUẬT TOÁN GHÉP CẶP 2v2 VỚI BACKTRACKING
+// ============================================================
+// Quy tắc:
+//   1. Mỗi lượt chia VĐV thành các đội 2 người
+//   2. Mỗi VĐV ghép với tất cả VĐV còn lại đúng 1 lần (không lặp đồng đội)
+//   3. Ghép 2 đội thành 1 trận đấu 2v2
+//   4. Nếu cách ghép hiện tại làm lượt sau không thể ghép đủ → backtrack, thử cách khác
+//   5. Xoay vòng đến khi mỗi VĐV đã ghép với tất cả VĐV còn lại
+//
+// Ví dụ 4 VĐV A,B,C,D:
+//   Lượt 1: (A+B) vs (C+D)
+//   Lượt 2: (A+C) vs (B+D)
+//   Lượt 3: (A+D) vs (B+C)
+// ============================================================
+
 function generate2v2Schedule() {
-    let players = VDVS.map(v => ({ id: v.id, name: v.ten_vdv }));
-    const originalCount = players.length;
-    
-    if (originalCount < 4) return [];
-    
-    let byeCount = 0;
-    while (players.length % 4 !== 0) {
-        players.push({ id: '__bye_' + byeCount + '__', name: 'BYE' });
-        byeCount++;
-    }
-    
+    const players = VDVS.map(v => v.id);
     const n = players.length;
-    const matches = [];
-    const numRounds = n - 1;
-    
-    const fixed = players[0];
-    let rotating = players.slice(1);
-    
-    for (let round = 0; round < numRounds; round++) {
-        const current = [fixed, ...rotating];
-        
-        const pairs = [];
-        for (let i = 0; i < n / 2; i++) {
-            pairs.push([current[i], current[n - 1 - i]]);
+    if (n < 4) return [];
+
+    // Tạo tập tất cả cặp đồng đội có thể: n*(n-1)/2 cặp
+    const allPossiblePairs = [];
+    for (let i = 0; i < n; i++)
+        for (let j = i + 1; j < n; j++)
+            allPossiblePairs.push([players[i], players[j]]);
+
+    const totalPairsNeeded = allPossiblePairs.length;
+    const pairsPerRound = Math.floor(n / 2);  // Số đội mỗi vòng
+    const maxRounds = n - 1;                   // Số vòng tối đa
+
+    const usedPairs = new Set();
+    const allMatches = [];
+    let solveAttempts = 0;
+
+    function pk(a, b) { return a < b ? a + '|' + b : b + '|' + a; }
+
+    function shuffle(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
         }
-        
-        for (let i = 0; i < pairs.length; i += 2) {
-            const teamA = pairs[i];
-            const teamB = pairs[i + 1];
-            
-            const hasBye = [...teamA, ...teamB].some(p => p.id.startsWith('__bye_'));
-            if (hasBye) continue;
-            
+        return a;
+    }
+
+    // Tìm 1 perfect matching: chọn `need` cặp không giao nhau từ `avail`
+    function findMatching(avail, need, idx, chosen, usedPlayers) {
+        if (chosen.length === need) return true;
+        // Tối ưu: nếu không còn đủ cặp → cắt nhánh
+        if (avail.length - idx < need - chosen.length) return false;
+
+        for (let i = idx; i < avail.length; i++) {
+            const [a, b] = avail[i];
+            if (usedPlayers.has(a) || usedPlayers.has(b)) continue;
+
+            chosen.push(avail[i]);
+            usedPlayers.add(a);
+            usedPlayers.add(b);
+
+            if (findMatching(avail, need, i + 1, chosen, usedPlayers)) return true;
+
+            chosen.pop();
+            usedPlayers.delete(a);
+            usedPlayers.delete(b);
+        }
+        return false;
+    }
+
+    // Backtracking chính: thử ghép từng vòng
+    function solve(roundIdx) {
+        solveAttempts++;
+        if (solveAttempts > 50000) return false; // Giới hạn an toàn
+
+        // ✅ Hoàn thành: tất cả cặp đồng đội đã được dùng
+        if (usedPairs.size >= totalPairsNeeded) return true;
+        if (roundIdx >= maxRounds) return usedPairs.size >= totalPairsNeeded;
+
+        // Lấy các cặp chưa dùng, shuffle để thử ngẫu nhiên
+        const available = shuffle(allPossiblePairs.filter(([a, b]) => !usedPairs.has(pk(a, b))));
+        const need = pairsPerRound;
+
+        // Thử nhiều cách ghép khác nhau cho vòng này
+        for (let attempt = 0; attempt < 100; attempt++) {
+            const shuffled = shuffle(available);
+            const chosen = [];
+            const usedPlayers = new Set();
+
+            if (findMatching(shuffled, need, 0, chosen, usedPlayers)) {
+                // Đánh dấu các cặp đồng đội đã dùng
+                const keys = chosen.map(([a, b]) => pk(a, b));
+                keys.forEach(k => usedPairs.add(k));
+
+                // Ghép 2 đội liên tiếp thành 1 trận 2v2
+                const roundMatches = [];
+                for (let i = 0; i + 1 < chosen.length; i += 2) {
+                    roundMatches.push({
+                        vong: roundIdx + 1,
+                        doi_a_1: chosen[i][0],
+                        doi_a_2: chosen[i][1],
+                        doi_b_1: chosen[i + 1][0],
+                        doi_b_2: chosen[i + 1][1],
+                        trang_thai: 'chua_dau'
+                    });
+                }
+                allMatches.push(...roundMatches);
+
+                // Đệ quy sang vòng tiếp theo
+                if (solve(roundIdx + 1)) return true;
+
+                // ❌ Lượt sau không thể ghép đủ → BACKTRACK, thử cách khác
+                for (let i = 0; i < roundMatches.length; i++) allMatches.pop();
+                keys.forEach(k => usedPairs.delete(k));
+            }
+        }
+
+        return false;
+    }
+
+    // Chạy backtracking
+    const success = solve(0);
+
+    if (success && allMatches.length > 0) {
+        showDebugInfo(true, totalPairsNeeded, allMatches.length, solveAttempts);
+        return allMatches;
+    }
+
+    // Fallback: Circle Method (luôn đúng cho N chẵn)
+    showDebugInfo(false, totalPairsNeeded, 0, solveAttempts);
+    return circleMethodFallback(players);
+}
+
+// Fallback: Circle Method (dùng khi backtracking quá chậm)
+function circleMethodFallback(players) {
+    let list = [...players];
+    while (list.length % 2 !== 0) list.push('__BYE__');
+    const N = list.length;
+    const matches = [];
+    const fixed = list[0];
+    let rotating = list.slice(1);
+
+    for (let round = 0; round < N - 1; round++) {
+        const current = [fixed, ...rotating];
+        const pairs = [];
+        for (let i = 0; i < N / 2; i++) {
+            pairs.push([current[i], current[N - 1 - i]]);
+        }
+        const realPairs = pairs.filter(([a, b]) => a !== '__BYE__' && b !== '__BYE__');
+        for (let i = 0; i + 1 < realPairs.length; i += 2) {
             matches.push({
                 vong: round + 1,
-                doi_a_1: teamA[0].id,
-                doi_a_2: teamA[1].id,
-                doi_b_1: teamB[0].id,
-                doi_b_2: teamB[1].id,
+                doi_a_1: realPairs[i][0], doi_a_2: realPairs[i][1],
+                doi_b_1: realPairs[i + 1][0], doi_b_2: realPairs[i + 1][1],
                 trang_thai: 'chua_dau'
             });
         }
-        
         rotating = [rotating[rotating.length - 1], ...rotating.slice(0, rotating.length - 1)];
     }
-    
     return matches;
+}
+
+function showDebugInfo(backtrackSuccess, totalPairs, totalMatches, attempts) {
+    const el = document.getElementById('scheduleDebug');
+    if (!el) return;
+    el.style.display = 'block';
+    const method = backtrackSuccess ? '✅ Backtracking' : '⚠️ Circle Method (fallback)';
+    el.innerHTML = `<b>Phương pháp:</b> ${method}<br>` +
+        `<b>Tổng cặp đồng đội:</b> ${totalPairs} | <b>Tổng trận:</b> ${totalMatches} | <b>Số lần thử:</b> ${attempts.toLocaleString()}`;
 }
 
 async function generateSchedule() {
     if (!IS_TOUR_OWNER) return toast('Không có quyền', true);
     if (VDVS.length < 4) return toast('Cần ít nhất 4 VĐV để đánh đôi 2v2', true);
     if (!confirm('Tạo lịch mới sẽ XÓA toàn bộ lịch và điểm số cũ. Tiếp tục?')) return;
-    toast('⏳ Đang tạo lịch...');
+    toast('⏳ Đang tính toán ghép cặp...');
+
+    // Xóa lịch cũ
     await sb.from('robin_canhan_tran_dau').delete().eq('ma_giai', CURRENT_TOUR.ma_giai);
+
+    // Tạo lịch mới bằng backtracking
+    const t0 = performance.now();
     const matches = generate2v2Schedule().map(m => ({ ...m, ma_giai: CURRENT_TOUR.ma_giai }));
+    const elapsed = Math.round(performance.now() - t0);
+
     if (matches.length === 0) return toast('Không thể tạo lịch', true);
+
     const { error } = await sb.from('robin_canhan_tran_dau').insert(matches);
     if (error) return toast('Lỗi: ' + error.message, true);
-    toast(`✅ Đã tạo ${matches.length} trận`); await loadData();
+
+    // Validation: kiểm tra không có cặp đồng đội lặp
+    const pairCheck = new Set();
+    let duplicates = 0;
+    matches.forEach(m => {
+        const k1 = m.doi_a_1 < m.doi_a_2 ? m.doi_a_1 + '|' + m.doi_a_2 : m.doi_a_2 + '|' + m.doi_a_1;
+        const k2 = m.doi_b_1 < m.doi_b_2 ? m.doi_b_1 + '|' + m.doi_b_2 : m.doi_b_2 + '|' + m.doi_b_1;
+        if (pairCheck.has(k1)) duplicates++;
+        if (pairCheck.has(k2)) duplicates++;
+        pairCheck.add(k1);
+        pairCheck.add(k2);
+    });
+
+    const debugEl = document.getElementById('scheduleDebug');
+    if (debugEl) {
+        const existing = debugEl.innerHTML;
+        debugEl.innerHTML = existing + `<br><b>Thời gian:</b> ${elapsed}ms | <b>Cặp trùng:</b> ${duplicates === 0 ? '✅ Không có' : '⚠️ ' + duplicates}`;
+    }
+
+    toast(`✅ Đã tạo ${matches.length} trận (${elapsed}ms)`);
+    await loadData();
 }
 
 async function resetSchedule() {
     if (!IS_TOUR_OWNER) return toast('Không có quyền', true);
     if (!confirm('Xóa toàn bộ lịch và điểm?')) return;
     await sb.from('robin_canhan_tran_dau').delete().eq('ma_giai', CURRENT_TOUR.ma_giai);
+    document.getElementById('scheduleDebug').style.display = 'none';
     toast('Đã xóa'); await loadData();
 }
 
@@ -590,25 +718,23 @@ function renderMatches() {
     }
     const byR = {};
     MATCHES.forEach(m => { if (!byR[m.vong]) byR[m.vong] = []; byR[m.vong].push(m); });
-    
+
     let h = '<div class="match-grid">';
-    Object.keys(byR).sort((a,b) => a-b).forEach(round => {
+    Object.keys(byR).sort((a, b) => a - b).forEach(round => {
         byR[round].forEach((m, idx) => {
             const done = m.trang_thai === 'da_dau';
             const stCls = done ? 'done' : 'wait';
             const stTxt = done ? 'Hoàn thành' : 'Chờ đấu';
             const delay = Math.min(idx * 0.03, 1.2);
-            
+
             h += `<div class="match-card" style="animation-delay:${delay}s">`;
             h += `<div class="mc-head"><span class="mc-round">Vòng ${m.vong}</span><span class="mc-status ${stCls}">${stTxt}</span></div>`;
             h += `<div class="mc-body"><div class="mc-teams">`;
-            
             h += `<div class="mc-team"><span class="mc-team-label">Đội 1</span><div class="mc-team-names">${getVdvName(m.doi_a_1)}<span class="amp">&</span>${getVdvName(m.doi_a_2)}</div></div>`;
-            
             h += `<div class="mc-vs"><div class="vs-circle">VS</div>`;
             if (IS_TOUR_OWNER) {
                 h += `<div class="mc-score-row">
-                    <input type="number" class="score-input" id="sa-${m.id}" value="${m.diem_a ?? ''}" placeholder="-" 
+                    <input type="number" class="score-input" id="sa-${m.id}" value="${m.diem_a ?? ''}" placeholder="-"
                         onfocus="IS_EDITING_SCORE=true" onblur="IS_EDITING_SCORE=false">
                     <span class="mc-score sep">-</span>
                     <input type="number" class="score-input" id="sb-${m.id}" value="${m.diem_b ?? ''}" placeholder="-"
@@ -626,7 +752,6 @@ function renderMatches() {
                 }
             }
             h += `</div>`;
-            
             h += `<div class="mc-team"><span class="mc-team-label">Đội 2</span><div class="mc-team-names">${getVdvName(m.doi_b_1)}<span class="amp">&</span>${getVdvName(m.doi_b_2)}</div></div>`;
             h += `</div></div></div>`;
         });
@@ -660,33 +785,22 @@ function renderRanking() {
     if (!VDVS.length) {
         el.innerHTML = '<div class="err-box"><h3>Chưa có dữ liệu</h3><p>Admin hãy thêm VĐV.</p></div>'; return;
     }
-    
-    // 🌟 Tính toán số trận đã đấu và tổng số trận của mỗi VĐV
+
     const stats = {};
-    VDVS.forEach(v => { 
-        // Tổng số trận: đếm tất cả trận có VĐV này tham gia (cả đã đấu và chưa đấu)
-        const totalMatches = MATCHES.filter(m => 
-            m.doi_a_1 === v.id || m.doi_a_2 === v.id || 
+    VDVS.forEach(v => {
+        const totalMatches = MATCHES.filter(m =>
+            m.doi_a_1 === v.id || m.doi_a_2 === v.id ||
             m.doi_b_1 === v.id || m.doi_b_2 === v.id
         ).length;
-        
-        stats[v.id] = { 
-            id: v.id, 
-            ten: v.ten_vdv, 
-            tran_da_dau: 0,      // Số trận đã hoàn thành
-            tran_tong: totalMatches, // Tổng số trận được xếp lịch
-            thang: 0, thua: 0, diem: 0, dt: 0, db: 0, hs: 0 
-        }; 
+        stats[v.id] = { id: v.id, ten: v.ten_vdv, tran_da_dau: 0, tran_tong: totalMatches, thang: 0, thua: 0, diem: 0, dt: 0, db: 0, hs: 0 };
     });
-    
+
     MATCHES.filter(m => m.trang_thai === 'da_dau').forEach(m => {
         const a1 = stats[m.doi_a_1], a2 = stats[m.doi_a_2];
         const b1 = stats[m.doi_b_1], b2 = stats[m.doi_b_2];
         if (!a1 || !a2 || !b1 || !b2) return;
-        
         const diff = m.diem_a - m.diem_b;
         [a1, a2, b1, b2].forEach(p => { p.tran_da_dau++; });
-        
         if (m.diem_a > m.diem_b) {
             [a1, a2].forEach(p => { p.thang++; p.diem++; p.dt += m.diem_a; p.db += m.diem_b; p.hs += diff; });
             [b1, b2].forEach(p => { p.thua++; p.dt += m.diem_b; p.db += m.diem_a; p.hs -= diff; });
@@ -695,20 +809,19 @@ function renderRanking() {
             [a1, a2].forEach(p => { p.thua++; p.dt += m.diem_a; p.db += m.diem_b; p.hs -= Math.abs(diff); });
         }
     });
-    
+
     const sorted = Object.values(stats).sort((x, y) => {
         if (y.diem !== x.diem) return y.diem - x.diem;
         if (y.hs !== x.hs) return y.hs - x.hs;
         return x.ten.localeCompare(y.ten);
     });
-    
+
     let h = '<div class="rank-wrap"><table class="rank-table"><thead><tr><th>#</th><th>Vận Động Viên</th><th>Trận</th><th>Thắng</th><th>Thua</th><th>Điểm</th><th>HS</th></tr></thead><tbody>';
     sorted.forEach((s, i) => {
         const r = i + 1;
         const rc = r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'r0';
         const hsCls = s.hs > 0 ? 'plus' : s.hs < 0 ? 'minus' : '';
         const hsStr = s.hs > 0 ? '+' + s.hs : s.hs;
-        // 🌟 Format "đã đấu/tổng"
         const matchCount = `<span class="match-count"><span class="played">${s.tran_da_dau}</span>/${s.tran_tong}</span>`;
         h += `<tr><td><span class="rank-num ${rc}">${r}</span></td><td title="${s.ten}">${s.ten}</td><td>${matchCount}</td><td style="color:var(--green);font-weight:700">${s.thang}</td><td style="color:var(--red);font-weight:700">${s.thua}</td><td style="font-weight:800;font-size:0.95rem;color:var(--accent)">${s.diem}</td><td class="${hsCls}">${hsStr}</td></tr>`;
     });
