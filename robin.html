@@ -278,7 +278,6 @@ header p { color: var(--text-dim); margin-top: 6px; font-size: 0.85rem; }
 </div>
 
 <script>
-// Lưu ý: Hãy đảm bảo URL và KEY này khớp với dự án Supabase của bạn
 const SUPABASE_URL = 'https://mvefkcaqvjflrgmaybev.supabase.co'.trim().replace(/\/+$/, '');
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12ZWZrY2FxdmpmbHJnbWF5YmV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2MDAzOTksImV4cCI6MjEwMjE3NjM5OX0.vCY4_JlSBqi6QRh7DYWAe42Ot-pChKaVSHn7DY2C34Q'.trim();
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -288,6 +287,8 @@ let CURRENT_TOUR = null;
 let IS_TOUR_OWNER = false;
 let VDVS = [], MATCHES = [];
 let fallbackTimer = null;
+let LAST_RENDER_HASH = '';
+let IS_EDITING_SCORE = false;
 
 function toast(msg, err = false) {
     const t = document.getElementById('toast');
@@ -398,6 +399,7 @@ async function openTour(mg) {
     document.getElementById('tourDetailScreen').style.display = 'block';
     document.getElementById('headerTitle').textContent = tour.ten_giai;
     document.getElementById('headerSub').textContent = `📍 ${tour.dia_diem || ''} · 📅 ${new Date(tour.ngay_to_chuc).toLocaleDateString('vi-VN')}`;
+    LAST_RENDER_HASH = '';
     await loadData();
     sb.removeAllChannels();
     sb.channel('tour_vdv_' + mg).on('postgres_changes', { event: '*', schema: 'public', table: 'robin_canhan_vdv', filter: `ma_giai=eq.${mg}` }, loadData).subscribe();
@@ -413,14 +415,29 @@ function backToList() {
     loadTourList();
 }
 
+function createDataHash() {
+    const vdvStr = VDVS.map(v => v.id + '|' + v.ten_vdv).join(',');
+    const matchStr = MATCHES.map(m => `${m.id}|${m.vong}|${m.doi_a_1}|${m.doi_a_2}|${m.doi_b_1}|${m.doi_b_2}|${m.diem_a}|${m.diem_b}|${m.trang_thai}`).join(',');
+    return vdvStr + '###' + matchStr + '###' + IS_TOUR_OWNER;
+}
+
 async function loadData() {
     if (!CURRENT_TOUR) return;
+    if (IS_EDITING_SCORE) return;
+    
     const mg = CURRENT_TOUR.ma_giai;
     const { data: v } = await sb.from('robin_canhan_vdv').select('*').eq('ma_giai', mg).order('created_at');
     VDVS = v || [];
     const { data: m } = await sb.from('robin_canhan_tran_dau').select('*').eq('ma_giai', mg).order('vong').order('created_at');
     MATCHES = m || [];
-    renderVdvs(); renderMatches(); renderRanking();
+    
+    const newHash = createDataHash();
+    if (newHash === LAST_RENDER_HASH) return;
+    LAST_RENDER_HASH = newHash;
+    
+    renderVdvs(); 
+    renderMatches(); 
+    renderRanking();
 }
 
 async function addVdv() {
@@ -448,42 +465,53 @@ async function deleteVdv(id) {
     toast('Đã xóa'); await loadData();
 }
 
-// 🌟 THUẬT TOÁN GHÉP CẶP 2v2 TỐI ƯU (Fisher-Yates Shuffle)
 function generate2v2Schedule() {
-    let list = VDVS.map(v => ({ id: v.id, name: v.ten_vdv }));
-    const originalCount = list.length;
+    let players = VDVS.map(v => ({ id: v.id, name: v.ten_vdv }));
+    const originalCount = players.length;
     
-    // Thêm BYE để chia hết cho 4
-    while (list.length % 4 !== 0) {
-        list.push({ id: 'bye', name: 'BYE' });
+    if (originalCount < 4) return [];
+    
+    let byeCount = 0;
+    while (players.length % 4 !== 0) {
+        players.push({ id: '__bye_' + byeCount + '__', name: 'BYE' });
+        byeCount++;
     }
     
+    const n = players.length;
     const matches = [];
-    const numRounds = Math.max(3, originalCount - 1); 
-
-    for (let r = 0; r < numRounds; r++) {
-        // Xáo trộn Fisher-Yates để ngẫu nhiên đều hơn, giảm thiểu trùng lặp
-        for (let i = list.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [list[i], list[j]] = [list[j], list[i]];
+    const numRounds = n - 1;
+    
+    const fixed = players[0];
+    let rotating = players.slice(1);
+    
+    for (let round = 0; round < numRounds; round++) {
+        const current = [fixed, ...rotating];
+        
+        const pairs = [];
+        for (let i = 0; i < n / 2; i++) {
+            pairs.push([current[i], current[n - 1 - i]]);
         }
         
-        for (let i = 0; i < list.length; i += 4) {
-            const p1 = list[i], p2 = list[i+1], p3 = list[i+2], p4 = list[i+3];
+        for (let i = 0; i < pairs.length; i += 2) {
+            const teamA = pairs[i];
+            const teamB = pairs[i + 1];
             
-            // Bỏ qua nếu có BYE trong nhóm 4
-            if (p1.id === 'bye' || p2.id === 'bye' || p3.id === 'bye' || p4.id === 'bye') continue;
+            const hasBye = [...teamA, ...teamB].some(p => p.id.startsWith('__bye_'));
+            if (hasBye) continue;
             
             matches.push({
-                vong: r + 1,
-                doi_a_1: p1.id, 
-                doi_a_2: p2.id,
-                doi_b_1: p3.id, 
-                doi_b_2: p4.id,
+                vong: round + 1,
+                doi_a_1: teamA[0].id,
+                doi_a_2: teamA[1].id,
+                doi_b_1: teamB[0].id,
+                doi_b_2: teamB[1].id,
                 trang_thai: 'chua_dau'
             });
         }
+        
+        rotating = [rotating[rotating.length - 1], ...rotating.slice(0, rotating.length - 1)];
     }
+    
     return matches;
 }
 
@@ -494,6 +522,7 @@ async function generateSchedule() {
     toast('⏳ Đang tạo lịch...');
     await sb.from('robin_canhan_tran_dau').delete().eq('ma_giai', CURRENT_TOUR.ma_giai);
     const matches = generate2v2Schedule().map(m => ({ ...m, ma_giai: CURRENT_TOUR.ma_giai }));
+    if (matches.length === 0) return toast('Không thể tạo lịch', true);
     const { error } = await sb.from('robin_canhan_tran_dau').insert(matches);
     if (error) return toast('Lỗi: ' + error.message, true);
     toast(`✅ Đã tạo ${matches.length} trận`); await loadData();
@@ -529,16 +558,16 @@ function renderMatches() {
             h += `<div class="mc-head"><span class="mc-round">Vòng ${m.vong}</span><span class="mc-status ${stCls}">${stTxt}</span></div>`;
             h += `<div class="mc-body"><div class="mc-teams">`;
             
-            // Team A
             h += `<div class="mc-team"><span class="mc-team-label">Đội 1</span><div class="mc-team-names">${getVdvName(m.doi_a_1)}<span class="amp">&</span>${getVdvName(m.doi_a_2)}</div></div>`;
             
-            // Score / VS
             h += `<div class="mc-vs"><div class="vs-circle">VS</div>`;
             if (IS_TOUR_OWNER) {
                 h += `<div class="mc-score-row">
-                    <input type="number" class="score-input" id="sa-${m.id}" value="${m.diem_a ?? ''}" placeholder="-">
+                    <input type="number" class="score-input" id="sa-${m.id}" value="${m.diem_a ?? ''}" placeholder="-" 
+                        onfocus="IS_EDITING_SCORE=true" onblur="IS_EDITING_SCORE=false">
                     <span class="mc-score sep">-</span>
-                    <input type="number" class="score-input" id="sb-${m.id}" value="${m.diem_b ?? ''}" placeholder="-">
+                    <input type="number" class="score-input" id="sb-${m.id}" value="${m.diem_b ?? ''}" placeholder="-"
+                        onfocus="IS_EDITING_SCORE=true" onblur="IS_EDITING_SCORE=false">
                 </div>
                 <div style="margin-top:6px;display:flex;gap:4px">
                     <button class="btn btn-success btn-sm" onclick="saveScore('${m.id}')">💾 Lưu</button>
@@ -553,7 +582,6 @@ function renderMatches() {
             }
             h += `</div>`;
             
-            // Team B
             h += `<div class="mc-team"><span class="mc-team-label">Đội 2</span><div class="mc-team-names">${getVdvName(m.doi_b_1)}<span class="amp">&</span>${getVdvName(m.doi_b_2)}</div></div>`;
             h += `</div></div></div>`;
         });
@@ -569,6 +597,7 @@ async function saveScore(id) {
     if (isNaN(a) || isNaN(b)) return toast('Nhập đủ 2 tỷ số', true);
     if (a === b) return toast('Không có hòa!', true);
     if (a < 0 || b < 0) return toast('Tỷ số không âm', true);
+    IS_EDITING_SCORE = false;
     const { error } = await sb.from('robin_canhan_tran_dau').update({ diem_a: a, diem_b: b, trang_thai: 'da_dau' }).eq('id', id);
     if (error) return toast('Lỗi: ' + error.message, true);
     toast('✅ Đã lưu'); await loadData();
@@ -581,7 +610,6 @@ async function resetScore(id) {
     toast('Đã reset'); await loadData();
 }
 
-// 🌟 TÍNH ĐIỂM CÁ NHÂN TỰ ĐỘNG
 function renderRanking() {
     const el = document.getElementById('rank-area');
     if (!VDVS.length) {
@@ -626,7 +654,6 @@ function renderRanking() {
     el.innerHTML = h;
 }
 
-// 🌟 FALLBACK & VISIBILITY
 function startFallbackPolling(mg) {
     stopFallbackPolling();
     fallbackTimer = setInterval(async () => {
