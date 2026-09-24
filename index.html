@@ -82,8 +82,41 @@ body::after {
 
 .wrapper { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 20px; }
 
-/* ===== HERO ===== */
-.hero { position: relative; text-align: center; padding: 50px 20px 30px; margin-bottom: 30px; transform-style: preserve-3d; }
+/* ===== AUTH BUTTONS - ĐÃ SỬA ===== */
+.auth-btns {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  min-height: 40px;
+}
+.auth-btns .btn { padding: 6px 12px; font-size: 0.75rem; min-height: 34px; border-radius: 10px; }
+.user-chip {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text);
+}
+.admin-badge {
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: #000; font-size: 0.6rem; font-weight: 800;
+  padding: 2px 6px; border-radius: 4px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+/* ===== HERO - ĐÃ SỬA ===== */
+.hero { position: relative; text-align: center; padding: 20px 20px 30px; margin-bottom: 30px; transform-style: preserve-3d; }
 .hero-badge {
   display: inline-flex; align-items: center; gap: 8px;
   background: linear-gradient(135deg, var(--primary), var(--accent));
@@ -123,32 +156,6 @@ body::after {
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1;
 }
 .hero-stat-label { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px; margin-top: 4px; }
-
-/* ===== AUTH BUTTONS ===== */
-.auth-btns {
-  position: absolute; top: 16px; right: 16px;
-  display: flex; gap: 8px; z-index: 10; align-items: center;
-}
-.auth-btns .btn { padding: 6px 12px; font-size: 0.75rem; min-height: 34px; border-radius: 10px; }
-.user-chip {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--border);
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--text);
-}
-.admin-badge {
-  background: linear-gradient(135deg, var(--accent), var(--primary));
-  color: #000; font-size: 0.6rem; font-weight: 800;
-  padding: 2px 6px; border-radius: 4px;
-  text-transform: uppercase; letter-spacing: 0.5px;
-}
 
 /* ===== BUTTONS ===== */
 .btn {
@@ -624,10 +631,10 @@ body::after {
   color: var(--accent); font-size: 1rem; letter-spacing: 2px; margin-bottom: 6px;
 }
 
-/* ===== RESPONSIVE ===== */
+/* ===== RESPONSIVE - ĐÃ SỬA ===== */
 @media (max-width: 768px) {
   .wrapper { padding: 12px; }
-  .hero { padding: 35px 12px 25px; }
+  .hero { padding: 15px 12px 25px; }
   .hero-stats { gap: 18px; }
   .hero-stat-value { font-size: 1.6rem; }
   .tour-grid { grid-template-columns: 1fr; gap: 14px; }
@@ -635,7 +642,22 @@ body::after {
   .section-header { flex-direction: column; align-items: flex-start; }
   .section-icon { width: 48px; height: 48px; font-size: 1.4rem; }
   .section-title { font-size: 1.2rem; }
-  .auth-btns { top: 10px; right: 10px; }
+  
+  .auth-btns { 
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .auth-btns .btn { 
+    padding: 5px 10px; 
+    font-size: 0.7rem;
+    min-height: 32px;
+  }
+  .user-chip { 
+    padding: 5px 10px; 
+    font-size: 0.72rem;
+    max-width: 150px;
+  }
+  
   .detail-hero { padding: 18px; }
   .detail-title { font-size: 1.4rem; }
   .rank-table { font-size: 0.75rem; }
@@ -649,11 +671,14 @@ body::after {
 }
 
 @media (max-width: 480px) {
-  .hero-title { font-size: 1.8rem; }
+  .hero-title { font-size: 1.8rem; letter-spacing: 1px; }
   .tour-name { font-size: 1.15rem; }
   .detail-title { font-size: 1.2rem; }
-  .auth-btns .btn { padding: 5px 9px; font-size: 0.68rem; }
-  .user-chip { padding: 5px 9px; font-size: 0.7rem; }
+  
+  .auth-btns {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
   .rank-table td:nth-child(2) { max-width: 90px; }
 }
 </style>
@@ -671,12 +696,12 @@ body::after {
 
 <div class="wrapper">
 
-  <!-- ===== AUTH BUTTONS ===== -->
-  <div class="auth-btns" id="authBtns"></div>
-
   <!-- ===== HOME SCREEN ===== -->
   <div id="homeScreen">
     <section class="hero">
+      <!-- ===== AUTH BUTTONS - ĐÃ DI CHUYỂN VÀO TRONG HERO ===== -->
+      <div class="auth-btns" id="authBtns"></div>
+      
       <div class="hero-badge">🏆 TOURNAMENT HUB · PICKLEBALL</div>
       <h1 class="hero-title">GIẢI ĐẤU<br>PICKLEBALL</h1>
       <div class="hero-subtitle">Cạnh tranh · Đam mê · Chiến thắng</div>
@@ -983,27 +1008,23 @@ const SUPABASE_URL = 'https://mvefkcaqvjflrgmaybev.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12ZWZrY2FxdmpmbHJnbWF5YmV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2MDAzOTksImV4cCI6MjEwMjE3NjM5OX0.vCY4_JlSBqi6QRh7DYWAe42Ot-pChKaVSHn7DY2C34Q';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ===== GLOBAL STATE =====
 let CURRENT_USER = null;
 let CURRENT_TOUR = null;
-let CURRENT_TYPE = null; // 'capdoi' | 'canhan'
+let CURRENT_TYPE = null;
 let IS_TOUR_OWNER = false;
 
 let capDoiTours = [];
 let caNhanTours = [];
 
-// CapDoi state
 let cdTeams = [];
 let cdMatches = [];
 
-// CaNhan state
 let cnVdvs = [];
 let cnMatches = [];
 
 let fallbackTimer = null;
 let IS_EDITING_SCORE = false;
 
-// ===== HELPERS =====
 function toast(msg, err = false) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -1030,7 +1051,6 @@ function formatDate(dateStr) {
   } catch { return 'Chưa cập nhật'; }
 }
 
-// ===== AUTH =====
 function updateAuthUI() {
   const c = document.getElementById('authBtns');
   if (CURRENT_USER) {
@@ -1135,7 +1155,6 @@ async function handleChangePassword() {
   document.getElementById('cp_confirm').value = '';
 }
 
-// ===== HOME SCREEN =====
 function renderTourCard(tour, type) {
   const isCapDoi = type === 'capdoi';
   const ngay = formatDate(tour.ngay_to_chuc);
@@ -1216,7 +1235,6 @@ async function loadAllTournaments() {
   }
 }
 
-// ===== OPEN TOUR DETAIL =====
 async function openTourDetail(type, maGiai) {
   CURRENT_TYPE = type;
   document.getElementById('homeScreen').style.display = 'none';
@@ -1244,9 +1262,6 @@ function goHome() {
   loadAllTournaments();
 }
 
-// ============================================================
-// TEAM ROUND ROBIN (CẶP ĐÔI)
-// ============================================================
 async function cdLoadTour(maGiai) {
   const { data: tour } = await sb.from('robin_tour').select('*').eq('ma_giai', maGiai).single();
   if (!tour) { toast('Không tìm thấy giải', true); goHome(); return; }
@@ -1259,7 +1274,6 @@ async function cdLoadTour(maGiai) {
   document.getElementById('cdDate').textContent = formatDate(tour.ngay_to_chuc);
   document.getElementById('cdMaGiai').textContent = tour.ma_giai;
 
-  const hero = document.querySelector('#detailCapDoi .detail-hero');
   const container = document.getElementById('detailCapDoi');
   if (IS_TOUR_OWNER) {
     container.classList.add('is-owner');
@@ -1567,9 +1581,6 @@ function switchCdTab(name, btn) {
   document.getElementById('cdTab' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
 }
 
-// ============================================================
-// ROBIN CÁ NHÂN
-// ============================================================
 async function cnLoadTour(maGiai) {
   const { data: tour } = await sb.from('robin_canhan_tour').select('*').eq('ma_giai', maGiai).single();
   if (!tour) { toast('Không tìm thấy giải', true); goHome(); return; }
@@ -1648,7 +1659,6 @@ function cnRenderVdvs() {
   `).join('');
 }
 
-// Thuật toán ghép cặp 2v2 tối ưu
 function cnGenerate2v2Schedule() {
   const players = cnVdvs.map(v => ({ id: v.id, name: v.ten_vdv }));
   const n = players.length;
@@ -1911,9 +1921,6 @@ function switchCnTab(name, btn) {
   document.getElementById('cnTab' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
 }
 
-// ============================================================
-// TOURNAMENT CRUD
-// ============================================================
 function showCreateTourModal() {
   if (!CURRENT_USER) return showModal('loginModal');
   document.getElementById('c_ngay').valueAsDate = new Date();
@@ -1998,7 +2005,6 @@ async function deleteCurrentTour() {
   goHome();
 }
 
-// ===== FALLBACK POLLING =====
 function startFallbackPolling(maGiai, type) {
   stopFallbackPolling();
   fallbackTimer = setInterval(async () => {
@@ -2015,7 +2021,6 @@ function stopFallbackPolling() {
   }
 }
 
-// ===== 3D TILT EFFECT =====
 function initTiltEffect() {
   document.querySelectorAll('.tour-card').forEach(card => {
     card.addEventListener('mousemove', (e) => {
@@ -2034,7 +2039,6 @@ function initTiltEffect() {
   });
 }
 
-// ===== REALTIME =====
 function setupRealtime() {
   sb.channel('homepage_tours')
     .on('postgres_changes', { event: '*', schema: 'public', table: 'robin_tour' }, loadAllTournaments)
@@ -2042,7 +2046,6 @@ function setupRealtime() {
     .subscribe();
 }
 
-// ===== MOBILE REFOCUS =====
 document.addEventListener('visibilitychange', () => {
   if (!document.hidden && CURRENT_TOUR) {
     if (CURRENT_TYPE === 'capdoi') cdLoadData();
@@ -2050,7 +2053,6 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 
-// ===== INIT =====
 (async () => {
   const u = sessionStorage.getItem('pb_admin');
   if (u) {
