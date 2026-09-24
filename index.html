@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🏆 PICKLEBALL TOURNAMENT HUB</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --primary: #ff6b35;
+  --secondary: #00b4d8;
+  --accent: #ffd166;
+  --gold: #ffd700;
+  --bg-dark: #0a0e1a;
+  --bg-deeper: #050810;
+  --bg-card: rgba(20, 26, 43, 0.85);
+  --border: rgba(255, 255, 255, 0.08);
+  --text: #e8ecf4;
+  --text-dim: #7a8ba5;
+  --green: #22c55e;
+  --red: #ef4444;
+  
+  /* Colors for two systems */
+  --capdoi-1: #16a34a;
+  --capdoi-2: #15803d;
+  --capdoi-glow: rgba(22, 163, 74, 0.4);
+  --canhan-1: #ff6b35;
+  --canhan-2: #dc2626;
+  --canhan-glow: rgba(255, 107, 53, 0.4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg-dark);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  perspective: 1200px;
+}
+
+/* ===== ANIMATED BACKGROUND ===== */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 15%, rgba(255, 107, 53, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 85%, rgba(0, 180, 216, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(255, 209, 102, 0.05) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 0;
+  animation: gridFloat 20s linear infinite;
+}
+
+@keyframes gridFloat {
+  from { background-position: 0 0; }
+  to { background-position: 50px 50px; }
+}
+
+/* ===== 3D FLOATING BALLS ===== */
+.floating-balls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.ball {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.3;
+  animation: float 20s ease-in-out infinite;
+}
+
+.ball-1 { width: 300px; height: 300px; background: var(--primary); top: 10%; left: -5%; animation-delay: 0s; }
+.ball-2 { width: 400px; height: 400px; background: var(--secondary); top: 60%; right: -10%; animation-delay: -5s; }
+.ball-3 { width: 250px; height: 250px; background: var(--accent); bottom: 10%; left: 30%; animation-delay: -10s; }
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -30px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+/* ===== WRAPPER ===== */
+.wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+  position: relative;
+  text-align: center;
+  padding: 60px 20px 40px;
+  margin-bottom: 40px;
+  transform-style: preserve-3d;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #000;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border-radius: 30px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 30px rgba(255, 107, 53, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 30px rgba(255, 107, 53, 0.5); }
+  50% { box-shadow: 0 0 50px rgba(255, 107, 53, 0.8), 0 0 80px rgba(255, 209, 102, 0.4); }
+}
+
+.hero-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  line-height: 1;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #fff 0%, #fff 30%, var(--accent) 60%, var(--primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 4px 20px rgba(255, 107, 53, 0.3));
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+}
+
+.hero-subtitle {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-weight: 400;
+  color: var(--text-dim);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.hero-tagline {
+  font-size: 1rem;
+  color: var(--text-dim);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.hero-divider {
+  width: 100px;
+  height: 4px;
+  margin: 24px auto;
+  background: linear-gradient(90deg, transparent, var(--primary), var(--accent), var(--secondary), transparent);
+  border-radius: 2px;
+  box-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+}
+
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.hero-stat {
+  text-align: center;
+  transform: translateZ(20px);
+}
+
+.hero-stat-value {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.hero-stat-label {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 4px;
+}
+
+/* ===== SECTION ===== */
+.section {
+  margin-bottom: 60px;
+  transform-style: preserve-3d;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--border);
+  position: relative;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.section-header::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary), transparent);
+}
+
+.section-header.capdoi::before {
+  background: linear-gradient(90deg, var(--capdoi-1), transparent);
+}
+
+.section-header.canhan::before {
+  background: linear-gradient(90deg, var(--canhan-1), transparent);
+}
+
+.section-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.section-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  flex-shrink: 0;
+  position: relative;
+  transform: translateZ(30px) rotateY(-5deg);
+  transition: transform 0.4s;
+}
+
+.section-icon:hover {
+  transform: translateZ(50px) rotateY(0deg) scale(1.1);
+}
+
+.section-icon.capdoi {
+  background: linear-gradient(135deg, var(--capdoi-1), var(--capdoi-2));
+  box-shadow: 0 10px 30px var(--capdoi-glow), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.section-icon.canhan {
+  background: linear-gradient(135deg, var(--canhan-1), var(--canhan-2));
+  box-shadow: 0 10px 30px var(--canhan-glow), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.section-icon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), transparent 50%);
+  pointer-events: none;
+}
+
+.section-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text);
+}
+
+.section-title span {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  margin-top: 2px;
+}
+
+.section-count {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  backdrop-filter: blur(10px);
+}
+
+.section-count b {
+  color: var(--accent);
+  font-size: 1.1rem;
+}
+
+/* ===== TOURNAMENT GRID ===== */
+.tour-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+/* ===== 3D TOURNAMENT CARD ===== */
+.tour-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px;
+  cursor: pointer;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-style: preserve-3d;
+  animation: cardEntry 0.6s ease backwards;
+}
+
+@keyframes cardEntry {
+  from { opacity: 0; transform: translateY(30px) rotateX(-15deg); }
+  to { opacity: 1; transform: translateY(0) rotateX(0); }
+}
+
+.tour-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.tour-card.capdoi:hover {
+  box-shadow:
+    0 20px 40px -10px rgba(22, 163, 74, 0.4),
+    0 0 60px -10px rgba(22, 163, 74, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border-color: var(--capdoi-1);
+}
+
+.tour-card.canhan:hover {
+  box-shadow:
+    0 20px 40px -10px rgba(255, 107, 53, 0.4),
+    0 0 60px -10px rgba(255, 107, 53, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border-color: var(--canhan-1);
+}
+
+/* Shine effect on hover */
+.tour-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 60%
+  );
+  transition: all 0.6s;
+  opacity: 0;
+}
+
+.tour-card:hover::before {
+  opacity: 1;
+  transform: translate(30%, 30%);
+}
+
+/* Top accent line */
+.tour-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--capdoi-1), var(--capdoi-2));
+  border-radius: 20px 20px 0 0;
+}
+
+.tour-card.canhan::after {
+  background: linear-gradient(90deg, var(--canhan-1), var(--canhan-2));
+}
+
+.tour-type-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-dim);
+  backdrop-filter: blur(10px);
+}
+
+.tour-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+  display: inline-block;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+  transition: transform 0.4s;
+}
+
+.tour-card:hover .tour-icon {
+  transform: translateY(-4px) scale(1.15) rotate(-5deg);
+}
+
+.tour-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text);
+  line-height: 1.2;
+  padding-right: 80px;
+  word-break: break-word;
+}
+
+.tour-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.tour-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.tour-meta-item .icon {
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+.tour-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.tour-creator {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tour-arrow {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: all 0.3s;
+}
+
+.tour-card.capdoi .tour-arrow {
+  background: linear-gradient(135deg, var(--capdoi-1), var(--capdoi-2));
+  color: #fff;
+  box-shadow: 0 4px 12px var(--capdoi-glow);
+}
+
+.tour-card.canhan .tour-arrow {
+  background: linear-gradient(135deg, var(--canhan-1), var(--canhan-2));
+  color: #fff;
+  box-shadow: 0 4px 12px var(--canhan-glow);
+}
+
+.tour-card:hover .tour-arrow {
+  transform: translateX(4px) scale(1.1);
+}
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-dim);
+  grid-column: 1 / -1;
+  background: var(--bg-card);
+  border-radius: 20px;
+  border: 1px dashed var(--border);
+  backdrop-filter: blur(10px);
+}
+
+.empty-state .icon {
+  font-size: 4rem;
+  margin-bottom: 16px;
+  opacity: 0.3;
+  filter: grayscale(0.5);
+}
+
+.empty-state h3 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.2rem;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+/* ===== LOADING ===== */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 40px;
+  grid-column: 1 / -1;
+}
+
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: rotate 0.8s linear infinite;
+}
+
+@keyframes rotate { to { transform: rotate(360deg); } }
+
+.loading-text {
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+/* ===== TOAST ===== */
+#toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100px);
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  color: var(--text);
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  z-index: 9999;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  border-left: 4px solid var(--green);
+  max-width: 90vw;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+#toast.show { transform: translateX(-50%) translateY(0); }
+#toast.err { border-left-color: var(--red); }
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+
+.footer-brand {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 1rem;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .wrapper { padding: 12px; }
+  .hero { padding: 40px 12px 30px; }
+  .hero-stats { gap: 20px; }
+  .hero-stat-value { font-size: 1.8rem; }
+  .tour-grid { grid-template-columns: 1fr; gap: 16px; }
+  .tour-card { padding: 20px; }
+  .section-header { flex-direction: column; align-items: flex-start; }
+  .section-icon { width: 50px; height: 50px; font-size: 1.5rem; }
+  .section-title { font-size: 1.3rem; }
+}
+
+@media (max-width: 480px) {
+  .hero-title { font-size: 2.2rem; }
+  .tour-name { font-size: 1.2rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="floating-balls">
+  <div class="ball ball-1"></div>
+  <div class="ball ball-2"></div>
+  <div class="ball ball-3"></div>
+</div>
+
+<div id="toast"></div>
+
+<div class="wrapper">
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-badge">🏆 TOURNAMENT HUB · PICKLEBALL</div>
+    <h1 class="hero-title">GIẢI ĐẤU<br>PICKLEBALL</h1>
+    <div class="hero-subtitle">Cạnh tranh · Đam mê · Chiến thắng</div>
+    <div class="hero-divider"></div>
+    <p class="hero-tagline">
+      Trung tâm quản lý và theo dõi các giải đấu Pickleball.<br>
+      Cập nhật bảng xếp hạng & lịch thi đấu theo thời gian thực.
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-value" id="totalTours">0</div>
+        <div class="hero-stat-label">Giải đấu</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value" id="totalCapDoi">0</div>
+        <div class="hero-stat-label">Cặp đôi</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value" id="totalCaNhan">0</div>
+        <div class="hero-stat-label">Cá nhân</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 1: CẶP ĐÔI ROBIN ===== -->
+  <section class="section">
+    <div class="section-header capdoi">
+      <div class="section-title-wrap">
+        <div class="section-icon capdoi">🤝</div>
+        <div>
+          <h2 class="section-title">
+            CẶP ĐÔI ROBIN
+            <span>Thể thức đôi · Vòng tròn tính điểm</span>
+          </h2>
+        </div>
+      </div>
+      <div class="section-count"><b id="capDoiCount">0</b> giải</div>
+    </div>
+    <div class="tour-grid" id="capDoiGrid">
+      <div class="loading">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Đang tải...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 2: CÁ NHÂN ROBIN ===== -->
+  <section class="section">
+    <div class="section-header canhan">
+      <div class="section-title-wrap">
+        <div class="section-icon canhan">🎾</div>
+        <div>
+          <h2 class="section-title">
+            ROBIN CÁ NHÂN
+            <span>Đánh đôi 2v2 · Ghép cặp thông minh</span>
+          </h2>
+        </div>
+      </div>
+      <div class="section-count"><b id="caNhanCount">0</b> giải</div>
+    </div>
+    <div class="tour-grid" id="caNhanGrid">
+      <div class="loading">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Đang tải...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-brand">🏆 LY DUNG RITA PICKLEBALL</div>
+    <p>© 2026 · Designed with passion · Real-time Tournament Management</p>
+  </footer>
+
+</div>
+
+<script>
+const SUPABASE_URL = 'https://mvefkcaqvjflrgmaybev.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12ZWZrY2FxdmpmbHJnbWF5YmV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2MDAzOTksImV4cCI6MjEwMjE3NjM5OX0.vCY4_JlSBqi6QRh7DYWAe42Ot-pChKaVSHn7DY2C34Q';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// 📍 CONFIG: Đường dẫn đến trang chi tiết
+const CAPDOI_DETAIL_URL = 'teamrobin.html';     // File HTML cặp đôi
+const CANHAN_DETAIL_URL = 'robin.html';    // File HTML cá nhân
+
+function toast(msg, err = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show' + (err ? ' err' : '');
+  setTimeout(() => t.className = '', 3000);
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return 'Chưa cập nhật';
+  try {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('vi-VN', {
+      day: '2-digit', month: '2-digit', year: 'numeric'
+    });
+  } catch { return 'Chưa cập nhật'; }
+}
+
+function renderTourCard(tour, type) {
+  const isCapDoi = type === 'capdoi';
+  const url = isCapDoi ? CAPDOI_DETAIL_URL : CANHAN_DETAIL_URL;
+  const maGiai = tour.ma_giai;
+  const ngay = formatDate(tour.ngay_to_chuc);
+  const diaDiem = tour.dia_diem || 'Chưa cập nhật';
+  const icon = isCapDoi ? '🤝' : '🎾';
+  const typeName = isCapDoi ? 'Cặp đôi' : 'Cá nhân';
+
+  return `
+    <div class="tour-card ${type}"
+         style="animation-delay:${Math.random() * 0.3}s"
+         onclick="window.location.href='${url}?ma_giai=${maGiai}'">
+      <div class="tour-type-badge">${typeName}</div>
+      <div class="tour-icon">${icon}</div>
+      <h3 class="tour-name">${tour.ten_giai || 'Giải đấu'}</h3>
+      <div class="tour-meta">
+        <div class="tour-meta-item">
+          <span class="icon">📍</span>
+          <span>${diaDiem}</span>
+        </div>
+        <div class="tour-meta-item">
+          <span class="icon">📅</span>
+          <span>${ngay}</span>
+        </div>
+      </div>
+      <div class="tour-footer">
+        <div class="tour-creator">
+          <span>🏆</span>
+          <span>Mã: <b>${maGiai}</b></span>
+        </div>
+        <div class="tour-arrow">→</div>
+      </div>
+    </div>
+  `;
+}
+
+function renderEmpty(type) {
+  const icon = type === 'capdoi' ? '🤝' : '🎾';
+  const name = type === 'capdoi' ? 'Cặp đôi Robin' : 'Robin Cá Nhân';
+  return `
+    <div class="empty-state">
+      <div class="icon">${icon}</div>
+      <h3>Chưa có giải ${name}</h3>
+      <p>Các giải đấu sẽ hiển thị khi được tạo.</p>
+    </div>
+  `;
+}
+
+async function loadAllTournaments() {
+  try {
+    // Load cặp đôi
+    const { data: capDoiTours, error: err1 } = await sb
+      .from('robin_tour')
+      .select('*')
+      .order('ngay_to_chuc', { ascending: false });
+
+    // Load cá nhân
+    const { data: caNhanTours, error: err2 } = await sb
+      .from('robin_canhan_tour')
+      .select('*')
+      .order('ngay_to_chuc', { ascending: false });
+
+    if (err1) console.error('Lỗi cặp đôi:', err1);
+    if (err2) console.error('Lỗi cá nhân:', err2);
+
+    const capDoiList = capDoiTours || [];
+    const caNhanList = caNhanTours || [];
+
+    // Update stats
+    document.getElementById('totalTours').textContent = capDoiList.length + caNhanList.length;
+    document.getElementById('totalCapDoi').textContent = capDoiList.length;
+    document.getElementById('totalCaNhan').textContent = caNhanList.length;
+    document.getElementById('capDoiCount').textContent = capDoiList.length;
+    document.getElementById('caNhanCount').textContent = caNhanList.length;
+
+    // Render cặp đôi
+    const capDoiGrid = document.getElementById('capDoiGrid');
+    if (capDoiList.length === 0) {
+      capDoiGrid.innerHTML = renderEmpty('capdoi');
+    } else {
+      capDoiGrid.innerHTML = capDoiList.map(t => renderTourCard(t, 'capdoi')).join('');
+    }
+
+    // Render cá nhân
+    const caNhanGrid = document.getElementById('caNhanGrid');
+    if (caNhanList.length === 0) {
+      caNhanGrid.innerHTML = renderEmpty('canhan');
+    } else {
+      caNhanGrid.innerHTML = caNhanList.map(t => renderTourCard(t, 'canhan')).join('');
+    }
+
+  } catch (e) {
+    console.error('Error:', e);
+    toast('Lỗi tải dữ liệu: ' + e.message, true);
+  }
+}
+
+// ===== 3D TILT EFFECT =====
+function initTiltEffect() {
+  document.querySelectorAll('.tour-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = (y - centerY) / centerY * -6;
+      const rotateY = (x - centerX) / centerX * 6;
+
+      card.style.transform = `
+        perspective(1000px)
+        translateY(-8px)
+        rotateX(${rotateX}deg)
+        rotateY(${rotateY}deg)
+        scale(1.02)
+      `;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+}
+
+// ===== REALTIME UPDATES =====
+function setupRealtime() {
+  sb.channel('homepage_tours')
+    .on('postgres_changes', {
+      event: '*', schema: 'public', table: 'robin_tour'
+    }, () => {
+      console.log('📡 Cặp đôi thay đổi, reload...');
+      loadAllTournaments();
+    })
+    .on('postgres_changes', {
+      event: '*', schema: 'public', table: 'robin_canhan_tour'
+    }, () => {
+      console.log('📡 Cá nhân thay đổi, reload...');
+      loadAllTournaments();
+    })
+    .subscribe();
+}
+
+// ===== SMOOTH COUNT ANIMATION =====
+function animateCount(el, target) {
+  const duration = 1000;
+  const start = 0;
+  const startTime = performance.now();
+
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+    el.textContent = Math.floor(start + (target - start) * eased);
+    if (progress < 1) requestAnimationFrame(update);
+  }
+
+  requestAnimationFrame(update);
+}
+
+// ===== INIT =====
+(async () => {
+  await loadAllTournaments();
+  initTiltEffect();
+  setupRealtime();
+})();
+</script>
+
+</body>
+</html>
