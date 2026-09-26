@@ -4,79 +4,44 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>🏆 PICKLEBALL ROBIN</title>
-<!-- 🚀 OPTIMIZATION: Preconnect to external domains for faster loading -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 :root {
-  --primary: #ff6b35;
-  --secondary: #00b4d8;
-  --accent: #ffd166;
-  --gold: #ffd700;
-  --bg-dark: #0a0e1a;
-  --bg-deeper: #050810;
-  --bg-card: rgba(20, 26, 43, 0.9);
-  --bg-card-solid: #141a2b;
-  --bg-card-hover: #1c2438;
-  --border: rgba(255, 255, 255, 0.08);
-  --text: #e8ecf4;
-  --text-dim: #7a8ba5;
-  --green: #22c55e;
-  --red: #ef4444;
-  
-  --capdoi-1: #16a34a;
-  --capdoi-2: #15803d;
-  --capdoi-glow: rgba(22, 163, 74, 0.4);
-  --canhan-1: #ff6b35;
-  --canhan-2: #dc2626;
-  --canhan-glow: rgba(255, 107, 53, 0.4);
+  --primary: #ff6b35; --secondary: #00b4d8; --accent: #ffd166; --gold: #ffd700;
+  --bg-dark: #0a0e1a; --bg-deeper: #050810; --bg-card: rgba(20, 26, 43, 0.9);
+  --bg-card-solid: #141a2b; --bg-card-hover: #1c2438; --border: rgba(255, 255, 255, 0.08);
+  --text: #e8ecf4; --text-dim: #7a8ba5; --green: #22c55e; --red: #ef4444;
+  --capdoi-1: #16a34a; --capdoi-2: #15803d; --capdoi-glow: rgba(22, 163, 74, 0.4);
+  --canhan-1: #ff6b35; --canhan-2: #dc2626; --canhan-glow: rgba(255, 107, 53, 0.4);
 }
-
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
 body {
-  font-family: 'Inter', -apple-system, sans-serif;
-  background: var(--bg-dark);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
+  font-family: 'Inter', -apple-system, sans-serif; background: var(--bg-dark); color: var(--text);
+  min-height: 100vh; overflow-x: hidden;
 }
-
 body::before {
-  content: '';
-  position: fixed; inset: 0;
-  background:
-    radial-gradient(ellipse at 20% 15%, rgba(255, 107, 53, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 85%, rgba(0, 180, 216, 0.1) 0%, transparent 50%);
+  content: ''; position: fixed; inset: 0;
+  background: radial-gradient(ellipse at 20% 15%, rgba(255, 107, 53, 0.12) 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 85%, rgba(0, 180, 216, 0.1) 0%, transparent 50%);
   pointer-events: none; z-index: 0;
 }
-
 body::after {
-  content: '';
-  position: fixed; inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-  background-size: 50px 50px;
-  pointer-events: none; z-index: 0;
-  animation: gridFloat 30s linear infinite;
+  content: ''; position: fixed; inset: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 50px 50px; pointer-events: none; z-index: 0; animation: gridFloat 30s linear infinite;
 }
 body.paused-animations::after { animation-play-state: paused; }
-
-@keyframes gridFloat {
-  from { background-position: 0 0; }
-  to { background-position: 50px 50px; }
-}
+@keyframes gridFloat { from { background-position: 0 0; } to { background-position: 50px 50px; } }
 
 .floating-balls { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
 body.paused-animations .floating-balls { display: none; }
-
 .ball { position: absolute; border-radius: 50%; filter: blur(50px); opacity: 0.25; animation: float 25s ease-in-out infinite; }
 .ball-1 { width: 300px; height: 300px; background: var(--primary); top: 10%; left: -5%; animation-delay: 0s; }
 .ball-2 { width: 400px; height: 400px; background: var(--secondary); top: 60%; right: -10%; animation-delay: -5s; }
@@ -88,73 +53,23 @@ body.paused-animations .floating-balls { display: none; }
 }
 
 .wrapper { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 20px; }
-
-.auth-btns {
-  position: relative; display: flex; gap: 8px; z-index: 10;
-  align-items: center; justify-content: center; flex-wrap: wrap;
-  margin-bottom: 20px; min-height: 40px;
-}
+.auth-btns { position: relative; display: flex; gap: 8px; z-index: 10; align-items: center; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; min-height: 40px; }
 .auth-btns .btn { padding: 6px 12px; font-size: 0.75rem; min-height: 34px; border-radius: 10px; }
-.user-chip {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid var(--border);
-  padding: 6px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 600;
-  display: flex; align-items: center; gap: 6px; color: var(--text);
-}
-.admin-badge {
-  background: linear-gradient(135deg, var(--accent), var(--primary));
-  color: #000; font-size: 0.6rem; font-weight: 800;
-  padding: 2px 6px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px;
-}
+.user-chip { background: rgba(255, 255, 255, 0.1); border: 1px solid var(--border); padding: 6px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; display: flex; align-items: center; gap: 6px; color: var(--text); }
+.admin-badge { background: linear-gradient(135deg, var(--accent), var(--primary)); color: #000; font-size: 0.6rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
 
 .hero { position: relative; text-align: center; padding: 20px 20px 30px; margin-bottom: 30px; }
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  color: #000; font-family: 'Oswald', sans-serif; font-weight: 700;
-  font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
-  padding: 8px 20px; border-radius: 30px; margin-bottom: 16px;
-  box-shadow: 0 0 20px rgba(255, 107, 53, 0.4);
-  animation: pulse-glow 3s ease-in-out infinite;
-}
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 53, 0.4); }
-  50% { box-shadow: 0 0 35px rgba(255, 107, 53, 0.6); }
-}
-.hero-title {
-  font-family: 'Oswald', sans-serif;
-  font-size: clamp(2.2rem, 7vw, 4rem);
-  font-weight: 700; text-transform: uppercase; letter-spacing: 2px; line-height: 1; margin-bottom: 10px;
-  background: linear-gradient(135deg, #fff 0%, #fff 30%, var(--accent) 60%, var(--primary) 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  filter: drop-shadow(0 4px 15px rgba(255, 107, 53, 0.2));
-}
-.hero-subtitle {
-  font-family: 'Oswald', sans-serif;
-  font-size: clamp(0.9rem, 2.5vw, 1.2rem); font-weight: 400;
-  color: var(--text-dim); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 14px;
-}
-.hero-divider {
-  width: 100px; height: 4px; margin: 20px auto;
-  background: linear-gradient(90deg, transparent, var(--primary), var(--accent), var(--secondary), transparent);
-  border-radius: 2px; box-shadow: 0 0 15px rgba(255, 107, 53, 0.4);
-}
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #000; font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; padding: 8px 20px; border-radius: 30px; margin-bottom: 16px; box-shadow: 0 0 20px rgba(255, 107, 53, 0.4); animation: pulse-glow 3s ease-in-out infinite; }
+@keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 53, 0.4); } 50% { box-shadow: 0 0 35px rgba(255, 107, 53, 0.6); } }
+.hero-title { font-family: 'Oswald', sans-serif; font-size: clamp(2.2rem, 7vw, 4rem); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; line-height: 1; margin-bottom: 10px; background: linear-gradient(135deg, #fff 0%, #fff 30%, var(--accent) 60%, var(--primary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 4px 15px rgba(255, 107, 53, 0.2)); }
+.hero-subtitle { font-family: 'Oswald', sans-serif; font-size: clamp(0.9rem, 2.5vw, 1.2rem); font-weight: 400; color: var(--text-dim); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 14px; }
+.hero-divider { width: 100px; height: 4px; margin: 20px auto; background: linear-gradient(90deg, transparent, var(--primary), var(--accent), var(--secondary), transparent); border-radius: 2px; box-shadow: 0 0 15px rgba(255, 107, 53, 0.4); }
 .hero-stats { display: flex; justify-content: center; gap: 30px; margin-top: 20px; flex-wrap: wrap; }
 .hero-stat { text-align: center; }
-.hero-stat-value {
-  font-family: 'Oswald', sans-serif; font-size: 2rem; font-weight: 700;
-  background: linear-gradient(135deg, var(--accent), var(--primary));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1;
-}
+.hero-stat-value { font-family: 'Oswald', sans-serif; font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
 .hero-stat-label { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px; margin-top: 4px; }
 
-.btn {
-  border: none; border-radius: 10px; font-family: 'Inter', sans-serif;
-  font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
-  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  text-decoration: none; white-space: nowrap; min-height: 38px; padding: 8px 16px;
-  will-change: transform;
-}
+.btn { border: none; border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; white-space: nowrap; min-height: 38px; padding: 8px 16px; will-change: transform; }
 .btn-primary { background: linear-gradient(135deg, var(--primary), #ff9248); color: #000; box-shadow: 0 4px 12px var(--canhan-glow); }
 .btn-primary:hover:not(:disabled) { transform: translateY(-1px); }
 .btn-success { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
@@ -162,251 +77,100 @@ body.paused-animations .floating-balls { display: none; }
 .btn-secondary { background: var(--bg-card); color: var(--text); border: 1px solid var(--border); }
 .btn-secondary:hover:not(:disabled) { background: var(--bg-card-hover); }
 .btn-ghost { background: rgba(255, 255, 255, 0.1); color: var(--text); border: 1px solid var(--border); }
-.btn-export {
-  background: linear-gradient(135deg, var(--accent), var(--primary));
-  color: #000; font-weight: 700;
-  box-shadow: 0 4px 14px var(--canhan-glow);
-  padding: 10px 20px;
-}
+.btn-export { background: linear-gradient(135deg, var(--accent), var(--primary)); color: #000; font-weight: 700; box-shadow: 0 4px 14px var(--canhan-glow); padding: 10px 20px; }
 .btn-sm { padding: 6px 10px; font-size: 0.72rem; min-height: 32px; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.btn-home-3d {
-  background: linear-gradient(135deg, var(--primary) 0%, #ff9248 50%, var(--accent) 100%);
-  color: #000; font-weight: 800; padding: 11px 22px; border-radius: 12px;
-  box-shadow: 0 4px 0 #c2410c, 0 6px 12px rgba(255, 107, 53, 0.3);
-  transform: translateY(0); transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 1.5px;
-  font-size: 0.85rem; border: none; cursor: pointer; display: inline-flex;
-  align-items: center; gap: 7px; position: relative; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
-}
+.btn-home-3d { background: linear-gradient(135deg, var(--primary) 0%, #ff9248 50%, var(--accent) 100%); color: #000; font-weight: 800; padding: 11px 22px; border-radius: 12px; box-shadow: 0 4px 0 #c2410c, 0 6px 12px rgba(255, 107, 53, 0.3); transform: translateY(0); transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.85rem; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; position: relative; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3); }
 .btn-home-3d:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #c2410c, 0 10px 20px rgba(255, 107, 53, 0.4); }
 .btn-home-3d:active { transform: translateY(2px); box-shadow: 0 2px 0 #c2410c, 0 3px 8px rgba(255, 107, 53, 0.3); }
 .btn-home-3d .home-icon { font-size: 1.1rem; }
-
-.btn-spinner {
-  display: inline-block; width: 14px; height: 14px;
-  border: 2px solid rgba(255, 255, 255, 0.3); border-top-color: currentColor;
-  border-radius: 50%; animation: spin 0.6s linear infinite;
-}
+.btn-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255, 255, 255, 0.3); border-top-color: currentColor; border-radius: 50%; animation: spin 0.6s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .section { margin-bottom: 50px; }
-.section-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--border);
-  position: relative; flex-wrap: wrap; gap: 12px;
-}
-.section-header::before {
-  content: ''; position: absolute; bottom: -2px; left: 0;
-  width: 120px; height: 2px; background: linear-gradient(90deg, var(--primary), transparent);
-}
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--border); position: relative; flex-wrap: wrap; gap: 12px; }
+.section-header::before { content: ''; position: absolute; bottom: -2px; left: 0; width: 120px; height: 2px; background: linear-gradient(90deg, var(--primary), transparent); }
 .section-header.capdoi::before { background: linear-gradient(90deg, var(--capdoi-1), transparent); }
 .section-header.canhan::before { background: linear-gradient(90deg, var(--canhan-1), transparent); }
 .section-title-wrap { display: flex; align-items: center; gap: 14px; }
-.section-icon {
-  width: 56px; height: 56px; border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.6rem; flex-shrink: 0; position: relative;
-  transition: transform 0.3s;
-}
+.section-icon { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; flex-shrink: 0; position: relative; transition: transform 0.3s; }
 .section-icon:hover { transform: scale(1.1); }
-.section-icon.capdoi {
-  background: linear-gradient(135deg, var(--capdoi-1), var(--capdoi-2));
-  box-shadow: 0 8px 20px var(--capdoi-glow);
-}
-.section-icon.canhan {
-  background: linear-gradient(135deg, var(--canhan-1), var(--canhan-2));
-  box-shadow: 0 8px 20px var(--canhan-glow);
-}
-.section-title {
-  font-family: 'Oswald', sans-serif;
-  font-size: clamp(1.3rem, 4vw, 2rem); font-weight: 700;
-  text-transform: uppercase; letter-spacing: 1px; color: var(--text);
-}
-.section-title span {
-  display: block; font-size: 0.8rem; font-weight: 400;
-  color: var(--text-dim); letter-spacing: 2px; margin-top: 2px;
-}
-.section-count {
-  background: var(--bg-card); border: 1px solid var(--border);
-  padding: 8px 16px; border-radius: 20px;
-  font-family: 'Oswald', sans-serif; font-size: 0.85rem; color: var(--text-dim);
-}
+.section-icon.capdoi { background: linear-gradient(135deg, var(--capdoi-1), var(--capdoi-2)); box-shadow: 0 8px 20px var(--capdoi-glow); }
+.section-icon.canhan { background: linear-gradient(135deg, var(--canhan-1), var(--canhan-2)); box-shadow: 0 8px 20px var(--canhan-glow); }
+.section-title { font-family: 'Oswald', sans-serif; font-size: clamp(1.3rem, 4vw, 2rem); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); }
+.section-title span { display: block; font-size: 0.8rem; font-weight: 400; color: var(--text-dim); letter-spacing: 2px; margin-top: 2px; }
+.section-count { background: var(--bg-card); border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-family: 'Oswald', sans-serif; font-size: 0.85rem; color: var(--text-dim); }
 .section-count b { color: var(--accent); font-size: 1rem; }
 
 .tour-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 22px; }
-
-.tour-card {
-  position: relative; background: var(--bg-card);
-  border: 1px solid var(--border); border-radius: 18px;
-  padding: 22px; cursor: pointer; overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  animation: cardEntry 0.5s ease backwards;
-}
-@keyframes cardEntry {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+.tour-card { position: relative; background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; padding: 22px; cursor: pointer; overflow: hidden; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); animation: cardEntry 0.5s ease backwards; }
+@keyframes cardEntry { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 .tour-card:hover { transform: translateY(-6px); border-color: rgba(255, 255, 255, 0.15); }
 .tour-card.capdoi:hover { box-shadow: 0 15px 30px -10px var(--capdoi-glow); border-color: var(--capdoi-1); }
 .tour-card.canhan:hover { box-shadow: 0 15px 30px -10px var(--canhan-glow); border-color: var(--canhan-1); }
-
-.tour-card::after {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-  background: linear-gradient(90deg, var(--capdoi-1), var(--capdoi-2));
-  border-radius: 18px 18px 0 0;
-}
+.tour-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--capdoi-1), var(--capdoi-2)); border-radius: 18px 18px 0 0; }
 .tour-card.canhan::after { background: linear-gradient(90deg, var(--canhan-1), var(--canhan-2)); }
-
-.tour-type-badge {
-  position: absolute; top: 14px; right: 14px;
-  font-family: 'Oswald', sans-serif; font-size: 0.68rem; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 1px;
-  padding: 4px 10px; border-radius: 10px;
-  background: rgba(255, 255, 255, 0.08); color: var(--text-dim);
-}
-.tour-creator-badge {
-  position: absolute; top: 14px; left: 14px;
-  font-family: 'Oswald', sans-serif; font-size: 0.68rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 1px;
-  padding: 4px 10px; border-radius: 10px;
-  display: inline-flex; align-items: center; gap: 5px;
-  z-index: 2; max-width: calc(100% - 100px); overflow: hidden;
-}
-.tour-creator-badge.badge-admin {
-  background: linear-gradient(135deg, var(--accent), var(--gold));
-  color: #000; box-shadow: 0 2px 8px rgba(255, 209, 102, 0.4);
-}
-.tour-creator-badge.badge-user {
-  background: linear-gradient(135deg, var(--green), #16a34a);
-  color: #fff; box-shadow: 0 2px 8px rgba(34, 197, 94, 0.4);
-}
+.tour-type-badge { position: absolute; top: 14px; right: 14px; font-family: 'Oswald', sans-serif; font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; padding: 4px 10px; border-radius: 10px; background: rgba(255, 255, 255, 0.08); color: var(--text-dim); }
+.tour-creator-badge { position: absolute; top: 14px; left: 14px; font-family: 'Oswald', sans-serif; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 4px 10px; border-radius: 10px; display: inline-flex; align-items: center; gap: 5px; z-index: 2; max-width: calc(100% - 100px); overflow: hidden; }
+.tour-creator-badge.badge-admin { background: linear-gradient(135deg, var(--accent), var(--gold)); color: #000; box-shadow: 0 2px 8px rgba(255, 209, 102, 0.4); }
+.tour-creator-badge.badge-user { background: linear-gradient(135deg, var(--green), #16a34a); color: #fff; box-shadow: 0 2px 8px rgba(34, 197, 94, 0.4); }
 .tour-creator-badge .creator-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 120px; }
-
-.tour-icon {
-  font-size: 2.3rem; margin-bottom: 10px; display: inline-block;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3)); transition: transform 0.3s;
-}
+.tour-icon { font-size: 2.3rem; margin-bottom: 10px; display: inline-block; filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3)); transition: transform 0.3s; }
 .tour-card:hover .tour-icon { transform: translateY(-4px) scale(1.1) rotate(-5deg); }
-.tour-name {
-  font-family: 'Oswald', sans-serif; font-size: 1.3rem; font-weight: 700;
-  margin-bottom: 10px; color: var(--text); line-height: 1.2;
-  padding-right: 80px; word-break: break-word;
-}
+.tour-name { font-family: 'Oswald', sans-serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; color: var(--text); line-height: 1.2; padding-right: 80px; word-break: break-word; }
 .tour-meta { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
 .tour-meta-item { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-dim); }
 .tour-meta-item .icon { font-size: 0.95rem; opacity: 0.7; }
 .tour-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid var(--border); }
 .tour-creator { font-size: 0.73rem; color: var(--text-dim); display: flex; align-items: center; gap: 6px; }
-.tour-arrow {
-  width: 38px; height: 38px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.1rem; transition: all 0.3s;
-}
+.tour-arrow { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; transition: all 0.3s; }
 .tour-card.capdoi .tour-arrow { background: linear-gradient(135deg, var(--capdoi-1), var(--capdoi-2)); color: #fff; }
 .tour-card.canhan .tour-arrow { background: linear-gradient(135deg, var(--canhan-1), var(--canhan-2)); color: #fff; }
 .tour-card:hover .tour-arrow { transform: translateX(4px); }
 
-.empty-state {
-  text-align: center; padding: 50px 20px; color: var(--text-dim);
-  grid-column: 1 / -1; background: var(--bg-card);
-  border-radius: 18px; border: 1px dashed var(--border);
-}
+.empty-state { text-align: center; padding: 50px 20px; color: var(--text-dim); grid-column: 1 / -1; background: var(--bg-card); border-radius: 18px; border: 1px dashed var(--border); }
 .empty-state .icon { font-size: 3.5rem; margin-bottom: 14px; opacity: 0.3; filter: grayscale(0.5); }
 .empty-state h3 { font-family: 'Oswald', sans-serif; font-size: 1.1rem; color: var(--text); margin-bottom: 6px; }
 .empty-state p { font-size: 0.85rem; line-height: 1.5; }
 .empty-state .highlight { color: var(--accent); font-weight: 600; }
 
 .loading { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 40px; grid-column: 1 / -1; }
-.loading-spinner {
-  width: 44px; height: 44px;
-  border: 3px solid var(--border); border-top-color: var(--primary);
-  border-radius: 50%; animation: rotate 0.8s linear infinite;
-}
+.loading-spinner { width: 44px; height: 44px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: rotate 0.8s linear infinite; }
 @keyframes rotate { to { transform: rotate(360deg); } }
 .loading-text { font-family: 'Oswald', sans-serif; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; color: var(--text-dim); }
 
 .detail-screen { display: none; animation: fadeIn 0.3s ease; }
 .detail-screen.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-.detail-hero {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 24px;
-  margin-bottom: 20px;
-  position: relative;
-  overflow: hidden;
-}
+.detail-hero { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; margin-bottom: 20px; position: relative; overflow: hidden; }
 .detail-hero.capdoi { border-left: 5px solid var(--capdoi-1); }
 .detail-hero.canhan { border-left: 5px solid var(--canhan-1); }
-.detail-hero::before {
-  content: ''; position: absolute; top: 0; right: 0; width: 200px; height: 200px;
-  background: radial-gradient(circle, var(--capdoi-glow) 0%, transparent 70%);
-  opacity: 0.2; pointer-events: none;
-}
+.detail-hero::before { content: ''; position: absolute; top: 0; right: 0; width: 200px; height: 200px; background: radial-gradient(circle, var(--capdoi-glow) 0%, transparent 70%); opacity: 0.2; pointer-events: none; }
 .detail-hero.canhan::before { background: radial-gradient(circle, var(--canhan-glow) 0%, transparent 70%); }
 .detail-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; position: relative; z-index: 1; }
 .detail-title-wrap { flex: 1; min-width: 0; position: relative; z-index: 1; }
-.detail-type-badge {
-  display: inline-block; font-family: 'Oswald', sans-serif;
-  font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
-  padding: 3px 10px; border-radius: 10px; margin-bottom: 8px;
-}
+.detail-type-badge { display: inline-block; font-family: 'Oswald', sans-serif; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; padding: 3px 10px; border-radius: 10px; margin-bottom: 8px; }
 .detail-type-badge.capdoi { background: rgba(22, 163, 74, 0.2); color: var(--capdoi-1); border: 1px solid rgba(22, 163, 74, 0.4); }
 .detail-type-badge.canhan { background: rgba(255, 107, 53, 0.2); color: var(--canhan-1); border: 1px solid rgba(255, 107, 53, 0.4); }
-.detail-title {
-  font-family: 'Oswald', sans-serif; font-size: clamp(1.5rem, 5vw, 2.2rem);
-  font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-  color: var(--text); line-height: 1.1; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-}
-.edit-name-btn {
-  background: none; border: none; color: var(--text-dim);
-  cursor: pointer; font-size: 1rem; padding: 4px 8px;
-  border-radius: 6px; transition: all 0.2s;
-}
+.detail-title { font-family: 'Oswald', sans-serif; font-size: clamp(1.5rem, 5vw, 2.2rem); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); line-height: 1.1; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.edit-name-btn { background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 1rem; padding: 4px 8px; border-radius: 6px; transition: all 0.2s; }
 .edit-name-btn:hover { color: var(--accent); background: rgba(255, 255, 255, 0.05); }
 .detail-info { display: flex; gap: 16px; flex-wrap: wrap; font-size: 0.85rem; color: var(--text-dim); margin-top: 10px; position: relative; z-index: 1; }
 .detail-info-item { display: flex; align-items: center; gap: 6px; }
 .detail-actions { display: flex; gap: 8px; flex-wrap: wrap; position: relative; z-index: 1; }
 
-.detail-tabs {
-  display: flex; background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: 14px; padding: 4px; margin-bottom: 16px; gap: 2px;
-}
-.detail-tab {
-  flex: 1; padding: 10px 8px; background: transparent; border: none;
-  font-weight: 700; font-size: 0.85rem; color: var(--text-dim);
-  cursor: pointer; border-radius: 10px; transition: all 0.2s;
-  display: flex; align-items: center; justify-content: center; gap: 5px;
-  font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.5px;
-}
-.detail-tab.active {
-  background: linear-gradient(135deg, var(--primary), #ff9248);
-  color: #000; box-shadow: 0 4px 12px var(--canhan-glow);
-}
+.detail-tabs { display: flex; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 4px; margin-bottom: 16px; gap: 2px; }
+.detail-tab { flex: 1; padding: 10px 8px; background: transparent; border: none; font-weight: 700; font-size: 0.85rem; color: var(--text-dim); cursor: pointer; border-radius: 10px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 5px; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
+.detail-tab.active { background: linear-gradient(135deg, var(--primary), #ff9248); color: #000; box-shadow: 0 4px 12px var(--canhan-glow); }
 .detail-tab.active.capdoi { background: linear-gradient(135deg, var(--capdoi-1), var(--capdoi-2)); box-shadow: 0 4px 12px var(--capdoi-glow); }
 .detail-tab-content { display: none; animation: fadeIn 0.3s; }
 .detail-tab-content.active { display: block; }
 
-.admin-controls {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: 16px; padding: 18px; margin-bottom: 16px;
-}
-.admin-controls h3 {
-  font-family: 'Oswald', sans-serif; font-size: 0.95rem;
-  color: var(--accent); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;
-  display: flex; align-items: center; gap: 8px;
-}
+.admin-controls { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 16px; }
+.admin-controls h3 { font-family: 'Oswald', sans-serif; font-size: 0.95rem; color: var(--accent); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
 .input-row { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
-.input-row input, .input-row select {
-  flex: 1; min-width: 0;
-  background: var(--bg-deeper); border: 1px solid var(--border);
-  color: var(--text); padding: 10px 12px; border-radius: 10px;
-  font-size: 0.85rem; font-family: 'Inter', sans-serif; transition: all 0.2s;
-}
+.input-row input, .input-row select { flex: 1; min-width: 0; background: var(--bg-deeper); border: 1px solid var(--border); color: var(--text); padding: 10px 12px; border-radius: 10px; font-size: 0.85rem; font-family: 'Inter', sans-serif; transition: all 0.2s; }
 .input-row input:disabled { opacity: 0.4; cursor: not-allowed; background: var(--bg-card-hover); color: var(--text-dim); }
 .input-row input:focus:not(:disabled), .input-row select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1); }
 
@@ -418,44 +182,18 @@ body.paused-animations .floating-balls { display: none; }
 .admin-inline { display: none; }
 
 .chip-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; max-height: 150px; overflow-y: auto; padding: 4px 0; }
-.chip {
-  background: var(--bg-card-hover); border: 1px solid var(--border);
-  padding: 5px 10px; border-radius: 20px; font-size: 0.78rem;
-  display: inline-flex; align-items: center; gap: 5px;
-  animation: chipIn 0.3s ease;
-}
+.chip { background: var(--bg-card-hover); border: 1px solid var(--border); padding: 5px 10px; border-radius: 20px; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 5px; animation: chipIn 0.3s ease; }
 @keyframes chipIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
 .chip .name { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.chip button {
-  background: none; border: none; color: var(--red);
-  cursor: pointer; font-weight: 700; padding: 0 3px; font-size: 0.9rem;
-  border-radius: 50%; transition: background 0.2s;
-}
+.chip button { background: none; border: none; color: var(--red); cursor: pointer; font-weight: 700; padding: 0 3px; font-size: 0.9rem; border-radius: 50%; transition: background 0.2s; }
 .chip button:hover { background: rgba(239, 68, 68, 0.15); }
-.counter-pill {
-  background: var(--primary); color: #000;
-  padding: 2px 9px; border-radius: 20px;
-  font-size: 0.72rem; font-weight: 800; font-family: 'Oswald', sans-serif;
-}
+.counter-pill { background: var(--primary); color: #000; padding: 2px 9px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; font-family: 'Oswald', sans-serif; }
 
-.card {
-  background: var(--bg-card); border: 1px solid var(--border);
-  border-radius: 16px; padding: 18px; margin-bottom: 16px;
-}
-.card-title {
-  font-family: 'Oswald', sans-serif; font-size: 0.95rem;
-  color: var(--accent); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;
-  display: flex; align-items: center; gap: 8px;
-}
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 16px; }
+.card-title { font-family: 'Oswald', sans-serif; font-size: 0.95rem; color: var(--accent); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
 .rank-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; border: 1px solid var(--border); }
 .rank-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
-.rank-table thead th {
-  background: rgba(255, 107, 53, 0.1); padding: 10px 6px;
-  font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 0.7rem;
-  text-transform: uppercase; letter-spacing: 0.5px; text-align: center;
-  color: var(--accent); border-bottom: 2px solid var(--primary);
-  white-space: nowrap; position: sticky; top: 0;
-}
+.rank-table thead th { background: rgba(255, 107, 53, 0.1); padding: 10px 6px; font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; color: var(--accent); border-bottom: 2px solid var(--primary); white-space: nowrap; position: sticky; top: 0; }
 .rank-table thead th:first-child { width: 40px; padding-left: 10px; }
 .rank-table thead th:nth-child(2) { text-align: left; padding-left: 10px; min-width: 100px; }
 .rank-table tbody tr { border-bottom: 1px solid var(--border); transition: background 0.2s; }
@@ -464,11 +202,7 @@ body.paused-animations .floating-balls { display: none; }
 .rank-table td { padding: 10px 6px; text-align: center; vertical-align: middle; font-size: 0.8rem; }
 .rank-table td:first-child { padding-left: 10px; }
 .rank-table td:nth-child(2) { text-align: left; padding-left: 10px; font-weight: 600; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.rank-num {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 26px; height: 26px; border-radius: 50%;
-  font-size: 0.78rem; font-family: 'Oswald', sans-serif; font-weight: 700;
-}
+.rank-num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; font-size: 0.78rem; font-family: 'Oswald', sans-serif; font-weight: 700; }
 .r1 { background: linear-gradient(135deg, #ffd700, #ffaa00); color: #000; box-shadow: 0 0 10px rgba(255, 215, 0, 0.4); }
 .r2 { background: linear-gradient(135deg, #c0c0c0, #8a8a8a); color: #000; }
 .r3 { background: linear-gradient(135deg, #cd7f32, #a05a18); color: #fff; }
@@ -478,26 +212,11 @@ body.paused-animations .floating-balls { display: none; }
 .points-cell { font-weight: 800; font-size: 1rem; color: var(--accent); }
 
 .match-grid { display: grid; gap: 12px; }
-.match-card {
-  background: var(--bg-card); border-radius: 14px;
-  border: 1px solid var(--border); overflow: hidden;
-  transition: all 0.2s ease;
-  animation: fadeUp 0.4s ease forwards; opacity: 0;
-  position: relative;
-}
+.match-card { background: var(--bg-card); border-radius: 14px; border: 1px solid var(--border); overflow: hidden; transition: all 0.2s ease; animation: fadeUp 0.4s ease forwards; opacity: 0; position: relative; }
 .match-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 107, 53, 0.1); border-color: rgba(255, 107, 53, 0.2); }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-.mc-head {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 8px 12px; background: rgba(255, 255, 255, 0.02);
-  border-bottom: 1px solid var(--border);
-}
-.mc-round {
-  font-family: 'Oswald', sans-serif; font-size: 0.7rem; font-weight: 600;
-  letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-dim);
-  background: var(--bg-card-hover); padding: 3px 10px; border-radius: 10px;
-  border: 1px solid var(--border);
-}
+.mc-head { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: rgba(255, 255, 255, 0.02); border-bottom: 1px solid var(--border); }
+.mc-round { font-family: 'Oswald', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-dim); background: var(--bg-card-hover); padding: 3px 10px; border-radius: 10px; border: 1px solid var(--border); }
 .mc-status { font-size: 0.65rem; font-weight: 700; padding: 3px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.3px; }
 .mc-status.done { background: rgba(34, 197, 94, 0.15); color: var(--green); border: 1px solid rgba(34, 197, 94, 0.3); }
 .mc-status.wait { background: rgba(255, 209, 102, 0.15); color: var(--accent); border: 1px solid rgba(255, 209, 102, 0.3); }
@@ -508,108 +227,49 @@ body.paused-animations .floating-balls { display: none; }
 .mc-team-names { font-weight: 600; font-size: 0.85rem; line-height: 1.3; word-break: break-word; }
 .mc-team-names .amp { display: block; color: var(--text-dim); font-weight: 400; font-size: 0.7rem; margin: 1px 0; }
 .mc-vs { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; min-width: 58px; }
-.vs-circle {
-  width: 32px; height: 32px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 0.72rem; color: #000;
-  box-shadow: 0 4px 12px var(--canhan-glow);
-}
+.vs-circle { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center; font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 0.72rem; color: #000; box-shadow: 0 4px 12px var(--canhan-glow); }
 .mc-score-row { display: flex; align-items: center; gap: 4px; }
-.mc-score {
-  font-family: 'Oswald', sans-serif; font-size: 1.1rem; font-weight: 700;
-  min-width: 28px; text-align: center; padding: 3px 6px; border-radius: 6px;
-}
+.mc-score { font-family: 'Oswald', sans-serif; font-size: 1.1rem; font-weight: 700; min-width: 28px; text-align: center; padding: 3px 6px; border-radius: 6px; }
 .mc-score.s1 { color: var(--primary); background: rgba(255, 107, 53, 0.15); border: 1px solid rgba(255, 107, 53, 0.3); }
 .mc-score.s2 { color: var(--secondary); background: rgba(0, 180, 216, 0.15); border: 1px solid rgba(0, 180, 216, 0.3); }
 .mc-score.winner-score { color: var(--green) !important; background: rgba(34, 197, 94, 0.15) !important; border-color: rgba(34, 197, 94, 0.3) !important; font-size: 1.2rem; }
 .mc-score.loser-score { color: var(--text-dim) !important; opacity: 0.7; }
 .mc-score.sep { color: var(--text-dim); font-size: 0.9rem; padding: 0; background: none; border: none; min-width: auto; }
 .mc-noscore { color: var(--text-dim); font-size: 0.72rem; font-style: italic; }
-.score-input {
-  width: 42px; background: var(--bg-deeper); border: 1px solid var(--border);
-  color: var(--text); text-align: center;
-  font-family: 'Oswald', sans-serif; font-size: 1.05rem; font-weight: 700;
-  padding: 5px 3px; border-radius: 7px;
-}
+.score-input { width: 42px; background: var(--bg-deeper); border: 1px solid var(--border); color: var(--text); text-align: center; font-family: 'Oswald', sans-serif; font-size: 1.05rem; font-weight: 700; padding: 5px 3px; border-radius: 7px; }
 .score-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.15); }
 .mc-actions { margin-top: 8px; display: flex; gap: 5px; justify-content: center; }
 
-.modal-overlay {
-  display: none; position: fixed; inset: 0;
-  background: rgba(10, 14, 26, 0.85); 
-  backdrop-filter: blur(4px); 
-  z-index: 1000; align-items: center; justify-content: center; padding: 16px;
-}
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(10, 14, 26, 0.85); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 16px; }
 .modal-overlay.show { display: flex; animation: modalOverlayIn 0.2s; }
 @keyframes modalOverlayIn { from { opacity: 0; } to { opacity: 1; } }
-.modal-box {
-  background: var(--bg-card-solid); border: 1px solid var(--border);
-  padding: 24px; border-radius: 18px;
-  width: 100%; max-width: 400px;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-  animation: modalPop 0.3s; position: relative;
-}
+.modal-box { background: var(--bg-card-solid); border: 1px solid var(--border); padding: 24px; border-radius: 18px; width: 100%; max-width: 400px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5); animation: modalPop 0.3s; position: relative; }
 @keyframes modalPop { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-.modal-box h2 {
-  font-family: 'Oswald', sans-serif; font-size: 1.2rem;
-  text-align: center; margin-bottom: 16px; color: var(--accent);
-  text-transform: uppercase; letter-spacing: 0.5px;
-}
-
+.modal-box h2 { font-family: 'Oswald', sans-serif; font-size: 1.2rem; text-align: center; margin-bottom: 16px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
 .pwd-wrapper { position: relative; flex: 1; }
 .pwd-wrapper input { width: 100%; padding-right: 42px !important; }
-.pwd-toggle {
-  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
-  background: none; border: none; color: var(--text-dim);
-  cursor: pointer; padding: 4px 6px; font-size: 1rem;
-  border-radius: 4px; transition: all 0.2s; min-height: auto; min-width: auto;
-}
+.pwd-toggle { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-dim); cursor: pointer; padding: 4px 6px; font-size: 1rem; border-radius: 4px; transition: all 0.2s; min-height: auto; min-width: auto; }
 .pwd-toggle:hover:not(:disabled) { color: var(--accent); background: rgba(255, 255, 255, 0.05); }
-
 .input-helper { font-size: 0.72rem; color: var(--text-dim); margin-top: -4px; margin-bottom: 8px; padding-left: 4px; font-weight: 500; }
 .input-helper.err { color: var(--red); }
 .input-helper.ok { color: var(--green); }
 .input-helper.loading { color: var(--accent); }
-
-.modal-close-x {
-  position: absolute; top: 12px; right: 12px;
-  background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);
-  color: var(--text-dim); width: 28px; height: 28px; border-radius: 50%;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  font-size: 1rem; transition: all 0.2s; z-index: 2;
-}
+.modal-close-x { position: absolute; top: 12px; right: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); color: var(--text-dim); width: 28px; height: 28px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: all 0.2s; z-index: 2; }
 .modal-close-x:hover { background: rgba(239, 68, 68, 0.2); color: var(--red); border-color: rgba(239, 68, 68, 0.3); }
-
 .modal-link { color: var(--primary); font-weight: 700; cursor: pointer; text-decoration: none; transition: color 0.2s; }
 .modal-link:hover { color: var(--accent); text-decoration: underline; }
-
 .pwd-strength { display: flex; gap: 3px; margin-top: -4px; margin-bottom: 8px; }
 .pwd-strength-bar { flex: 1; height: 3px; background: var(--border); border-radius: 2px; transition: background 0.3s; }
 .pwd-strength-bar.active.weak { background: var(--red); }
 .pwd-strength-bar.active.medium { background: var(--accent); }
 .pwd-strength-bar.active.strong { background: var(--green); }
 
-#toast {
-  position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px);
-  background: var(--bg-card-solid); color: var(--text);
-  padding: 12px 22px; border-radius: 12px;
-  font-size: 0.85rem; font-weight: 600; z-index: 9999;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-  border-left: 4px solid var(--green);
-  max-width: 90vw; text-align: center;
-  transition: transform 0.3s;
-}
+#toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: var(--bg-card-solid); color: var(--text); padding: 12px 22px; border-radius: 12px; font-size: 0.85rem; font-weight: 600; z-index: 9999; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); border-left: 4px solid var(--green); max-width: 90vw; text-align: center; transition: transform 0.3s; }
 #toast.show { transform: translateX(-50%) translateY(0); }
 #toast.err { border-left-color: var(--red); }
 
 #exportArea { position: absolute; left: -9999px; top: 0; width: 800px; }
-.export-card {
-  width: 800px; min-height: 600px; padding: 40px;
-  background: linear-gradient(135deg, rgba(30, 64, 175, 0.95) 0%, rgba(37, 99, 235, 0.95) 50%, rgba(59, 130, 246, 0.95) 100%),
-  repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(255, 255, 255, 0.04) 30px, rgba(255, 255, 255, 0.04) 60px);
-  color: #fff; font-family: 'Inter', sans-serif; position: relative; overflow: hidden;
-}
+.export-card { width: 800px; min-height: 600px; padding: 40px; background: linear-gradient(135deg, rgba(30, 64, 175, 0.95) 0%, rgba(37, 99, 235, 0.95) 50%, rgba(59, 130, 246, 0.95) 100%), repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(255, 255, 255, 0.04) 30px, rgba(255, 255, 255, 0.04) 60px); color: #fff; font-family: 'Inter', sans-serif; position: relative; overflow: hidden; }
 .export-card::before { content: '🏆'; position: absolute; font-size: 300px; opacity: 0.08; right: -50px; bottom: -80px; transform: rotate(-15deg); }
 .export-header { text-align: center; margin-bottom: 30px; position: relative; z-index: 1; }
 .export-title { font-family: 'Oswald', sans-serif; font-size: 40px; font-weight: 900; letter-spacing: -1px; text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); margin-bottom: 8px; color: #fbbf24; text-transform: uppercase; }
@@ -632,66 +292,31 @@ body.paused-animations .floating-balls { display: none; }
 .export-table .thua { color: #dc2626 !important; font-weight: 800; }
 .export-footer { text-align: center; margin-top: 24px; font-size: 13px; opacity: 0.9; font-weight: 600; position: relative; z-index: 1; color: #fff; }
 
-.footer {
-  text-align: center; padding: 40px 20px; color: var(--text-dim);
-  font-size: 0.82rem; border-top: 1px solid var(--border); margin-top: 30px;
-}
-.footer-brand {
-  font-family: 'Oswald', sans-serif; font-weight: 700;
-  color: var(--accent); font-size: 1rem; letter-spacing: 2px; margin-bottom: 6px;
-}
+.footer { text-align: center; padding: 40px 20px; color: var(--text-dim); font-size: 0.82rem; border-top: 1px solid var(--border); margin-top: 30px; }
+.footer-brand { font-family: 'Oswald', sans-serif; font-weight: 700; color: var(--accent); font-size: 1rem; letter-spacing: 2px; margin-bottom: 6px; }
 
 @media (max-width: 768px) {
-  .wrapper { padding: 12px; }
-  .hero { padding: 15px 12px 25px; }
-  .hero-stats { gap: 18px; }
-  .hero-stat-value { font-size: 1.6rem; }
-  .tour-grid { grid-template-columns: 1fr; gap: 14px; }
-  .tour-card { padding: 18px; }
-  .section-header { flex-direction: column; align-items: flex-start; }
-  .section-icon { width: 48px; height: 48px; font-size: 1.4rem; }
-  .section-title { font-size: 1.2rem; }
-  .auth-btns { gap: 6px; margin-bottom: 16px; }
-  .auth-btns .btn { padding: 5px 10px; font-size: 0.7rem; min-height: 32px; }
-  .user-chip { padding: 5px 10px; font-size: 0.72rem; max-width: 150px; }
-  .detail-hero { padding: 18px; }
-  .detail-title { font-size: 1.4rem; }
-  .btn-home-3d { padding: 9px 16px; font-size: 0.78rem; }
-  .rank-table { font-size: 0.75rem; }
-  .rank-table thead th { font-size: 0.65rem; padding: 8px 4px; }
-  .rank-table td { padding: 8px 4px; font-size: 0.73rem; }
-  .rank-table td:nth-child(2) { max-width: 120px; font-size: 0.75rem; }
-  .mc-team-names { font-size: 0.78rem; }
-  .mc-score { font-size: 1rem; min-width: 26px; }
-  .score-input { width: 38px; font-size: 0.95rem; }
-  .vs-circle { width: 30px; height: 30px; font-size: 0.7rem; }
-  .tour-creator-badge .creator-name { max-width: 90px; }
+  .wrapper { padding: 12px; } .hero { padding: 15px 12px 25px; } .hero-stats { gap: 18px; } .hero-stat-value { font-size: 1.6rem; }
+  .tour-grid { grid-template-columns: 1fr; gap: 14px; } .tour-card { padding: 18px; }
+  .section-header { flex-direction: column; align-items: flex-start; } .section-icon { width: 48px; height: 48px; font-size: 1.4rem; } .section-title { font-size: 1.2rem; }
+  .auth-btns { gap: 6px; margin-bottom: 16px; } .auth-btns .btn { padding: 5px 10px; font-size: 0.7rem; min-height: 32px; } .user-chip { padding: 5px 10px; font-size: 0.72rem; max-width: 150px; }
+  .detail-hero { padding: 18px; } .detail-title { font-size: 1.4rem; } .btn-home-3d { padding: 9px 16px; font-size: 0.78rem; }
+  .rank-table { font-size: 0.75rem; } .rank-table thead th { font-size: 0.65rem; padding: 8px 4px; } .rank-table td { padding: 8px 4px; font-size: 0.73rem; } .rank-table td:nth-child(2) { max-width: 120px; font-size: 0.75rem; }
+  .mc-team-names { font-size: 0.78rem; } .mc-score { font-size: 1rem; min-width: 26px; } .score-input { width: 38px; font-size: 0.95rem; } .vs-circle { width: 30px; height: 30px; font-size: 0.7rem; } .tour-creator-badge .creator-name { max-width: 90px; }
 }
-
 @media (max-width: 480px) {
-  .hero-title { font-size: 1.8rem; letter-spacing: 1px; }
-  .tour-name { font-size: 1.15rem; }
-  .detail-title { font-size: 1.2rem; }
-  .auth-btns { flex-wrap: wrap; gap: 5px; }
-  .rank-table td:nth-child(2) { max-width: 90px; }
-  .tour-creator-badge { font-size: 0.6rem; padding: 3px 8px; }
-  .tour-creator-badge .creator-name { max-width: 70px; }
+  .hero-title { font-size: 1.8rem; letter-spacing: 1px; } .tour-name { font-size: 1.15rem; } .detail-title { font-size: 1.2rem; } .auth-btns { flex-wrap: wrap; gap: 5px; }
+  .rank-table td:nth-child(2) { max-width: 90px; } .tour-creator-badge { font-size: 0.6rem; padding: 3px 8px; } .tour-creator-badge .creator-name { max-width: 70px; }
 }
 </style>
 </head>
 <body>
 
-<div class="floating-balls">
-  <div class="ball ball-1"></div>
-  <div class="ball ball-2"></div>
-  <div class="ball ball-3"></div>
-</div>
-
+<div class="floating-balls"><div class="ball ball-1"></div><div class="ball ball-2"></div><div class="ball ball-3"></div></div>
 <div id="toast"></div>
 <div id="exportArea"></div>
 
 <div class="wrapper">
-
   <div id="homeScreen">
     <section class="hero">
       <div class="auth-btns" id="authBtns"></div>
@@ -699,74 +324,34 @@ body.paused-animations .floating-balls { display: none; }
       <h1 class="hero-title"><br>GIẢI ĐẤU PICKLEBALL</h1>
       <div class="hero-subtitle">Cạnh tranh · Đam mê · Chiến thắng</div>
       <div class="hero-divider"></div>
-      <p style="font-size: 0.95rem; color: var(--text-dim); max-width: 600px; margin: 0 auto; line-height: 1.6;">
-        Bứt phá giới hạn – Lan tỏa niềm vui
-      </p>
+      <p style="font-size: 0.95rem; color: var(--text-dim); max-width: 600px; margin: 0 auto; line-height: 1.6;">Bứt phá giới hạn – Lan tỏa niềm vui</p>
       <div class="hero-stats">
-        <div class="hero-stat">
-          <div class="hero-stat-value" id="totalTours">0</div>
-          <div class="hero-stat-label">Tổng giải</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-value" id="totalCapDoi">0</div>
-          <div class="hero-stat-label">Cặp đôi</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-value" id="totalCaNhan">0</div>
-          <div class="hero-stat-label">Cá nhân</div>
-        </div>
+        <div class="hero-stat"><div class="hero-stat-value" id="totalTours">0</div><div class="hero-stat-label">Tổng giải</div></div>
+        <div class="hero-stat"><div class="hero-stat-value" id="totalCapDoi">0</div><div class="hero-stat-label">Cặp đôi</div></div>
+        <div class="hero-stat"><div class="hero-stat-value" id="totalCaNhan">0</div><div class="hero-stat-label">Cá nhân</div></div>
       </div>
     </section>
-
     <section class="section">
       <div class="section-header capdoi">
-        <div class="section-title-wrap">
-          <div class="section-icon capdoi">🤝</div>
-          <div>
-            <h2 class="section-title">
-              TEAM ROUND ROBIN
-              <span>Thể thức đôi · Vòng tròn tính điểm</span>
-            </h2>
-          </div>
-        </div>
+        <div class="section-title-wrap"><div class="section-icon capdoi">🤝</div><div><h2 class="section-title">TEAM ROUND ROBIN<span>Thể thức đôi · Vòng tròn tính điểm</span></h2></div></div>
         <div class="section-count"><b id="capDoiCount">0</b> giải</div>
       </div>
-      <div class="tour-grid" id="capDoiGrid">
-        <div class="loading"><div class="loading-spinner"></div><div class="loading-text">Đang tải...</div></div>
-      </div>
+      <div class="tour-grid" id="capDoiGrid"><div class="loading"><div class="loading-spinner"></div><div class="loading-text">Đang tải...</div></div></div>
     </section>
-
     <section class="section">
       <div class="section-header canhan">
-        <div class="section-title-wrap">
-          <div class="section-icon canhan">🎾</div>
-          <div>
-            <h2 class="section-title">
-              ROUND ROBIN CÁ NHÂN
-              <span>Thể thức cặp đôi - Tính điểm cá nhân</span>
-            </h2>
-          </div>
-        </div>
+        <div class="section-title-wrap"><div class="section-icon canhan">🎾</div><div><h2 class="section-title">ROUND ROBIN CÁ NHÂN<span>Thể thức cặp đôi - Tính điểm cá nhân</span></h2></div></div>
         <div class="section-count"><b id="caNhanCount">0</b> giải</div>
       </div>
-      <div class="tour-grid" id="caNhanGrid">
-        <div class="loading"><div class="loading-spinner"></div><div class="loading-text">Đang tải...</div></div>
-      </div>
+      <div class="tour-grid" id="caNhanGrid"><div class="loading"><div class="loading-spinner"></div><div class="loading-text">Đang tải...</div></div></div>
     </section>
-
-    <footer class="footer">
-      <div class="footer-brand">🏆 LY DUNG RITA PICKLEBALL</div>
-      <p>© 2026 · Real-time Tournament Management</p>
-    </footer>
+    <footer class="footer"><div class="footer-brand">🏆 LY DUNG RITA PICKLEBALL</div><p>© 2026 · Real-time Tournament Management</p></footer>
   </div>
 
   <div id="detailCapDoi" class="detail-screen">
     <div class="detail-hero capdoi">
       <div class="detail-top">
-        <button class="btn-home-3d" onclick="goHome()">
-          <span class="home-icon">🏠</span>
-          <span>Trang Chủ</span>
-        </button>
+        <button class="btn-home-3d" onclick="goHome()"><span class="home-icon">🏠</span><span>Trang Chủ</span></button>
         <div class="detail-actions">
           <button class="btn btn-ghost btn-sm admin-only" onclick="editTourName()">✏️ Sửa tên</button>
           <button class="btn btn-danger btn-sm admin-only" onclick="deleteCurrentTour()">🗑️ Xóa giải</button>
@@ -782,44 +367,23 @@ body.paused-animations .floating-balls { display: none; }
         </div>
       </div>
     </div>
-
     <div class="detail-tabs" id="cdTabs">
       <button class="detail-tab capdoi active" onclick="switchCdTab('standings', this)">🏆 Xếp hạng</button>
       <button class="detail-tab capdoi" onclick="switchCdTab('schedule', this)">📅 Lịch đấu</button>
     </div>
-
     <div id="cdTabStandings" class="detail-tab-content active">
       <div class="card">
         <div class="card-title">📏 Thể thức tính điểm</div>
-        <div style="font-size: 0.82rem; color: var(--text-dim); line-height: 1.6; padding: 10px; background: rgba(255, 255, 255, 0.03); border-radius: 10px; border-left: 3px solid var(--capdoi-1);">
-          Thắng = <b style="color: var(--green)">1 điểm</b> · Thua = <b style="color: var(--red)">0 điểm</b> ·
-          Xếp theo: <b>Điểm → Hiệu số</b>
-        </div>
+        <div style="font-size: 0.82rem; color: var(--text-dim); line-height: 1.6; padding: 10px; background: rgba(255, 255, 255, 0.03); border-radius: 10px; border-left: 3px solid var(--capdoi-1);">Thắng = <b style="color: var(--green)">1 điểm</b> · Thua = <b style="color: var(--red)">0 điểm</b> · Xếp theo: <b>Điểm → Hiệu số</b></div>
       </div>
       <div class="card">
         <div class="card-title">🏆 Bảng xếp hạng <span class="counter-pill" id="cdTeamCount">0</span></div>
         <div class="rank-wrap">
-          <table class="rank-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th style="text-align:left">Đội</th>
-                <th>Trận</th>
-                <th>W</th>
-                <th>L</th>
-                <th>Điểm</th>
-                <th>HS</th>
-              </tr>
-            </thead>
-            <tbody id="cdStandingsBody"></tbody>
-          </table>
+          <table class="rank-table"><thead><tr><th>#</th><th style="text-align:left">Đội</th><th>Trận</th><th>W</th><th>L</th><th>Điểm</th><th>HS</th></tr></thead><tbody id="cdStandingsBody"></tbody></table>
         </div>
-        <div style="margin-top: 14px; display: flex; justify-content: center;">
-          <button class="btn btn-export" onclick="exportCdStandings()">📸 Xuất ảnh BXH</button>
-        </div>
+        <div style="margin-top: 14px; display: flex; justify-content: center;"><button class="btn btn-export" onclick="exportCdStandings()">📸 Xuất ảnh BXH</button></div>
       </div>
     </div>
-
     <div id="cdTabSchedule" class="detail-tab-content">
       <div class="admin-controls admin-block">
         <h3>⚙️ Quản lý Đội & Lịch</h3>
@@ -837,13 +401,8 @@ body.paused-animations .floating-balls { display: none; }
         </div>
         <div id="cdTeamsList" class="chip-wrap"></div>
       </div>
-
       <div class="card">
-        <div class="card-title">
-          ⚡ Lịch thi đấu & Kết quả
-          <span class="counter-pill" id="cdMatchCount">0</span>
-          <span style="font-size: 0.72rem; color: var(--text-dim); margin-left: auto;" id="cdMatchStats"></span>
-        </div>
+        <div class="card-title">⚡ Lịch thi đấu & Kết quả <span class="counter-pill" id="cdMatchCount">0</span><span style="font-size: 0.72rem; color: var(--text-dim); margin-left: auto;" id="cdMatchStats"></span></div>
         <div id="cdScheduleList" class="match-grid"></div>
       </div>
     </div>
@@ -852,10 +411,7 @@ body.paused-animations .floating-balls { display: none; }
   <div id="detailCaNhan" class="detail-screen">
     <div class="detail-hero canhan">
       <div class="detail-top">
-        <button class="btn-home-3d" onclick="goHome()">
-          <span class="home-icon">🏠</span>
-          <span>Trang Chủ</span>
-        </button>
+        <button class="btn-home-3d" onclick="goHome()"><span class="home-icon">🏠</span><span>Trang Chủ</span></button>
         <div class="detail-actions">
           <button class="btn btn-ghost btn-sm admin-only" onclick="editTourName()">✏️ Sửa tên</button>
           <button class="btn btn-danger btn-sm admin-only" onclick="deleteCurrentTour()">🗑️ Xóa giải</button>
@@ -871,41 +427,22 @@ body.paused-animations .floating-balls { display: none; }
         </div>
       </div>
     </div>
-
     <div class="detail-tabs" id="cnTabs">
       <button class="detail-tab active" onclick="switchCnTab('standings', this)">🏆 Xếp hạng</button>
       <button class="detail-tab" onclick="switchCnTab('schedule', this)">📅 Lịch đấu</button>
     </div>
-
     <div id="cnTabStandings" class="detail-tab-content active">
       <div class="card">
         <div class="card-title">📏 Thể thức tính điểm</div>
-        <div style="font-size: 0.82rem; color: var(--text-dim); line-height: 1.6; padding: 10px; background: rgba(255, 255, 255, 0.03); border-radius: 10px; border-left: 3px solid var(--canhan-1);">
-          Đánh đôi 2v2 · Ghép cặp thông minh · Thắng = <b style="color: var(--green)">1 điểm</b> ·
-          Xếp theo: <b>Điểm → Hiệu số</b>
-        </div>
+        <div style="font-size: 0.82rem; color: var(--text-dim); line-height: 1.6; padding: 10px; background: rgba(255, 255, 255, 0.03); border-radius: 10px; border-left: 3px solid var(--canhan-1);">Đánh đôi 2v2 · Ghép cặp thông minh · Thắng = <b style="color: var(--green)">1 điểm</b> · Xếp theo: <b>Điểm → Hiệu số</b></div>
       </div>
       <div class="card">
         <div class="card-title">🏆 Bảng xếp hạng cá nhân <span class="counter-pill" id="cnVdvCount">0</span></div>
         <div class="rank-wrap">
-          <table class="rank-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th style="text-align:left">VĐV</th>
-                <th>Trận</th>
-                <th>W</th>
-                <th>L</th>
-                <th>Điểm</th>
-                <th>HS</th>
-              </tr>
-            </thead>
-            <tbody id="cnStandingsBody"></tbody>
-          </table>
+          <table class="rank-table"><thead><tr><th>#</th><th style="text-align:left">VĐV</th><th>Trận</th><th>W</th><th>L</th><th>Điểm</th><th>HS</th></tr></thead><tbody id="cnStandingsBody"></tbody></table>
         </div>
       </div>
     </div>
-
     <div id="cnTabSchedule" class="detail-tab-content">
       <div class="admin-controls admin-block">
         <h3>⚙️ Quản lý VĐV & Lịch</h3>
@@ -923,36 +460,25 @@ body.paused-animations .floating-balls { display: none; }
         </div>
         <div id="cnVdvList" class="chip-wrap"></div>
       </div>
-
       <div class="card">
-        <div class="card-title">
-          ⚡ Lịch thi đấu & Kết quả
-          <span class="counter-pill" id="cnMatchCount">0</span>
-        </div>
+        <div class="card-title">⚡ Lịch thi đấu & Kết quả <span class="counter-pill" id="cnMatchCount">0</span></div>
         <div id="cnScheduleList" class="match-grid"></div>
       </div>
     </div>
   </div>
-
 </div>
 
+<!-- Modals -->
 <div id="loginModal" class="modal-overlay">
   <div class="modal-box">
     <button class="modal-close-x" onclick="closeModal('loginModal')" title="Đóng (ESC)">✕</button>
     <h2>🔑 Đăng nhập</h2>
+    <div class="input-row" style="flex-direction: column;"><input type="text" id="loginUser" placeholder="Tên đăng nhập" autocomplete="username"></div>
     <div class="input-row" style="flex-direction: column;">
-      <input type="text" id="loginUser" placeholder="Tên đăng nhập" autocomplete="username">
-    </div>
-    <div class="input-row" style="flex-direction: column;">
-      <div class="pwd-wrapper">
-        <input type="password" id="loginPass" placeholder="Mật khẩu" autocomplete="current-password" onkeypress="if(event.key==='Enter')doLogin()">
-        <button type="button" class="pwd-toggle" onclick="togglePwd('loginPass', this)">👁️</button>
-      </div>
+      <div class="pwd-wrapper"><input type="password" id="loginPass" placeholder="Mật khẩu" autocomplete="current-password" onkeypress="if(event.key==='Enter')doLogin()"><button type="button" class="pwd-toggle" onclick="togglePwd('loginPass', this)">👁️</button></div>
     </div>
     <button class="btn btn-primary" id="loginSubmitBtn" style="width: 100%; margin-top: 10px;" onclick="doLogin()">Đăng nhập</button>
-    <p style="text-align: center; margin-top: 12px; font-size: 0.8rem; color: var(--text-dim);">
-      Chưa có tài khoản? <span class="modal-link" onclick="closeModal('loginModal'); showModal('registerModal')">Đăng ký ngay</span>
-    </p>
+    <p style="text-align: center; margin-top: 12px; font-size: 0.8rem; color: var(--text-dim);">Chưa có tài khoản? <span class="modal-link" onclick="closeModal('loginModal'); showModal('registerModal')">Đăng ký ngay</span></p>
   </div>
 </div>
 
@@ -960,31 +486,17 @@ body.paused-animations .floating-balls { display: none; }
   <div class="modal-box">
     <button class="modal-close-x" onclick="closeModal('registerModal')" title="Đóng (ESC)">✕</button>
     <h2>📝 Đăng ký tài khoản</h2>
+    <div class="input-row" style="flex-direction: column;"><input type="text" id="regUser" placeholder="Tên đăng nhập" autocomplete="username" oninput="onRegUsernameInput()"><div class="input-helper" id="regUserHelper">Chỉ chữ thường, số, gạch dưới (3-20 ký tự)</div></div>
     <div class="input-row" style="flex-direction: column;">
-      <input type="text" id="regUser" placeholder="Tên đăng nhập" autocomplete="username" oninput="onRegUsernameInput()">
-      <div class="input-helper" id="regUserHelper">Chỉ chữ thường, số, gạch dưới (3-20 ký tự)</div>
+      <div class="pwd-wrapper"><input type="password" id="regPass" placeholder="Mật khẩu (tối thiểu 3 ký tự)" autocomplete="new-password" oninput="checkPwdStrength()" disabled><button type="button" class="pwd-toggle" onclick="togglePwd('regPass', this)">👁️</button></div>
+      <div class="pwd-strength" id="pwdStrength"><div class="pwd-strength-bar"></div><div class="pwd-strength-bar"></div><div class="pwd-strength-bar"></div><div class="pwd-strength-bar"></div></div>
     </div>
     <div class="input-row" style="flex-direction: column;">
-      <div class="pwd-wrapper">
-        <input type="password" id="regPass" placeholder="Mật khẩu (tối thiểu 3 ký tự)" autocomplete="new-password" oninput="checkPwdStrength()" disabled>
-        <button type="button" class="pwd-toggle" onclick="togglePwd('regPass', this)">👁️</button>
-      </div>
-      <div class="pwd-strength" id="pwdStrength">
-        <div class="pwd-strength-bar"></div><div class="pwd-strength-bar"></div>
-        <div class="pwd-strength-bar"></div><div class="pwd-strength-bar"></div>
-      </div>
-    </div>
-    <div class="input-row" style="flex-direction: column;">
-      <div class="pwd-wrapper">
-        <input type="password" id="regPassConfirm" placeholder="Nhập lại mật khẩu" autocomplete="new-password" onkeypress="if(event.key==='Enter')doRegister()" disabled>
-        <button type="button" class="pwd-toggle" onclick="togglePwd('regPassConfirm', this)">👁️</button>
-      </div>
+      <div class="pwd-wrapper"><input type="password" id="regPassConfirm" placeholder="Nhập lại mật khẩu" autocomplete="new-password" onkeypress="if(event.key==='Enter')doRegister()" disabled><button type="button" class="pwd-toggle" onclick="togglePwd('regPassConfirm', this)">👁️</button></div>
       <div class="input-helper" id="regConfirmHelper"></div>
     </div>
     <button class="btn btn-primary" id="regSubmitBtn" style="width: 100%; margin-top: 10px;" onclick="doRegister()" disabled>Tạo tài khoản</button>
-    <p style="text-align: center; margin-top: 12px; font-size: 0.8rem; color: var(--text-dim);">
-      Đã có tài khoản? <span class="modal-link" onclick="closeModal('registerModal'); showModal('loginModal')">Đăng nhập</span>
-    </p>
+    <p style="text-align: center; margin-top: 12px; font-size: 0.8rem; color: var(--text-dim);">Đã có tài khoản? <span class="modal-link" onclick="closeModal('registerModal'); showModal('loginModal')">Đăng nhập</span></p>
   </div>
 </div>
 
@@ -992,24 +504,9 @@ body.paused-animations .floating-balls { display: none; }
   <div class="modal-box">
     <button class="modal-close-x" onclick="closeModal('changePwdModal')" title="Đóng (ESC)">✕</button>
     <h2>🔑 Đổi mật khẩu</h2>
-    <div class="input-row" style="flex-direction: column;">
-      <div class="pwd-wrapper">
-        <input type="password" id="cp_current" placeholder="Mật khẩu hiện tại">
-        <button type="button" class="pwd-toggle" onclick="togglePwd('cp_current', this)">👁️</button>
-      </div>
-    </div>
-    <div class="input-row" style="flex-direction: column;">
-      <div class="pwd-wrapper">
-        <input type="password" id="cp_new" placeholder="Mật khẩu mới (≥3 ký tự)">
-        <button type="button" class="pwd-toggle" onclick="togglePwd('cp_new', this)">👁️</button>
-      </div>
-    </div>
-    <div class="input-row" style="flex-direction: column;">
-      <div class="pwd-wrapper">
-        <input type="password" id="cp_confirm" placeholder="Xác nhận mật khẩu mới" onkeypress="if(event.key==='Enter')handleChangePassword()">
-        <button type="button" class="pwd-toggle" onclick="togglePwd('cp_confirm', this)">👁️</button>
-      </div>
-    </div>
+    <div class="input-row" style="flex-direction: column;"><div class="pwd-wrapper"><input type="password" id="cp_current" placeholder="Mật khẩu hiện tại"><button type="button" class="pwd-toggle" onclick="togglePwd('cp_current', this)">👁️</button></div></div>
+    <div class="input-row" style="flex-direction: column;"><div class="pwd-wrapper"><input type="password" id="cp_new" placeholder="Mật khẩu mới (≥3 ký tự)"><button type="button" class="pwd-toggle" onclick="togglePwd('cp_new', this)">👁️</button></div></div>
+    <div class="input-row" style="flex-direction: column;"><div class="pwd-wrapper"><input type="password" id="cp_confirm" placeholder="Xác nhận mật khẩu mới" onkeypress="if(event.key==='Enter')handleChangePassword()"><button type="button" class="pwd-toggle" onclick="togglePwd('cp_confirm', this)">👁️</button></div></div>
     <button class="btn btn-primary" id="cpSubmitBtn" style="width: 100%; margin-top: 10px;" onclick="handleChangePassword()">Cập nhật</button>
   </div>
 </div>
@@ -1019,10 +516,7 @@ body.paused-animations .floating-balls { display: none; }
     <button class="modal-close-x" onclick="closeModal('createTourModal')" title="Đóng (ESC)">✕</button>
     <h2>🎉 Tạo giải mới</h2>
     <div class="input-row" style="flex-direction: column;">
-      <select id="c_type">
-        <option value="capdoi">🤝 Team Round Robin (Cặp đôi)</option>
-        <option value="canhan">🎾 Robin Cá Nhân (2v2)</option>
-      </select>
+      <select id="c_type"><option value="capdoi">🤝 Team Round Robin (Cặp đôi)</option><option value="canhan">🎾 Robin Cá Nhân (2v2)</option></select>
       <input type="text" id="c_ten_giai" placeholder="Tên giải đấu">
       <input type="text" id="c_dia_diem" placeholder="Địa điểm">
       <input type="date" id="c_ngay">
@@ -1036,92 +530,42 @@ const SUPABASE_URL = 'https://mvefkcaqvjflrgmaybev.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12ZWZrY2FxdmpmbHJnbWF5YmV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2MDAzOTksImV4cCI6MjEwMjE3NjM5OX0.vCY4_JlSBqi6QRh7DYWAe42Ot-pChKaVSHn7DY2C34Q';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-let CURRENT_USER = null;
-let CURRENT_TOUR = null;
-let CURRENT_TYPE = null;
-let IS_TOUR_OWNER = false;
-
-let capDoiTours = [];
-let caNhanTours = [];
-
-let cdTeams = [];
-let cdMatches = [];
-let cdLastHash = '';
-
-let cnVdvs = [];
-let cnMatches = [];
-let cnLastHash = '';
-
-let fallbackTimer = null;
-let IS_EDITING_SCORE = false;
-let regUsernameTimer = null;
-let regUsernameValid = false;
-let allUsersMap = {};
+let CURRENT_USER = null, CURRENT_TOUR = null, CURRENT_TYPE = null, IS_TOUR_OWNER = false;
+let capDoiTours = [], caNhanTours = [], cdTeams = [], cdMatches = [], cdLastHash = '';
+let cnVdvs = [], cnMatches = [], cnLastHash = '', fallbackTimer = null, IS_EDITING_SCORE = false;
+let regUsernameTimer = null, regUsernameValid = false, allUsersMap = {};
 
 function toast(msg, err = false) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'show' + (err ? ' err' : '');
+  const t = document.getElementById('toast'); t.textContent = msg; t.className = 'show' + (err ? ' err' : '');
   setTimeout(() => t.className = '', 3000);
 }
-
 function showModal(id) {
-  const modal = document.getElementById(id);
-  modal.classList.add('show');
-  setTimeout(() => {
-    const firstInput = modal.querySelector('input:not([type="date"]):not([type="hidden"]):not([disabled])');
-    if (firstInput) firstInput.focus();
-  }, 100);
+  const modal = document.getElementById(id); modal.classList.add('show');
+  setTimeout(() => { const firstInput = modal.querySelector('input:not([type="date"]):not([type="hidden"]):not([disabled])'); if (firstInput) firstInput.focus(); }, 100);
 }
-
 function closeModal(id) {
-  const modal = document.getElementById(id);
-  modal.classList.remove('show');
-  modal.querySelectorAll('input').forEach(input => {
-    if (input.type === 'password' || input.type === 'text') input.value = '';
-  });
+  const modal = document.getElementById(id); modal.classList.remove('show');
+  modal.querySelectorAll('input').forEach(input => { if (input.type === 'password' || input.type === 'text') input.value = ''; });
   modal.querySelectorAll('.input-helper').forEach(h => { h.textContent = ''; h.className = 'input-helper'; });
   modal.querySelectorAll('.pwd-strength-bar').forEach(b => { b.className = 'pwd-strength-bar'; });
-  
   if (id === 'registerModal') {
     regUsernameValid = false;
-    const passInput = document.getElementById('regPass');
-    const confirmInput = document.getElementById('regPassConfirm');
-    const submitBtn = document.getElementById('regSubmitBtn');
-    const helper = document.getElementById('regUserHelper');
-    if (passInput) passInput.disabled = true;
-    if (confirmInput) confirmInput.disabled = true;
-    if (submitBtn) submitBtn.disabled = true;
-    if (helper) helper.textContent = 'Chỉ chữ thường, số, gạch dưới (3-20 ký tự)';
+    document.getElementById('regPass').disabled = true;
+    document.getElementById('regPassConfirm').disabled = true;
+    document.getElementById('regSubmitBtn').disabled = true;
+    document.getElementById('regUserHelper').textContent = 'Chỉ chữ thường, số, gạch dưới (3-20 ký tự)';
   }
 }
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
-});
-
-document.querySelectorAll('.modal-overlay').forEach(overlay => {
-  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('show'); });
-});
-
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show')); });
+document.querySelectorAll('.modal-overlay').forEach(overlay => { overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('show'); }); });
 function togglePwd(inputId, btn) {
-  const input = document.getElementById(inputId);
-  if (input.disabled) return;
-  if (input.type === 'password') { input.type = 'text'; btn.textContent = '🙈'; } 
-  else { input.type = 'password'; btn.textContent = '👁️'; }
+  const input = document.getElementById(inputId); if (input.disabled) return;
+  if (input.type === 'password') { input.type = 'text'; btn.textContent = '🙈'; } else { input.type = 'password'; btn.textContent = '👁️'; }
 }
-
 function setLoading(btnId, isLoading, originalText) {
-  const btn = document.getElementById(btnId);
-  if (!btn) return;
-  if (isLoading) {
-    btn.dataset.originalText = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = '<span class="btn-spinner"></span> Đang xử lý...';
-  } else {
-    btn.disabled = false;
-    btn.innerHTML = btn.dataset.originalText || originalText;
-  }
+  const btn = document.getElementById(btnId); if (!btn) return;
+  if (isLoading) { btn.dataset.originalText = btn.innerHTML; btn.disabled = true; btn.innerHTML = '<span class="btn-spinner"></span> Đang xử lý...'; } 
+  else { btn.disabled = false; btn.innerHTML = btn.dataset.originalText || originalText; }
 }
 
 const USERNAME_REGEX = /^[a-z0-9_]{3,20}$/;
@@ -1134,49 +578,30 @@ function validateUsernameFormat(username) {
   if (username === 'admin') return { valid: false, msg: 'Tên này đã được hệ thống sử dụng' };
   return { valid: true, msg: '✓ Hợp lệ' };
 }
-
 function checkPwdStrength(inputId = 'regPass') {
-  const pwd = document.getElementById(inputId).value;
-  const bars = document.querySelectorAll('#pwdStrength .pwd-strength-bar');
+  const pwd = document.getElementById(inputId).value; const bars = document.querySelectorAll('#pwdStrength .pwd-strength-bar');
   if (inputId !== 'regPass') return;
-  
   let strength = 0;
-  if (pwd.length >= 3) strength++;
-  if (pwd.length >= 6) strength++;
-  if (/[A-Z]/.test(pwd) || /[0-9]/.test(pwd)) strength++;
-  if (/[^a-zA-Z0-9]/.test(pwd)) strength++;
-  
+  if (pwd.length >= 3) strength++; if (pwd.length >= 6) strength++;
+  if (/[A-Z]/.test(pwd) || /[0-9]/.test(pwd)) strength++; if (/[^a-zA-Z0-9]/.test(pwd)) strength++;
   bars.forEach((bar, i) => {
     bar.className = 'pwd-strength-bar';
-    if (i < strength) {
-      bar.classList.add('active');
-      if (strength <= 1) bar.classList.add('weak');
-      else if (strength <= 2) bar.classList.add('medium');
-      else bar.classList.add('strong');
-    }
+    if (i < strength) { bar.classList.add('active'); if (strength <= 1) bar.classList.add('weak'); else if (strength <= 2) bar.classList.add('medium'); else bar.classList.add('strong'); }
   });
 }
 
 function isSuperAdmin() { return CURRENT_USER && CURRENT_USER.username.toLowerCase() === 'admin'; }
 function canManageTour(tour) { if (!CURRENT_USER) return false; return isSuperAdmin() || (tour.admin_id === CURRENT_USER.id); }
-function formatDate(dateStr) {
-  if (!dateStr) return 'Chưa cập nhật';
-  try { return new Date(dateStr).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' }); } 
-  catch { return 'Chưa cập nhật'; }
-}
+function formatDate(dateStr) { if (!dateStr) return 'Chưa cập nhật'; try { return new Date(dateStr).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' }); } catch { return 'Chưa cập nhật'; } }
 
 function updateAuthUI() {
   const c = document.getElementById('authBtns');
   if (CURRENT_USER) {
     const badge = isSuperAdmin() ? '<span class="admin-badge">ADMIN</span>' : '';
-    c.innerHTML = `<span class="user-chip">👤 ${CURRENT_USER.username}${badge}</span>
-      <button class="btn btn-ghost btn-sm" onclick="showModal('changePwdModal')">🔑</button>
-      <button class="btn btn-ghost btn-sm" onclick="doLogout()">Thoát</button>
-      <button class="btn btn-primary btn-sm" onclick="showCreateTourModal()">➕ Tạo giải</button>`;
+    c.innerHTML = `<span class="user-chip">👤 ${CURRENT_USER.username}${badge}</span><button class="btn btn-ghost btn-sm" onclick="showModal('changePwdModal')">🔑</button><button class="btn btn-ghost btn-sm" onclick="doLogout()">Thoát</button><button class="btn btn-primary btn-sm" onclick="showCreateTourModal()">➕ Tạo giải</button>`;
     document.body.classList.add('is-owner');
   } else {
-    c.innerHTML = `<button class="btn btn-ghost btn-sm" onclick="showModal('loginModal')">🔑 Đăng nhập</button>
-      <button class="btn btn-primary btn-sm" onclick="showModal('registerModal')">📝 Đăng ký</button>`;
+    c.innerHTML = `<button class="btn btn-ghost btn-sm" onclick="showModal('loginModal')">🔑 Đăng nhập</button><button class="btn btn-primary btn-sm" onclick="showModal('registerModal')">📝 Đăng ký</button>`;
     document.body.classList.remove('is-owner');
   }
 }
@@ -1187,194 +612,106 @@ function onRegUsernameInput() {
   const passInput = document.getElementById('regPass');
   const confirmInput = document.getElementById('regPassConfirm');
   const submitBtn = document.getElementById('regSubmitBtn');
-  
   if (regUsernameTimer) clearTimeout(regUsernameTimer);
-  
-  passInput.value = '';
-  confirmInput.value = '';
+  passInput.value = ''; confirmInput.value = '';
   document.querySelectorAll('#pwdStrength .pwd-strength-bar').forEach(b => b.className = 'pwd-strength-bar');
-  document.getElementById('regConfirmHelper').textContent = '';
-  document.getElementById('regConfirmHelper').className = 'input-helper';
-  
+  document.getElementById('regConfirmHelper').textContent = ''; document.getElementById('regConfirmHelper').className = 'input-helper';
   if (!val) {
-    helper.textContent = 'Chỉ chữ thường, số, gạch dưới (3-20 ký tự)';
-    helper.className = 'input-helper';
-    passInput.disabled = true; confirmInput.disabled = true; submitBtn.disabled = true;
-    regUsernameValid = false; return;
+    helper.textContent = 'Chỉ chữ thường, số, gạch dưới (3-20 ký tự)'; helper.className = 'input-helper';
+    passInput.disabled = true; confirmInput.disabled = true; submitBtn.disabled = true; regUsernameValid = false; return;
   }
-  
   const formatResult = validateUsernameFormat(val);
   if (!formatResult.valid) {
-    helper.textContent = '❌ ' + formatResult.msg;
-    helper.className = 'input-helper err';
-    passInput.disabled = true; confirmInput.disabled = true; submitBtn.disabled = true;
-    regUsernameValid = false; return;
+    helper.textContent = '❌ ' + formatResult.msg; helper.className = 'input-helper err';
+    passInput.disabled = true; confirmInput.disabled = true; submitBtn.disabled = true; regUsernameValid = false; return;
   }
-  
-  helper.textContent = '⏳ Đang kiểm tra tên...';
-  helper.className = 'input-helper loading';
-  
+  helper.textContent = '⏳ Đang kiểm tra tên...'; helper.className = 'input-helper loading';
   regUsernameTimer = setTimeout(async () => {
     try {
       const { data, error } = await sb.from('admin_users').select('id').eq('username', val).maybeSingle();
       if (error) throw error;
       if (data) {
-        helper.textContent = '❌ Tên người dùng đã có - Hãy chọn tên khác';
-        helper.className = 'input-helper err';
-        passInput.disabled = true; confirmInput.disabled = true; submitBtn.disabled = true;
-        regUsernameValid = false;
+        helper.textContent = '❌ Tên người dùng đã có - Hãy chọn tên khác'; helper.className = 'input-helper err';
+        passInput.disabled = true; confirmInput.disabled = true; submitBtn.disabled = true; regUsernameValid = false;
       } else {
-        helper.textContent = '✅ Tên hợp lệ! vui lòng đặt mật khẩu...';
-        helper.className = 'input-helper ok';
-        regUsernameValid = true;
-        
+        helper.textContent = '✅ Tên hợp lệ! vui lòng đặt mật khẩu...'; helper.className = 'input-helper ok'; regUsernameValid = true;
         setTimeout(() => {
-          passInput.disabled = false;
-          confirmInput.disabled = false;
-          submitBtn.disabled = false;
+          passInput.disabled = false; confirmInput.disabled = false; submitBtn.disabled = false;
           helper.textContent = '✅ Tên người dùng hợp lệ - Mời bạn nhập mật khẩu';
         }, 1000); 
       }
-    } catch (e) {
-      helper.textContent = '⚠️ Lỗi kết nối, thử lại';
-      helper.className = 'input-helper err';
-      regUsernameValid = false;
-    }
+    } catch (e) { helper.textContent = '⚠️ Lỗi kết nối, thử lại'; helper.className = 'input-helper err'; regUsernameValid = false; }
   }, 500);
 }
 
 async function doRegister() {
   const btn = document.getElementById('regSubmitBtn');
   if (btn.disabled || !regUsernameValid) return toast('Vui lòng đợi kiểm tra tên người dùng', true);
-  
   const user = document.getElementById('regUser').value.trim().toLowerCase();
   const pass = document.getElementById('regPass').value;
   const confirm = document.getElementById('regPassConfirm').value;
   const confirmHelper = document.getElementById('regConfirmHelper');
-  
   if (!pass || !confirm) return toast('Vui lòng nhập đầy đủ mật khẩu', true);
   if (pass.length < 3) return toast('Mật khẩu tối thiểu 3 ký tự', true);
-  if (pass !== confirm) {
-    confirmHelper.textContent = '❌ Mật khẩu không khớp';
-    confirmHelper.className = 'input-helper err';
-    return toast('Mật khẩu xác nhận không khớp', true);
-  }
-  
+  if (pass !== confirm) { confirmHelper.textContent = '❌ Mật khẩu không khớp'; confirmHelper.className = 'input-helper err'; return toast('Mật khẩu xác nhận không khớp', true); }
   setLoading('regSubmitBtn', true);
   try {
     const { error } = await sb.from('admin_users').insert({ username: user, password: pass });
     if (error) {
       if (error.code === '23505') {
         toast('Tên đã tồn tại! Hãy chọn tên khác', true);
-        document.getElementById('regUserHelper').textContent = '❌ Tên đã tồn tại';
-        document.getElementById('regUserHelper').className = 'input-helper err';
-        document.getElementById('regPass').disabled = true;
-        document.getElementById('regPassConfirm').disabled = true;
-        document.getElementById('regSubmitBtn').disabled = true;
-        regUsernameValid = false;
+        document.getElementById('regUserHelper').textContent = '❌ Tên đã tồn tại'; document.getElementById('regUserHelper').className = 'input-helper err';
+        document.getElementById('regPass').disabled = true; document.getElementById('regPassConfirm').disabled = true; document.getElementById('regSubmitBtn').disabled = true; regUsernameValid = false;
       } else { toast('Lỗi: ' + error.message, true); }
-      setLoading('regSubmitBtn', false, 'Tạo tài khoản');
-      return;
+      setLoading('regSubmitBtn', false, 'Tạo tài khoản'); return;
     }
-    closeModal('registerModal');
-    toast('✅ Đăng ký thành công! Hãy đăng nhập.');
-    showModal('loginModal');
-    document.getElementById('loginUser').value = user;
-    document.getElementById('loginPass').focus();
-  } catch (e) {
-    toast('Lỗi kết nối: ' + e.message, true);
-  } finally {
-    setLoading('regSubmitBtn', false, 'Tạo tài khoản');
-  }
+    closeModal('registerModal'); toast('✅ Đăng ký thành công! Hãy đăng nhập.');
+    showModal('loginModal'); document.getElementById('loginUser').value = user; document.getElementById('loginPass').focus();
+  } catch (e) { toast('Lỗi kết nối: ' + e.message, true); } finally { setLoading('regSubmitBtn', false, 'Tạo tài khoản'); }
 }
 
 async function doLogin() {
-  const btn = document.getElementById('loginSubmitBtn');
-  if (btn.disabled) return;
+  const btn = document.getElementById('loginSubmitBtn'); if (btn.disabled) return;
   const user = document.getElementById('loginUser').value.trim().toLowerCase();
   const pass = document.getElementById('loginPass').value;
   if (!user || !pass) return toast('Vui lòng nhập tên và mật khẩu', true);
-  
   setLoading('loginSubmitBtn', true);
   try {
     const { data, error } = await sb.from('admin_users').select('*').eq('username', user).eq('password', pass).maybeSingle();
     if (error) throw error;
-    if (!data) {
-      toast('❌ Sai mật khẩu! Liên hệ admin để phục hồi', true);
-      setLoading('loginSubmitBtn', false, 'Đăng nhập');
-      return;
-    }
-    CURRENT_USER = data;
-    sessionStorage.setItem('pb_admin', JSON.stringify(data));
-    closeModal('loginModal');
-    updateAuthUI();
-    toast('✅ Chào, ' + CURRENT_USER.username);
-    await loadAllTournaments();
-  } catch (e) {
-    toast('Lỗi: ' + e.message, true);
-  } finally {
-    setLoading('loginSubmitBtn', false, 'Đăng nhập');
-  }
+    if (!data) { toast('❌ Sai mật khẩu! Liên hệ admin để phục hồi', true); setLoading('loginSubmitBtn', false, 'Đăng nhập'); return; }
+    CURRENT_USER = data; sessionStorage.setItem('pb_admin', JSON.stringify(data));
+    closeModal('loginModal'); updateAuthUI(); toast('✅ Chào, ' + CURRENT_USER.username); await loadAllTournaments();
+  } catch (e) { toast('Lỗi: ' + e.message, true); } finally { setLoading('loginSubmitBtn', false, 'Đăng nhập'); }
 }
 
-function doLogout() {
-  CURRENT_USER = null;
-  sessionStorage.removeItem('pb_admin');
-  updateAuthUI();
-  goHome();
-  toast('Đã đăng xuất');
-}
+function doLogout() { CURRENT_USER = null; sessionStorage.removeItem('pb_admin'); updateAuthUI(); goHome(); toast('Đã đăng xuất'); }
 
 async function handleChangePassword() {
-  const btn = document.getElementById('cpSubmitBtn');
-  if (btn.disabled) return;
+  const btn = document.getElementById('cpSubmitBtn'); if (btn.disabled) return;
   const current = document.getElementById('cp_current').value;
   const newPwd = document.getElementById('cp_new').value;
   const confirm = document.getElementById('cp_confirm').value;
-  
   if (!current || !newPwd || !confirm) return toast('Vui lòng nhập đầy đủ', true);
   if (newPwd.length < 3) return toast('Mật khẩu mới tối thiểu 3 ký tự', true);
   if (newPwd !== confirm) return toast('Mật khẩu mới không khớp', true);
   if (newPwd === current) return toast('Mật khẩu mới phải khác mật khẩu cũ', true);
-  
   setLoading('cpSubmitBtn', true);
   try {
     const { data, error: vErr } = await sb.from('admin_users').select('id').eq('id', CURRENT_USER.id).eq('password', current).maybeSingle();
-    if (vErr || !data) {
-      toast('Mật khẩu hiện tại không đúng', true);
-      setLoading('cpSubmitBtn', false, 'Cập nhật');
-      return;
-    }
+    if (vErr || !data) { toast('Mật khẩu hiện tại không đúng', true); setLoading('cpSubmitBtn', false, 'Cập nhật'); return; }
     const { error: uErr } = await sb.from('admin_users').update({ password: newPwd }).eq('id', CURRENT_USER.id);
-    if (uErr) {
-      toast('Lỗi: ' + uErr.message, true);
-      setLoading('cpSubmitBtn', false, 'Cập nhật');
-      return;
-    }
-    CURRENT_USER.password = newPwd;
-    sessionStorage.setItem('pb_admin', JSON.stringify(CURRENT_USER));
-    toast('✅ Đổi mật khẩu thành công!');
-    closeModal('changePwdModal');
-  } catch (e) {
-    toast('Lỗi: ' + e.message, true);
-  } finally {
-    setLoading('cpSubmitBtn', false, 'Cập nhật');
-  }
+    if (uErr) { toast('Lỗi: ' + uErr.message, true); setLoading('cpSubmitBtn', false, 'Cập nhật'); return; }
+    CURRENT_USER.password = newPwd; sessionStorage.setItem('pb_admin', JSON.stringify(CURRENT_USER));
+    toast('✅ Đổi mật khẩu thành công!'); closeModal('changePwdModal');
+  } catch (e) { toast('Lỗi: ' + e.message, true); } finally { setLoading('cpSubmitBtn', false, 'Cập nhật'); }
 }
 
 async function loadAllUsers() {
-  try {
-    const { data, error } = await sb.from('admin_users').select('id, username');
-    if (error) throw error;
-    allUsersMap = {};
-    (data || []).forEach(u => { allUsersMap[u.id] = u.username; });
-  } catch (e) { allUsersMap = {}; }
+  try { const { data, error } = await sb.from('admin_users').select('id, username'); if (error) throw error; allUsersMap = {}; (data || []).forEach(u => { allUsersMap[u.id] = u.username; }); } 
+  catch (e) { allUsersMap = {}; }
 }
-
-function getTourCreatorName(tour) {
-  if (!tour.admin_id) return null;
-  return allUsersMap[tour.admin_id] || null;
-}
+function getTourCreatorName(tour) { if (!tour.admin_id) return null; return allUsersMap[tour.admin_id] || null; }
 
 function renderTourCard(tour, type) {
   const isCapDoi = type === 'capdoi';
@@ -1382,7 +719,6 @@ function renderTourCard(tour, type) {
   const diaDiem = tour.dia_diem || 'Chưa cập nhật';
   const icon = isCapDoi ? '🤝' : '🎾';
   const typeName = isCapDoi ? 'Cặp đôi' : 'Cá nhân';
-  
   let creatorBadge = '';
   if (CURRENT_USER) {
     const creatorName = getTourCreatorName(tour);
@@ -1393,20 +729,11 @@ function renderTourCard(tour, type) {
       creatorBadge = `<div class="tour-creator-badge ${badgeClass}">${badgeIcon}<span class="creator-name">${creatorName}</span></div>`;
     }
   }
-
   return `<div class="tour-card ${type}" style="animation-delay: ${Math.random() * 0.2}s" onclick="openTourDetail('${type}', '${tour.ma_giai}')">
-      ${creatorBadge}
-      <div class="tour-type-badge">${typeName}</div>
-      <div class="tour-icon">${icon}</div>
+      ${creatorBadge}<div class="tour-type-badge">${typeName}</div><div class="tour-icon">${icon}</div>
       <h3 class="tour-name">${tour.ten_giai || 'Giải đấu'}</h3>
-      <div class="tour-meta">
-        <div class="tour-meta-item"><span class="icon">📍</span><span>${diaDiem}</span></div>
-        <div class="tour-meta-item"><span class="icon">📅</span><span>${ngay}</span></div>
-      </div>
-      <div class="tour-footer">
-        <div class="tour-creator"><span>🏆</span><span>Mã: <b>${tour.ma_giai}</b></span></div>
-        <div class="tour-arrow">→</div>
-      </div>
+      <div class="tour-meta"><div class="tour-meta-item"><span class="icon">📍</span><span>${diaDiem}</span></div><div class="tour-meta-item"><span class="icon">📅</span><span>${ngay}</span></div></div>
+      <div class="tour-footer"><div class="tour-creator"><span>🏆</span><span>Mã: <b>${tour.ma_giai}</b></span></div><div class="tour-arrow">→</div></div>
     </div>`;
 }
 
@@ -1417,91 +744,51 @@ function renderEmpty(type, context) {
   if (context === 'guest') message = 'Chưa có giải nào trong hệ thống.<br><span class="highlight">Đăng nhập để tạo giải đấu đầu tiên!</span>';
   else if (context === 'user') message = 'Bạn chưa tạo giải nào.<br><span class="highlight">Hãy bấm nút "Tạo giải" phía trên cùng</span>';
   else message = 'Chưa có giải nào trong hệ thống.<br><span class="highlight">Hãy tạo giải đầu tiên!</span>';
-  
   return `<div class="empty-state"><div class="icon">${icon}</div><h3>Chưa có giải ${name}</h3><p>${message}</p></div>`;
 }
 
 async function loadAllTournaments() {
   try {
     await loadAllUsers();
-    const [r1, r2] = await Promise.all([
-      sb.from('robin_tour').select('*').order('ngay_to_chuc', { ascending: false }),
-      sb.from('robin_canhan_tour').select('*').order('ngay_to_chuc', { ascending: false })
-    ]);
-
-    let allCapDoi = r1.data || [];
-    let allCaNhan = r2.data || [];
-    let visibleCapDoi, visibleCaNhan, context;
-    
+    const [r1, r2] = await Promise.all([sb.from('robin_tour').select('*').order('ngay_to_chuc', { ascending: false }), sb.from('robin_canhan_tour').select('*').order('ngay_to_chuc', { ascending: false })]);
+    let allCapDoi = r1.data || [], allCaNhan = r2.data || [], visibleCapDoi, visibleCaNhan, context;
     if (!CURRENT_USER) { visibleCapDoi = allCapDoi; visibleCaNhan = allCaNhan; context = 'guest'; } 
     else if (isSuperAdmin()) { visibleCapDoi = allCapDoi; visibleCaNhan = allCaNhan; context = 'admin'; } 
-    else { 
-      visibleCapDoi = allCapDoi.filter(t => t.admin_id === CURRENT_USER.id);
-      visibleCaNhan = allCaNhan.filter(t => t.admin_id === CURRENT_USER.id);
-      context = 'user';
-    }
-
-    capDoiTours = visibleCapDoi;
-    caNhanTours = visibleCaNhan;
-
+    else { visibleCapDoi = allCapDoi.filter(t => t.admin_id === CURRENT_USER.id); visibleCaNhan = allCaNhan.filter(t => t.admin_id === CURRENT_USER.id); context = 'user'; }
+    capDoiTours = visibleCapDoi; caNhanTours = visibleCaNhan;
     document.getElementById('totalTours').textContent = capDoiTours.length + caNhanTours.length;
     document.getElementById('totalCapDoi').textContent = capDoiTours.length;
     document.getElementById('totalCaNhan').textContent = caNhanTours.length;
     document.getElementById('capDoiCount').textContent = capDoiTours.length;
     document.getElementById('caNhanCount').textContent = caNhanTours.length;
-
     document.getElementById('capDoiGrid').innerHTML = capDoiTours.length === 0 ? renderEmpty('capdoi', context) : capDoiTours.map(t => renderTourCard(t, 'capdoi')).join('');
     document.getElementById('caNhanGrid').innerHTML = caNhanTours.length === 0 ? renderEmpty('canhan', context) : caNhanTours.map(t => renderTourCard(t, 'canhan')).join('');
-
     initTiltEffect();
-  } catch (e) {
-    toast('Lỗi tải dữ liệu: ' + e.message, true);
-  }
+  } catch (e) { toast('Lỗi tải dữ liệu: ' + e.message, true); }
 }
 
 async function openTourDetail(type, maGiai) {
-  CURRENT_TYPE = type;
-  document.getElementById('homeScreen').style.display = 'none';
-
-  if (type === 'capdoi') {
-    document.getElementById('detailCaNhan').classList.remove('active');
-    document.getElementById('detailCapDoi').classList.add('active');
-    await cdLoadTour(maGiai);
-  } else {
-    document.getElementById('detailCapDoi').classList.remove('active');
-    document.getElementById('detailCaNhan').classList.add('active');
-    await cnLoadTour(maGiai);
-  }
+  CURRENT_TYPE = type; document.getElementById('homeScreen').style.display = 'none';
+  if (type === 'capdoi') { document.getElementById('detailCaNhan').classList.remove('active'); document.getElementById('detailCapDoi').classList.add('active'); await cdLoadTour(maGiai); } 
+  else { document.getElementById('detailCapDoi').classList.remove('active'); document.getElementById('detailCaNhan').classList.add('active'); await cnLoadTour(maGiai); }
 }
 
 function goHome() {
-  stopFallbackPolling();
-  sb.removeAllChannels();
-  CURRENT_TOUR = null; CURRENT_TYPE = null; IS_TOUR_OWNER = false;
-  document.getElementById('detailCapDoi').classList.remove('active');
-  document.getElementById('detailCaNhan').classList.remove('active');
-  document.getElementById('homeScreen').style.display = 'block';
-  loadAllTournaments();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  stopFallbackPolling(); sb.removeAllChannels(); CURRENT_TOUR = null; CURRENT_TYPE = null; IS_TOUR_OWNER = false;
+  document.getElementById('detailCapDoi').classList.remove('active'); document.getElementById('detailCaNhan').classList.remove('active');
+  document.getElementById('homeScreen').style.display = 'block'; loadAllTournaments(); window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 async function cdLoadTour(maGiai) {
   const { data: tour } = await sb.from('robin_tour').select('*').eq('ma_giai', maGiai).single();
   if (!tour) { toast('Không tìm thấy giải', true); goHome(); return; }
-
-  CURRENT_TOUR = tour;
-  IS_TOUR_OWNER = canManageTour(tour);
-
+  CURRENT_TOUR = tour; IS_TOUR_OWNER = canManageTour(tour);
   document.getElementById('cdTourName').textContent = tour.ten_giai;
   document.getElementById('cdLocation').textContent = tour.dia_diem || 'Chưa cập nhật';
   document.getElementById('cdDate').textContent = formatDate(tour.ngay_to_chuc);
   document.getElementById('cdMaGiai').textContent = tour.ma_giai;
-
-  const container = document.getElementById('detailCapDoi');
-  IS_TOUR_OWNER ? container.classList.add('is-owner') : container.classList.remove('is-owner');
-
+  IS_TOUR_OWNER ? document.getElementById('detailCapDoi').classList.add('is-owner') : document.getElementById('detailCapDoi').classList.remove('is-owner');
   await cdLoadData();
-
   sb.removeAllChannels();
   sb.channel('cd_teams_' + maGiai).on('postgres_changes', { event: '*', schema: 'public', table: 'robin_team', filter: `ma_giai=eq.${maGiai}` }, cdLoadData).subscribe();
   sb.channel('cd_matches_' + maGiai).on('postgres_changes', { event: '*', schema: 'public', table: 'robin_tran_dau', filter: `ma_giai=eq.${maGiai}` }, cdLoadData).subscribe();
@@ -1511,264 +798,156 @@ async function cdLoadTour(maGiai) {
 async function cdLoadData() {
   if (!CURRENT_TOUR || CURRENT_TYPE !== 'capdoi' || IS_EDITING_SCORE) return;
   const mg = CURRENT_TOUR.ma_giai;
-  const [t, m] = await Promise.all([
-    sb.from('robin_team').select('*').eq('ma_giai', mg).order('created_at'),
-    sb.from('robin_tran_dau').select('*').eq('ma_giai', mg).order('vong').order('created_at')
-  ]);
-  cdTeams = t.data || [];
-  cdMatches = m.data || [];
-  
+  const [t, m] = await Promise.all([sb.from('robin_team').select('*').eq('ma_giai', mg).order('created_at'), sb.from('robin_tran_dau').select('*').eq('ma_giai', mg).order('vong').order('created_at')]);
+  cdTeams = t.data || []; cdMatches = m.data || [];
   const currentHash = cdTeams.length + '|' + cdMatches.length + '|' + cdMatches.map(x=>x.trang_thai).join('');
-  if (currentHash === cdLastHash) return;
-  cdLastHash = currentHash;
-
-  cdRenderTeams();
-  cdRenderStandings();
-  cdRenderSchedule();
+  if (currentHash === cdLastHash) return; cdLastHash = currentHash;
+  cdRenderTeams(); cdRenderStandings(); cdRenderSchedule();
 }
 
 async function cdAddTeam() {
   if (!IS_TOUR_OWNER) return toast('Không có quyền', true);
-  const name = document.getElementById('cdNewTeamName').value.trim();
-  if (!name) return toast('Nhập tên đội', true);
+  const name = document.getElementById('cdNewTeamName').value.trim(); if (!name) return toast('Nhập tên đội', true);
   const { error } = await sb.from('robin_team').insert({ ma_giai: CURRENT_TOUR.ma_giai, ten_doi: name });
   if (error) return toast('Lỗi: ' + error.message, true);
-  document.getElementById('cdNewTeamName').value = '';
-  toast('✅ Đã thêm: ' + name);
-  await cdLoadData();
+  document.getElementById('cdNewTeamName').value = ''; toast('✅ Đã thêm: ' + name); await cdLoadData();
 }
-
 async function cdDeleteTeam(id, name) {
-  if (!IS_TOUR_OWNER) return;
-  if (!confirm('Xóa đội "' + name + '"?')) return;
-  await sb.from('robin_team').delete().eq('id', id);
-  toast('Đã xóa');
-  await cdLoadData();
+  if (!IS_TOUR_OWNER) return; if (!confirm('Xóa đội "' + name + '"?')) return;
+  await sb.from('robin_team').delete().eq('id', id); toast('Đã xóa'); await cdLoadData();
 }
-
 function cdRenderTeams() {
-  document.getElementById('cdTeamCount').textContent = cdTeams.length;
-  document.getElementById('cdTeamCountBadge').textContent = cdTeams.length;
+  document.getElementById('cdTeamCount').textContent = cdTeams.length; document.getElementById('cdTeamCountBadge').textContent = cdTeams.length;
   const c = document.getElementById('cdTeamsList');
   if (!cdTeams.length) { c.innerHTML = '<span style="color: var(--text-dim); font-size: 0.8rem;">Chưa có đội nào.</span>'; return; }
   c.innerHTML = cdTeams.map(t => `<div class="chip">🤝 <span class="name">${t.ten_doi}</span>${IS_TOUR_OWNER ? `<button onclick="cdDeleteTeam('${t.id}', '${t.ten_doi.replace(/'/g, "\\'")}')">✕</button>` : ''}</div>`).join('');
 }
-
 function cdRoundRobin(teams) {
   const list = teams.map(t => ({ id: t.id, name: t.ten_doi }));
   if (list.length % 2) list.push({ id: null, name: 'BYE' });
   const n = list.length, rounds = n - 1, mpr = n / 2, matches = [];
   for (let r = 0; r < rounds; r++) {
-    for (let i = 0; i < mpr; i++) {
-      const a = list[i], b = list[n - 1 - i];
-      if (a.id && b.id) matches.push({ vong: r + 1, doi_a_id: a.id, doi_b_id: b.id, trang_thai: 'chua_dau' });
-    }
-    const fixed = list[0], rotated = [list[n - 1], ...list.slice(1, n - 1)];
-    list.splice(0, n, fixed, ...rotated);
+    for (let i = 0; i < mpr; i++) { const a = list[i], b = list[n - 1 - i]; if (a.id && b.id) matches.push({ vong: r + 1, doi_a_id: a.id, doi_b_id: b.id, trang_thai: 'chua_dau' }); }
+    const fixed = list[0], rotated = [list[n - 1], ...list.slice(1, n - 1)]; list.splice(0, n, fixed, ...rotated);
   }
   return matches;
 }
-
 async function cdGenerateSchedule() {
-  if (!IS_TOUR_OWNER) return toast('Không có quyền', true);
-  if (cdTeams.length < 2) return toast('Cần ít nhất 2 đội', true);
+  if (!IS_TOUR_OWNER) return toast('Không có quyền', true); if (cdTeams.length < 2) return toast('Cần ít nhất 2 đội', true);
   if (!confirm('Tạo lịch cho ' + cdTeams.length + ' đội?\nLịch cũ sẽ bị XÓA.')) return;
-  toast('⏳ Đang tạo lịch...');
-  await sb.from('robin_tran_dau').delete().eq('ma_giai', CURRENT_TOUR.ma_giai);
+  toast('⏳ Đang tạo lịch...'); await sb.from('robin_tran_dau').delete().eq('ma_giai', CURRENT_TOUR.ma_giai);
   const matches = cdRoundRobin(cdTeams).map(m => ({ ...m, ma_giai: CURRENT_TOUR.ma_giai }));
-  const { error } = await sb.from('robin_tran_dau').insert(matches);
-  if (error) return toast('Lỗi: ' + error.message, true);
-  toast('✅ Đã tạo ' + matches.length + ' trận');
-  await cdLoadData();
+  const { error } = await sb.from('robin_tran_dau').insert(matches); if (error) return toast('Lỗi: ' + error.message, true);
+  toast('✅ Đã tạo ' + matches.length + ' trận'); await cdLoadData();
 }
-
 async function cdResetSchedule() {
-  if (!IS_TOUR_OWNER) return toast('Không có quyền', true);
-  if (!confirm('Xóa toàn bộ lịch và điểm?')) return;
-  await sb.from('robin_tran_dau').delete().eq('ma_giai', CURRENT_TOUR.ma_giai);
-  toast('Đã xóa');
-  await cdLoadData();
+  if (!IS_TOUR_OWNER) return toast('Không có quyền', true); if (!confirm('Xóa toàn bộ lịch và điểm?')) return;
+  await sb.from('robin_tran_dau').delete().eq('ma_giai', CURRENT_TOUR.ma_giai); toast('Đã xóa'); await cdLoadData();
 }
-
 function cdGetTeamName(id) { const t = cdTeams.find(x => x.id === id); return t ? t.ten_doi : '???'; }
-
 function cdRenderSchedule() {
   const c = document.getElementById('cdScheduleList');
   const completed = cdMatches.filter(m => m.trang_thai === 'da_dau').length;
   document.getElementById('cdMatchCount').textContent = cdMatches.length;
   document.getElementById('cdMatchStats').textContent = cdMatches.length > 0 ? `${completed}/${cdMatches.length} đã đấu` : '';
-
-  if (!cdMatches.length) {
-    c.innerHTML = `<div class="empty-state" style="grid-column: 1 / -1;"><div class="icon">📅</div><h3>Chưa có lịch thi đấu</h3><p>${IS_TOUR_OWNER ? 'Bấm "⚡ Tạo lịch" để bắt đầu.' : 'Đang chờ admin tạo lịch.'}</p></div>`;
-    return;
-  }
-
-  const byR = {};
-  cdMatches.forEach(m => { if (!byR[m.vong]) byR[m.vong] = []; byR[m.vong].push(m); });
+  if (!cdMatches.length) { c.innerHTML = `<div class="empty-state" style="grid-column: 1 / -1;"><div class="icon">📅</div><h3>Chưa có lịch thi đấu</h3><p>${IS_TOUR_OWNER ? 'Bấm "⚡ Tạo lịch" để bắt đầu.' : 'Đang chờ admin tạo lịch.'}</p></div>`; return; }
+  const byR = {}; cdMatches.forEach(m => { if (!byR[m.vong]) byR[m.vong] = []; byR[m.vong].push(m); });
   let html = '';
   Object.keys(byR).sort((a, b) => a - b).forEach((round, rIdx) => {
     byR[round].forEach((m, idx) => {
-      const done = m.trang_thai === 'da_dau';
-      const aW = done && m.diem_a > m.diem_b;
-      const bW = done && m.diem_b > m.diem_a;
+      const done = m.trang_thai === 'da_dau'; const aW = done && m.diem_a > m.diem_b; const bW = done && m.diem_b > m.diem_a;
       const delay = Math.min((rIdx * 0.05 + idx * 0.03), 1.2);
-
       html += `<div class="match-card" style="animation-delay: ${delay}s">
-        <div class="mc-head">
-          <span class="mc-round">Vòng ${m.vong}</span>
-          <span class="mc-status ${done ? 'done' : 'wait'}">${done ? 'Hoàn thành' : 'Chờ đấu'}</span>
-        </div>
-        <div class="mc-body">
-          <div class="mc-teams">
-            <div class="mc-team">
-              <span class="mc-team-label">Đội nhà</span>
-              <div class="mc-team-names" style="${aW ? 'color: var(--green)' : ''}">${cdGetTeamName(m.doi_a_id)}</div>
-            </div>
-            <div class="mc-vs">
-              <div class="vs-circle">VS</div>
-              ${IS_TOUR_OWNER
-                ? `<div class="mc-score-row">
-                    <input type="number" class="score-input" id="cd-sa-${m.id}" value="${m.diem_a ?? ''}" placeholder="-" onfocus="IS_EDITING_SCORE=true" onblur="IS_EDITING_SCORE=false">
-                    <span class="mc-score sep">-</span>
-                    <input type="number" class="score-input" id="cd-sb-${m.id}" value="${m.diem_b ?? ''}" placeholder="-" onfocus="IS_EDITING_SCORE=true" onblur="IS_EDITING_SCORE=false">
-                  </div>
-                  <div class="mc-actions">
-                    <button class="btn btn-success btn-sm" onclick="cdSaveScore('${m.id}')">💾 Lưu</button>
-                    ${done ? `<button class="btn btn-danger btn-sm" onclick="cdResetScore('${m.id}')">↺</button>` : ''}
-                  </div>`
-                : (done ? `<div class="mc-score-row"><span class="mc-score s1 ${aW ? 'winner-score' : 'loser-score'}">${m.diem_a}</span><span class="mc-score sep">-</span><span class="mc-score s2 ${bW ? 'winner-score' : 'loser-score'}">${m.diem_b}</span></div>` : `<span class="mc-noscore">Chưa đấu</span>`)
-              }
-            </div>
-            <div class="mc-team">
-              <span class="mc-team-label">Đội khách</span>
-              <div class="mc-team-names" style="${bW ? 'color: var(--green)' : ''}">${cdGetTeamName(m.doi_b_id)}</div>
-            </div>
+        <div class="mc-head"><span class="mc-round">Vòng ${m.vong}</span><span class="mc-status ${done ? 'done' : 'wait'}">${done ? 'Hoàn thành' : 'Chờ đấu'}</span></div>
+        <div class="mc-body"><div class="mc-teams">
+          <div class="mc-team"><span class="mc-team-label">Đội nhà</span><div class="mc-team-names" style="${aW ? 'color: var(--green)' : ''}">${cdGetTeamName(m.doi_a_id)}</div></div>
+          <div class="mc-vs"><div class="vs-circle">VS</div>
+            ${IS_TOUR_OWNER ? `<div class="mc-score-row">
+                <input type="number" class="score-input" id="cd-sa-${m.id}" value="${m.diem_a ?? ''}" placeholder="-" onfocus="IS_EDITING_SCORE=true" onblur="IS_EDITING_SCORE=false">
+                <span class="mc-score sep">-</span>
+                <input type="number" class="score-input" id="cd-sb-${m.id}" value="${m.diem_b ?? ''}" placeholder="-" onfocus="IS_EDITING_SCORE=true" onblur="IS_EDITING_SCORE=false">
+              </div><div class="mc-actions"><button class="btn btn-success btn-sm" onclick="cdSaveScore('${m.id}')">💾 Lưu</button>${done ? `<button class="btn btn-danger btn-sm" onclick="cdResetScore('${m.id}')">↺</button>` : ''}</div>`
+              : (done ? `<div class="mc-score-row"><span class="mc-score s1 ${aW ? 'winner-score' : 'loser-score'}">${m.diem_a}</span><span class="mc-score sep">-</span><span class="mc-score s2 ${bW ? 'winner-score' : 'loser-score'}">${m.diem_b}</span></div>` : `<span class="mc-noscore">Chưa đấu</span>`)}
           </div>
-        </div>
-      </div>`;
+          <div class="mc-team"><span class="mc-team-label">Đội khách</span><div class="mc-team-names" style="${bW ? 'color: var(--green)' : ''}">${cdGetTeamName(m.doi_b_id)}</div></div>
+        </div></div></div>`;
     });
   });
   c.innerHTML = html;
 }
-
 async function cdSaveScore(id) {
   if (!IS_TOUR_OWNER) return toast('Không có quyền', true);
-  const a = parseInt(document.getElementById('cd-sa-' + id).value);
-  const b = parseInt(document.getElementById('cd-sb-' + id).value);
-  if (isNaN(a) || isNaN(b)) return toast('Nhập đủ 2 tỷ số', true);
-  if (a === b) return toast('Không có hòa!', true);
-  if (a < 0 || b < 0) return toast('Tỷ số không âm', true);
+  const a = parseInt(document.getElementById('cd-sa-' + id).value); const b = parseInt(document.getElementById('cd-sb-' + id).value);
+  if (isNaN(a) || isNaN(b)) return toast('Nhập đủ 2 tỷ số', true); if (a === b) return toast('Không có hòa!', true); if (a < 0 || b < 0) return toast('Tỷ số không âm', true);
   IS_EDITING_SCORE = false;
   const { error } = await sb.from('robin_tran_dau').update({ diem_a: a, diem_b: b, trang_thai: 'da_dau' }).eq('id', id);
-  if (error) return toast('Lỗi: ' + error.message, true);
-  toast('✅ Đã lưu');
-  await cdLoadData();
+  if (error) return toast('Lỗi: ' + error.message, true); toast('✅ Đã lưu'); await cdLoadData();
 }
-
 async function cdResetScore(id) {
-  if (!IS_TOUR_OWNER) return toast('Không có quyền', true);
-  if (!confirm('Reset trận này?')) return;
-  await sb.from('robin_tran_dau').update({ diem_a: null, diem_b: null, trang_thai: 'chua_dau' }).eq('id', id);
-  toast('Đã reset');
-  await cdLoadData();
+  if (!IS_TOUR_OWNER) return toast('Không có quyền', true); if (!confirm('Reset trận này?')) return;
+  await sb.from('robin_tran_dau').update({ diem_a: null, diem_b: null, trang_thai: 'chua_dau' }).eq('id', id); toast('Đã reset'); await cdLoadData();
 }
-
 function cdComputeStandings() {
-  const total = Math.max(0, cdTeams.length - 1);
-  const s = {};
+  const total = Math.max(0, cdTeams.length - 1); const s = {};
   cdTeams.forEach(t => { s[t.id] = { ten: t.ten_doi, tran: 0, thang: 0, thua: 0, diem: 0, dt: 0, db: 0 }; });
   cdMatches.filter(m => m.trang_thai === 'da_dau').forEach(m => {
-    const a = s[m.doi_a_id], b = s[m.doi_b_id];
-    if (!a || !b) return;
+    const a = s[m.doi_a_id], b = s[m.doi_b_id]; if (!a || !b) return;
     a.tran++; b.tran++; a.dt += m.diem_a; a.db += m.diem_b; b.dt += m.diem_b; b.db += m.diem_a;
     if (m.diem_a > m.diem_b) { a.thang++; a.diem++; b.thua++; } else { b.thang++; b.diem++; a.thua++; }
   });
-  return {
-    sorted: Object.values(s).map(x => ({ ...x, hs: x.dt - x.db })).sort((x, y) => {
-      if (y.diem !== x.diem) return y.diem - x.diem;
-      if (y.hs !== x.hs) return y.hs - x.hs;
-      return x.ten.localeCompare(y.ten);
-    }),
-    total
-  };
+  return { sorted: Object.values(s).map(x => ({ ...x, hs: x.dt - x.db })).sort((x, y) => { if (y.diem !== x.diem) return y.diem - x.diem; if (y.hs !== x.hs) return y.hs - x.hs; return x.ten.localeCompare(y.ten); }), total };
 }
-
 function cdRenderStandings() {
   const tbody = document.getElementById('cdStandingsBody');
   if (!cdTeams.length) { tbody.innerHTML = '<tr><td colspan="7" style="padding: 28px; color: var(--text-dim); text-align: center;">Chưa có đội</td></tr>'; return; }
   const { sorted, total } = cdComputeStandings();
   tbody.innerHTML = sorted.map((x, i) => {
-    const r = i + 1;
-    const rc = r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'r0';
-    const hc = x.hs > 0 ? 'plus' : x.hs < 0 ? 'minus' : '';
-    const hs = x.hs > 0 ? '+' + x.hs : x.hs;
+    const r = i + 1; const rc = r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'r0';
+    const hc = x.hs > 0 ? 'plus' : x.hs < 0 ? 'minus' : ''; const hs = x.hs > 0 ? '+' + x.hs : x.hs;
     const medal = r === 1 ? '🥇' : r === 2 ? '🥈' : r === 3 ? '🥉' : '';
     return `<tr><td><span class="rank-num ${rc}">${medal}${r}</span></td><td title="${x.ten}">${x.ten}</td><td><b>${x.tran}</b>/${total}</td><td style="color: var(--green); font-weight: 800;">${x.thang}</td><td style="color: var(--red); font-weight: 800;">${x.thua}</td><td class="points-cell">${x.diem}</td><td class="${hc}">${hs}</td></tr>`;
   }).join('');
 }
-
 async function exportCdStandings() {
-  if (!cdTeams.length) return toast('Chưa có đội để xuất', true);
-  toast('📸 Đang tạo ảnh...');
+  if (!cdTeams.length) return toast('Chưa có đội để xuất', true); toast('📸 Đang tạo ảnh...');
   const { sorted, total } = cdComputeStandings();
   const ngayStr = new Date(CURRENT_TOUR.ngay_to_chuc).toLocaleDateString('vi-VN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
   const exportArea = document.getElementById('exportArea');
   exportArea.innerHTML = `<div class="export-card">
-    <div class="export-header">
-      <div style="font-size: 56px; margin-bottom: 8px;">🏆</div>
-      <div class="export-title">${CURRENT_TOUR.ten_giai}</div>
-      <div class="export-subtitle">📅 ${ngayStr}${CURRENT_TOUR.dia_diem ? ' · 📍 ' + CURRENT_TOUR.dia_diem : ''}</div>
-    </div>
-    <div class="export-table"><table>
-      <thead><tr><th style="width: 50px;">#</th><th style="text-align: left;">Đội</th><th>Trận</th><th>Thắng</th><th>Thua</th><th>Điểm</th><th>HS</th></tr></thead>
-      <tbody>${sorted.map((x, i) => {
-        const r = i + 1;
-        const cls = r === 1 ? 'rank-1' : r === 2 ? 'rank-2' : r === 3 ? 'rank-3' : '';
-        const hc = x.hs > 0 ? 'plus' : x.hs < 0 ? 'minus' : '';
-        const hs = x.hs > 0 ? '+' + x.hs : x.hs;
-        const medal = r === 1 ? '🥇' : r === 2 ? '🥈' : r === 3 ? '🥉' : '';
-        return `<tr class="${cls}"><td class="td-rank" style="text-align: center;">${medal}${r}</td><td class="td-team">${x.ten}</td><td><b>${x.tran}</b>/${total}</td><td class="thang">${x.thang}</td><td class="thua">${x.thua}</td><td class="td-points">${x.diem}</td><td class="${hc}">${hs}</td></tr>`;
-      }).join('')}</tbody></table></div>
-    <div class="export-footer">🎾 Designed by Ly Dung RITA · ${new Date().toLocaleString('vi-VN')}</div>
-  </div>`;
+    <div class="export-header"><div style="font-size: 56px; margin-bottom: 8px;">🏆</div><div class="export-title">${CURRENT_TOUR.ten_giai}</div><div class="export-subtitle">📅 ${ngayStr}${CURRENT_TOUR.dia_diem ? ' · 📍 ' + CURRENT_TOUR.dia_diem : ''}</div></div>
+    <div class="export-table"><table><thead><tr><th style="width: 50px;">#</th><th style="text-align: left;">Đội</th><th>Trận</th><th>Thắng</th><th>Thua</th><th>Điểm</th><th>HS</th></tr></thead>
+    <tbody>${sorted.map((x, i) => {
+      const r = i + 1; const cls = r === 1 ? 'rank-1' : r === 2 ? 'rank-2' : r === 3 ? 'rank-3' : '';
+      const hc = x.hs > 0 ? 'plus' : x.hs < 0 ? 'minus' : ''; const hs = x.hs > 0 ? '+' + x.hs : x.hs;
+      const medal = r === 1 ? '🥇' : r === 2 ? '🥈' : r === 3 ? '🥉' : '';
+      return `<tr class="${cls}"><td class="td-rank" style="text-align: center;">${medal}${r}</td><td class="td-team">${x.ten}</td><td><b>${x.tran}</b>/${total}</td><td class="thang">${x.thang}</td><td class="thua">${x.thua}</td><td class="td-points">${x.diem}</td><td class="${hc}">${hs}</td></tr>`;
+    }).join('')}</tbody></table></div><div class="export-footer">🎾 Designed by Ly Dung RITA · ${new Date().toLocaleString('vi-VN')}</div></div>`;
   await new Promise(r => setTimeout(r, 100));
   try {
     const card = exportArea.querySelector('.export-card');
     const canvas = await html2canvas(card, { scale: 2, useCORS: true, backgroundColor: null, logging: false });
     canvas.toBlob(blob => {
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = `BXH_${CURRENT_TOUR.ten_giai.replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.png`;
-      document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
-      toast('✅ Đã tải ảnh!');
+      const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `BXH_${CURRENT_TOUR.ten_giai.replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.png`;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); toast('✅ Đã tải ảnh!');
     }, 'image/png');
   } catch (e) { toast('Lỗi: ' + e.message, true); }
 }
-
 function switchCdTab(name, btn) {
   document.querySelectorAll('#cdTabs .detail-tab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('#detailCapDoi .detail-tab-content').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('cdTab' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
+  btn.classList.add('active'); document.getElementById('cdTab' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
 }
 
 async function cnLoadTour(maGiai) {
   const { data: tour } = await sb.from('robin_canhan_tour').select('*').eq('ma_giai', maGiai).single();
   if (!tour) { toast('Không tìm thấy giải', true); goHome(); return; }
-
-  CURRENT_TOUR = tour;
-  IS_TOUR_OWNER = canManageTour(tour);
-
+  CURRENT_TOUR = tour; IS_TOUR_OWNER = canManageTour(tour);
   document.getElementById('cnTourName').textContent = tour.ten_giai;
   document.getElementById('cnLocation').textContent = tour.dia_diem || 'Chưa cập nhật';
   document.getElementById('cnDate').textContent = formatDate(tour.ngay_to_chuc);
   document.getElementById('cnMaGiai').textContent = tour.ma_giai;
-
-  const container = document.getElementById('detailCaNhan');
-  IS_TOUR_OWNER ? container.classList.add('is-owner') : container.classList.remove('is-owner');
-
+  IS_TOUR_OWNER ? document.getElementById('detailCaNhan').classList.add('is-owner') : document.getElementById('detailCaNhan').classList.remove('is-owner');
   await cnLoadData();
-
   sb.removeAllChannels();
   sb.channel('cn_vdv_' + maGiai).on('postgres_changes', { event: '*', schema: 'public', table: 'robin_canhan_vdv', filter: `ma_giai=eq.${maGiai}` }, cnLoadData).subscribe();
   sb.channel('cn_matches_' + maGiai).on('postgres_changes', { event: '*', schema: 'public', table: 'robin_canhan_tran_dau', filter: `ma_giai=eq.${maGiai}` }, cnLoadData).subscribe();
@@ -1778,56 +957,38 @@ async function cnLoadTour(maGiai) {
 async function cnLoadData() {
   if (!CURRENT_TOUR || CURRENT_TYPE !== 'canhan' || IS_EDITING_SCORE) return;
   const mg = CURRENT_TOUR.ma_giai;
-  const [v, m] = await Promise.all([
-    sb.from('robin_canhan_vdv').select('*').eq('ma_giai', mg).order('created_at'),
-    sb.from('robin_canhan_tran_dau').select('*').eq('ma_giai', mg).order('vong').order('created_at')
-  ]);
-  cnVdvs = v.data || [];
-  cnMatches = m.data || [];
-
+  const [v, m] = await Promise.all([sb.from('robin_canhan_vdv').select('*').eq('ma_giai', mg).order('created_at'), sb.from('robin_canhan_tran_dau').select('*').eq('ma_giai', mg).order('vong').order('created_at')]);
+  cnVdvs = v.data || []; cnMatches = m.data || [];
   const currentHash = cnVdvs.length + '|' + cnMatches.length + '|' + cnMatches.map(x=>x.trang_thai).join('');
-  if (currentHash === cnLastHash) return;
-  cnLastHash = currentHash;
-
-  cnRenderVdvs();
-  cnRenderStandings();
-  cnRenderSchedule();
+  if (currentHash === cnLastHash) return; cnLastHash = currentHash;
+  cnRenderVdvs(); cnRenderStandings(); cnRenderSchedule();
 }
 
 async function cnAddVdv() {
   if (!IS_TOUR_OWNER) return toast('Không có quyền', true);
-  const name = document.getElementById('cnNewVdvName').value.trim();
-  if (!name) return toast('Nhập tên VĐV', true);
+  const name = document.getElementById('cnNewVdvName').value.trim(); if (!name) return toast('Nhập tên VĐV', true);
   const { error } = await sb.from('robin_canhan_vdv').insert({ ma_giai: CURRENT_TOUR.ma_giai, ten_vdv: name });
   if (error) return toast('Lỗi: ' + error.message, true);
-  document.getElementById('cnNewVdvName').value = '';
-  toast('✅ Đã thêm');
-  await cnLoadData();
+  document.getElementById('cnNewVdvName').value = ''; toast('✅ Đã thêm'); await cnLoadData();
 }
-
 async function cnDeleteVdv(id) {
-  if (!IS_TOUR_OWNER) return;
-  if (!confirm('Xóa VĐV này?')) return;
-  await sb.from('robin_canhan_vdv').delete().eq('id', id);
-  toast('Đã xóa');
-  await cnLoadData();
+  if (!IS_TOUR_OWNER) return; if (!confirm('Xóa VĐV này?')) return;
+  await sb.from('robin_canhan_vdv').delete().eq('id', id); toast('Đã xóa'); await cnLoadData();
 }
-
 function cnRenderVdvs() {
-  document.getElementById('cnVdvCount').textContent = cnVdvs.length;
-  document.getElementById('cnVdvCountBadge').textContent = cnVdvs.length;
+  document.getElementById('cnVdvCount').textContent = cnVdvs.length; document.getElementById('cnVdvCountBadge').textContent = cnVdvs.length;
   const c = document.getElementById('cnVdvList');
   if (!cnVdvs.length) { c.innerHTML = '<span style="color: var(--text-dim); font-size: 0.8rem;">Chưa có VĐV nào.</span>'; return; }
   c.innerHTML = cnVdvs.map(v => `<div class="chip">🎾 <span class="name">${v.ten_vdv}</span>${IS_TOUR_OWNER ? `<button onclick="cnDeleteVdv('${v.id}')">✕</button>` : ''}</div>`).join('');
 }
 
-// 🌟 THUẬT TOÁN TẠO LỊCH 2v2 TỐI ƯU CHO ROBIN CÁ NHÂN
+// 🌟 THUẬT TOÁN TẠO LỊCH 2v2 TỐI ƯU CHO ROBIN CÁ NHÂN (LOGIC CHUẨN)
 function cnGenerate2v2Schedule() {
   const players = cnVdvs.map(v => ({ id: v.id, name: v.ten_vdv }));
   const n = players.length;
   if (n < 4) return [];
 
-  // 1. Tính K theo công thức: K lớn nhất sao cho K <= N-1 và (K * N) % 4 === 0
+  // 1. Tính K: số trận tối đa mỗi người sao cho (K * N) % 4 == 0
   let K = n - 1;
   while (K > 0 && (K * n) % 4 !== 0) K--;
   if (K < 1) return [];
@@ -1843,34 +1004,25 @@ function cnGenerate2v2Schedule() {
   let callCount = 0;
   let bestSolution = null;
 
-  // Helper: Lấy danh sách người chơi khả dụng, sắp xếp theo số trận đã đấu (tăng dần) để ưu tiên cân bằng
   function getAvailablePlayers(exclude = []) {
     const avail = [];
     for (let i = 0; i < n; i++) {
-      if (!exclude.includes(i) && matchCount[i] < K) {
-        avail.push(i);
-      }
+      if (!exclude.includes(i) && matchCount[i] < K) avail.push(i);
     }
-    avail.sort((a, b) => matchCount[a] - matchCount[b]);
+    avail.sort((a, b) => matchCount[a] - matchCount[b]); // Ưu tiên người ít trận nhất
     return avail;
   }
 
   function solve() {
-    // Kiểm tra timeout mỗi 512 lần gọi để đảm bảo hiệu năng
     if ((++callCount & 511) === 0 && Date.now() - startTime > TIMEOUT) return false;
     if (matches.length === targetMatches) {
       bestSolution = matches.map(m => ({ ...m }));
       return true;
     }
 
-    // Luôn chọn người có ít trận nhất để bắt đầu ghép cặp (đảm bảo cân bằng tuyệt đối)
-    let minCount = K + 1;
-    let p1 = -1;
+    let minCount = K + 1, p1 = -1;
     for (let i = 0; i < n; i++) {
-      if (matchCount[i] < minCount) {
-        minCount = matchCount[i];
-        p1 = i;
-      }
+      if (matchCount[i] < minCount) { minCount = matchCount[i]; p1 = i; }
     }
     if (p1 === -1 || minCount >= K) return false;
 
@@ -1881,39 +1033,25 @@ function cnGenerate2v2Schedule() {
       const opponents = getAvailablePlayers([p1, p2]);
       for (let i = 0; i < opponents.length; i++) {
         for (let j = i + 1; j < opponents.length; j++) {
-          const p3 = opponents[i];
-          const p4 = opponents[j];
-          
+          const p3 = opponents[i], p4 = opponents[j];
           if (usedPairs.has(partnerKey(p3, p4))) continue;
 
           // 🚀 PRUNING: Kiểm tra nghiêm ngặt chênh lệch <= 1 trước khi đệ quy
           const tempCounts = [...matchCount];
           tempCounts[p1]++; tempCounts[p2]++; tempCounts[p3]++; tempCounts[p4]++;
-          
           let tMax = 0, tMin = K;
-          for (let c of tempCounts) {
-            if (c > tMax) tMax = c;
-            if (c < tMin) tMin = c;
-          }
-          if (tMax - tMin > 1) continue; // Loại bỏ nhánh không thỏa mãn ngay lập tức
+          for (let c of tempCounts) { if (c > tMax) tMax = c; if (c < tMin) tMin = c; }
+          if (tMax - tMin > 1) continue; 
 
-          // Áp dụng nước đi
-          matches.push({
-            vong: matches.length + 1,
-            doi_a_1: players[p1].id, doi_a_2: players[p2].id,
-            doi_b_1: players[p3].id, doi_b_2: players[p4].id,
-            trang_thai: 'chua_dau'
-          });
-          usedPairs.add(partnerKey(p1, p2));
-          usedPairs.add(partnerKey(p3, p4));
+          matches.push({ vong: matches.length + 1, doi_a_1: players[p1].id, doi_a_2: players[p2].id, doi_b_1: players[p3].id, doi_b_2: players[p4].id, trang_thai: 'chua_dau' });
+          usedPairs.add(partnerKey(p1, p2)); usedPairs.add(partnerKey(p3, p4));
           matchCount[p1]++; matchCount[p2]++; matchCount[p3]++; matchCount[p4]++;
 
           if (solve()) return true;
 
           // Backtrack
           matches.pop();
-          usedPairs.delete(partnerKey(p1, p2));
-          usedPairs.delete(partnerKey(p3, p4));
+          usedPairs.delete(partnerKey(p1, p2)); usedPairs.delete(partnerKey(p3, p4));
           matchCount[p1]--; matchCount[p2]--; matchCount[p3]--; matchCount[p4]--;
         }
       }
@@ -1929,28 +1067,23 @@ function cnGenerate2v2Schedule() {
         [players[i], players[j]] = [players[j], players[i]];
       }
     }
-    matchCount.fill(0);
-    usedPairs.clear();
-    matches.length = 0;
-    callCount = 0;
+    matchCount.fill(0); usedPairs.clear(); matches.length = 0; callCount = 0;
     solve();
   }
 
   if (bestSolution) return bestSolution;
 
-  // 🚀 FALLBACK GREEDY: Nếu backtracking thất bại, dùng thuật toán tham lam đảm bảo <= 1 chênh lệch
+  // 🚀 FALLBACK GREEDY: Đảm bảo 100% không vi phạm ràng buộc chênh lệch <= 1
   console.warn('Backtracking timeout, using guaranteed balanced fallback...');
   const gMatchCount = new Array(n).fill(0);
   const gUsedPairs = new Set();
   const gMatches = [];
 
-  // Tạo tất cả các tổ hợp 4 người hợp lệ
   const allCombos = [];
   for (let i = 0; i < n; i++) {
     for (let j = i + 1; j < n; j++) {
       for (let k = j + 1; k < n; k++) {
         for (let l = k + 1; l < n; l++) {
-          // 3 cách chia 4 người thành 2 đội
           allCombos.push([i, j, k, l]);
           allCombos.push([i, k, j, l]);
           allCombos.push([i, l, j, k]);
@@ -1959,13 +1092,11 @@ function cnGenerate2v2Schedule() {
     }
   }
 
-  // Xáo trộn để tăng tính ngẫu nhiên
   for (let i = allCombos.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [allCombos[i], allCombos[j]] = [allCombos[j], allCombos[i]];
   }
 
-  // Sắp xếp ưu tiên các combo có tổng số trận của 4 người thấp nhất
   allCombos.sort((a, b) => {
     const sumA = gMatchCount[a[0]] + gMatchCount[a[1]] + gMatchCount[a[2]] + gMatchCount[a[3]];
     const sumB = gMatchCount[b[0]] + gMatchCount[b[1]] + gMatchCount[b[2]] + gMatchCount[b[3]];
@@ -1974,27 +1105,17 @@ function cnGenerate2v2Schedule() {
 
   for (const combo of allCombos) {
     const [p1, p2, p3, p4] = combo;
-    
     if (gMatchCount[p1] >= K || gMatchCount[p2] >= K || gMatchCount[p3] >= K || gMatchCount[p4] >= K) continue;
     if (gUsedPairs.has(partnerKey(p1, p2)) || gUsedPairs.has(partnerKey(p3, p4))) continue;
 
     const tempCounts = [...gMatchCount];
     tempCounts[p1]++; tempCounts[p2]++; tempCounts[p3]++; tempCounts[p4]++;
     let tMax = 0, tMin = K;
-    for (let c of tempCounts) {
-      if (c > tMax) tMax = c;
-      if (c < tMin) tMin = c;
-    }
+    for (let c of tempCounts) { if (c > tMax) tMax = c; if (c < tMin) tMin = c; }
     if (tMax - tMin > 1) continue;
 
-    gMatches.push({
-      vong: gMatches.length + 1,
-      doi_a_1: players[p1].id, doi_a_2: players[p2].id,
-      doi_b_1: players[p3].id, doi_b_2: players[p4].id,
-      trang_thai: 'chua_dau'
-    });
-    gUsedPairs.add(partnerKey(p1, p2));
-    gUsedPairs.add(partnerKey(p3, p4));
+    gMatches.push({ vong: gMatches.length + 1, doi_a_1: players[p1].id, doi_a_2: players[p2].id, doi_b_1: players[p3].id, doi_b_2: players[p4].id, trang_thai: 'chua_dau' });
+    gUsedPairs.add(partnerKey(p1, p2)); gUsedPairs.add(partnerKey(p3, p4));
     gMatchCount[p1]++; gMatchCount[p2]++; gMatchCount[p3]++; gMatchCount[p4]++;
   }
 
@@ -2005,109 +1126,62 @@ async function cnGenerateSchedule() {
   if (!IS_TOUR_OWNER) return toast('Không có quyền', true);
   if (cnVdvs.length < 4) return toast('Cần ít nhất 4 VĐV để đánh đôi 2v2', true);
   if (!confirm('Tạo lịch mới sẽ XÓA toàn bộ lịch và điểm số cũ. Tiếp tục?')) return;
-
   const btn = document.getElementById('cnBtnGenSchedule');
-  btn.disabled = true; btn.textContent = '⏳ Đang tính...';
-  toast('⏳ Đang tạo lịch tối ưu...');
+  btn.disabled = true; btn.textContent = '⏳ Đang tính...'; toast('⏳ Đang tạo lịch tối ưu...');
   await new Promise(r => setTimeout(r, 50));
-
   await sb.from('robin_canhan_tran_dau').delete().eq('ma_giai', CURRENT_TOUR.ma_giai);
   const matches = cnGenerate2v2Schedule().map(m => ({ ...m, ma_giai: CURRENT_TOUR.ma_giai }));
   btn.disabled = false; btn.textContent = '⚡ Tạo lịch 2v2';
   if (matches.length === 0) return toast('Không thể tạo lịch với số VĐV này', true);
-
   const { error } = await sb.from('robin_canhan_tran_dau').insert(matches);
   if (error) return toast('Lỗi: ' + error.message, true);
-  toast('✅ Đã tạo ' + matches.length + ' trận');
-  await cnLoadData();
+  toast('✅ Đã tạo ' + matches.length + ' trận'); await cnLoadData();
 }
-
 async function cnResetSchedule() {
-  if (!IS_TOUR_OWNER) return toast('Không có quyền', true);
-  if (!confirm('Xóa toàn bộ lịch và điểm?')) return;
-  await sb.from('robin_canhan_tran_dau').delete().eq('ma_giai', CURRENT_TOUR.ma_giai);
-  toast('Đã xóa');
-  await cnLoadData();
+  if (!IS_TOUR_OWNER) return toast('Không có quyền', true); if (!confirm('Xóa toàn bộ lịch và điểm?')) return;
+  await sb.from('robin_canhan_tran_dau').delete().eq('ma_giai', CURRENT_TOUR.ma_giai); toast('Đã xóa'); await cnLoadData();
 }
-
 function cnGetVdvName(id) { const v = cnVdvs.find(x => x.id === id); return v ? v.ten_vdv : '???'; }
-
 function cnRenderSchedule() {
   const c = document.getElementById('cnScheduleList');
   document.getElementById('cnMatchCount').textContent = cnMatches.length;
-  if (!cnMatches.length) {
-    c.innerHTML = `<div class="empty-state" style="grid-column: 1 / -1;"><div class="icon">📅</div><h3>Chưa có lịch thi đấu</h3><p>${IS_TOUR_OWNER ? 'Bấm "⚡ Tạo lịch 2v2" để bắt đầu.' : 'Đang chờ admin tạo lịch.'}</p></div>`;
-    return;
-  }
-  const byR = {};
-  cnMatches.forEach(m => { if (!byR[m.vong]) byR[m.vong] = []; byR[m.vong].push(m); });
+  if (!cnMatches.length) { c.innerHTML = `<div class="empty-state" style="grid-column: 1 / -1;"><div class="icon">📅</div><h3>Chưa có lịch thi đấu</h3><p>${IS_TOUR_OWNER ? 'Bấm "⚡ Tạo lịch 2v2" để bắt đầu.' : 'Đang chờ admin tạo lịch.'}</p></div>`; return; }
+  const byR = {}; cnMatches.forEach(m => { if (!byR[m.vong]) byR[m.vong] = []; byR[m.vong].push(m); });
   let html = '';
   Object.keys(byR).sort((a, b) => a - b).forEach((round, rIdx) => {
     byR[round].forEach((m, idx) => {
-      const done = m.trang_thai === 'da_dau';
-      const aW = done && m.diem_a > m.diem_b;
-      const bW = done && m.diem_b > m.diem_a;
+      const done = m.trang_thai === 'da_dau'; const aW = done && m.diem_a > m.diem_b; const bW = done && m.diem_b > m.diem_a;
       const delay = Math.min((rIdx * 0.05 + idx * 0.03), 1.2);
       html += `<div class="match-card" style="animation-delay: ${delay}s">
-        <div class="mc-head">
-          <span class="mc-round">Vòng ${m.vong}</span>
-          <span class="mc-status ${done ? 'done' : 'wait'}">${done ? 'Hoàn thành' : 'Chờ đấu'}</span>
-        </div>
-        <div class="mc-body">
-          <div class="mc-teams">
-            <div class="mc-team">
-              <span class="mc-team-label">Đội 1</span>
-              <div class="mc-team-names">${cnGetVdvName(m.doi_a_1)}<span class="amp">&</span>${cnGetVdvName(m.doi_a_2)}</div>
-            </div>
-            <div class="mc-vs">
-              <div class="vs-circle">VS</div>
-              ${IS_TOUR_OWNER
-                ? `<div class="mc-score-row">
-                    <input type="number" class="score-input" id="cn-sa-${m.id}" value="${m.diem_a ?? ''}" placeholder="-" onfocus="IS_EDITING_SCORE=true" onblur="IS_EDITING_SCORE=false">
-                    <span class="mc-score sep">-</span>
-                    <input type="number" class="score-input" id="cn-sb-${m.id}" value="${m.diem_b ?? ''}" placeholder="-" onfocus="IS_EDITING_SCORE=true" onblur="IS_EDITING_SCORE=false">
-                  </div>
-                  <div class="mc-actions">
-                    <button class="btn btn-success btn-sm" onclick="cnSaveScore('${m.id}')">💾 Lưu</button>
-                    ${done ? `<button class="btn btn-danger btn-sm" onclick="cnResetScore('${m.id}')">↺</button>` : ''}
-                  </div>`
-                : (done ? `<div class="mc-score-row"><span class="mc-score s1 ${aW ? 'winner-score' : 'loser-score'}">${m.diem_a}</span><span class="mc-score sep">-</span><span class="mc-score s2 ${bW ? 'winner-score' : 'loser-score'}">${m.diem_b}</span></div>` : `<span class="mc-noscore">Chưa đấu</span>`)
-              }
-            </div>
-            <div class="mc-team">
-              <span class="mc-team-label">Đội 2</span>
-              <div class="mc-team-names">${cnGetVdvName(m.doi_b_1)}<span class="amp">&</span>${cnGetVdvName(m.doi_b_2)}</div>
-            </div>
+        <div class="mc-head"><span class="mc-round">Vòng ${m.vong}</span><span class="mc-status ${done ? 'done' : 'wait'}">${done ? 'Hoàn thành' : 'Chờ đấu'}</span></div>
+        <div class="mc-body"><div class="mc-teams">
+          <div class="mc-team"><span class="mc-team-label">Đội 1</span><div class="mc-team-names">${cnGetVdvName(m.doi_a_1)}<span class="amp">&</span>${cnGetVdvName(m.doi_a_2)}</div></div>
+          <div class="mc-vs"><div class="vs-circle">VS</div>
+            ${IS_TOUR_OWNER ? `<div class="mc-score-row">
+                <input type="number" class="score-input" id="cn-sa-${m.id}" value="${m.diem_a ?? ''}" placeholder="-" onfocus="IS_EDITING_SCORE=true" onblur="IS_EDITING_SCORE=false">
+                <span class="mc-score sep">-</span>
+                <input type="number" class="score-input" id="cn-sb-${m.id}" value="${m.diem_b ?? ''}" placeholder="-" onfocus="IS_EDITING_SCORE=true" onblur="IS_EDITING_SCORE=false">
+              </div><div class="mc-actions"><button class="btn btn-success btn-sm" onclick="cnSaveScore('${m.id}')">💾 Lưu</button>${done ? `<button class="btn btn-danger btn-sm" onclick="cnResetScore('${m.id}')">↺</button>` : ''}</div>`
+              : (done ? `<div class="mc-score-row"><span class="mc-score s1 ${aW ? 'winner-score' : 'loser-score'}">${m.diem_a}</span><span class="mc-score sep">-</span><span class="mc-score s2 ${bW ? 'winner-score' : 'loser-score'}">${m.diem_b}</span></div>` : `<span class="mc-noscore">Chưa đấu</span>`)}
           </div>
-        </div>
-      </div>`;
+          <div class="mc-team"><span class="mc-team-label">Đội 2</span><div class="mc-team-names">${cnGetVdvName(m.doi_b_1)}<span class="amp">&</span>${cnGetVdvName(m.doi_b_2)}</div></div>
+        </div></div></div>`;
     });
   });
   c.innerHTML = html;
 }
-
 async function cnSaveScore(id) {
   if (!IS_TOUR_OWNER) return toast('Không có quyền', true);
-  const a = parseInt(document.getElementById('cn-sa-' + id).value);
-  const b = parseInt(document.getElementById('cn-sb-' + id).value);
-  if (isNaN(a) || isNaN(b)) return toast('Nhập đủ 2 tỷ số', true);
-  if (a === b) return toast('Không có hòa!', true);
-  if (a < 0 || b < 0) return toast('Tỷ số không âm', true);
+  const a = parseInt(document.getElementById('cn-sa-' + id).value); const b = parseInt(document.getElementById('cn-sb-' + id).value);
+  if (isNaN(a) || isNaN(b)) return toast('Nhập đủ 2 tỷ số', true); if (a === b) return toast('Không có hòa!', true); if (a < 0 || b < 0) return toast('Tỷ số không âm', true);
   IS_EDITING_SCORE = false;
   const { error } = await sb.from('robin_canhan_tran_dau').update({ diem_a: a, diem_b: b, trang_thai: 'da_dau' }).eq('id', id);
-  if (error) return toast('Lỗi: ' + error.message, true);
-  toast('✅ Đã lưu');
-  await cnLoadData();
+  if (error) return toast('Lỗi: ' + error.message, true); toast('✅ Đã lưu'); await cnLoadData();
 }
-
 async function cnResetScore(id) {
-  if (!IS_TOUR_OWNER) return toast('Không có quyền', true);
-  if (!confirm('Reset trận này?')) return;
-  await sb.from('robin_canhan_tran_dau').update({ diem_a: null, diem_b: null, trang_thai: 'chua_dau' }).eq('id', id);
-  toast('Đã reset');
-  await cnLoadData();
+  if (!IS_TOUR_OWNER) return toast('Không có quyền', true); if (!confirm('Reset trận này?')) return;
+  await sb.from('robin_canhan_tran_dau').update({ diem_a: null, diem_b: null, trang_thai: 'chua_dau' }).eq('id', id); toast('Đã reset'); await cnLoadData();
 }
-
 function cnRenderStandings() {
   const el = document.getElementById('cnStandingsBody');
   if (!cnVdvs.length) { el.innerHTML = '<tr><td colspan="7" style="padding: 28px; color: var(--text-dim); text-align: center;">Chưa có VĐV</td></tr>'; return; }
@@ -2135,76 +1209,45 @@ function cnRenderStandings() {
     return x.ten.localeCompare(y.ten);
   });
   el.innerHTML = sorted.map((s, i) => {
-    const r = i + 1;
-    const rc = r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'r0';
-    const hc = s.hs > 0 ? 'plus' : s.hs < 0 ? 'minus' : '';
-    const hs = s.hs > 0 ? '+' + s.hs : s.hs;
+    const r = i + 1; const rc = r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : 'r0';
+    const hc = s.hs > 0 ? 'plus' : s.hs < 0 ? 'minus' : ''; const hs = s.hs > 0 ? '+' + s.hs : s.hs;
     const medal = r === 1 ? '🥇' : r === 2 ? '🥈' : r === 3 ? '🥉' : '';
     return `<tr><td><span class="rank-num ${rc}">${medal}${r}</span></td><td title="${s.ten}">${s.ten}</td><td><b>${s.tran_da_dau}</b>/${s.tran_tong}</td><td style="color: var(--green); font-weight: 800;">${s.thang}</td><td style="color: var(--red); font-weight: 800;">${s.thua}</td><td class="points-cell">${s.diem}</td><td class="${hc}">${hs}</td></tr>`;
   }).join('');
 }
-
 function switchCnTab(name, btn) {
   document.querySelectorAll('#cnTabs .detail-tab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('#detailCaNhan .detail-tab-content').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('cnTab' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
+  btn.classList.add('active'); document.getElementById('cnTab' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
 }
 
-function showCreateTourModal() {
-  if (!CURRENT_USER) return showModal('loginModal');
-  document.getElementById('c_ngay').valueAsDate = new Date();
-  showModal('createTourModal');
-}
-
+function showCreateTourModal() { if (!CURRENT_USER) return showModal('loginModal'); document.getElementById('c_ngay').valueAsDate = new Date(); showModal('createTourModal'); }
 async function createNewTour() {
-  const btn = document.getElementById('createSubmitBtn');
-  if (btn.disabled) return;
-  
+  const btn = document.getElementById('createSubmitBtn'); if (btn.disabled) return;
   const type = document.getElementById('c_type').value;
   const ten = document.getElementById('c_ten_giai').value.trim();
   const dd = document.getElementById('c_dia_diem').value.trim();
   const ngay = document.getElementById('c_ngay').value;
   if (!ten || !ngay) return toast('Nhập tên giải và ngày', true);
-  
   setLoading('createSubmitBtn', true);
   try {
     if (type === 'capdoi') {
       const { data: last } = await sb.from('robin_tour').select('ma_giai').order('ma_giai', { ascending: false }).limit(1);
-      let n = 1;
-      if (last && last.length && last[0].ma_giai.startsWith('G')) {
-        const cur = parseInt(last[0].ma_giai.substring(1), 10);
-        if (!isNaN(cur)) n = cur + 1;
-      }
+      let n = 1; if (last && last.length && last[0].ma_giai.startsWith('G')) { const cur = parseInt(last[0].ma_giai.substring(1), 10); if (!isNaN(cur)) n = cur + 1; }
       const mg = 'G' + String(n).padStart(3, '0');
       const { error } = await sb.from('robin_tour').insert({ ma_giai: mg, ten_giai: ten, dia_diem: dd, ngay_to_chuc: ngay, admin_id: CURRENT_USER.id });
       if (error) throw error;
-      closeModal('createTourModal');
-      toast('✅ Đã tạo giải!');
-      await loadAllTournaments();
-      setTimeout(() => openTourDetail('capdoi', mg), 300);
+      closeModal('createTourModal'); toast('✅ Đã tạo giải!'); await loadAllTournaments(); setTimeout(() => openTourDetail('capdoi', mg), 300);
     } else {
       const { data: last } = await sb.from('robin_canhan_tour').select('ma_giai').order('ma_giai', { ascending: false }).limit(1);
-      let n = 1;
-      if (last && last.length && last[0].ma_giai.startsWith('C')) {
-        const cur = parseInt(last[0].ma_giai.substring(1), 10);
-        if (!isNaN(cur)) n = cur + 1;
-      }
+      let n = 1; if (last && last.length && last[0].ma_giai.startsWith('C')) { const cur = parseInt(last[0].ma_giai.substring(1), 10); if (!isNaN(cur)) n = cur + 1; }
       const mg = 'C' + String(n).padStart(3, '0');
       const { error } = await sb.from('robin_canhan_tour').insert({ ma_giai: mg, ten_giai: ten, dia_diem: dd, ngay_to_chuc: ngay, mat_khau_admin: '123', admin_id: CURRENT_USER.id });
       if (error) throw error;
-      closeModal('createTourModal');
-      toast('✅ Đã tạo giải!');
-      await loadAllTournaments();
-      setTimeout(() => openTourDetail('canhan', mg), 300);
+      closeModal('createTourModal'); toast('✅ Đã tạo giải!'); await loadAllTournaments(); setTimeout(() => openTourDetail('canhan', mg), 300);
     }
-  } catch (e) {
-    toast('Lỗi: ' + e.message, true);
-  } finally {
-    setLoading('createSubmitBtn', false, 'Tạo giải');
-  }
+  } catch (e) { toast('Lỗi: ' + e.message, true); } finally { setLoading('createSubmitBtn', false, 'Tạo giải'); }
 }
-
 async function editTourName() {
   if (!IS_TOUR_OWNER || !CURRENT_TOUR) return toast('Không có quyền', true);
   const n = prompt('Tên giải mới:', CURRENT_TOUR.ten_giai);
@@ -2216,16 +1259,11 @@ async function editTourName() {
   document.getElementById(CURRENT_TYPE === 'capdoi' ? 'cdTourName' : 'cnTourName').textContent = n.trim();
   toast('✅ Đã đổi tên');
 }
-
 async function deleteCurrentTour() {
   if (!IS_TOUR_OWNER || !CURRENT_TOUR) return toast('Không có quyền', true);
   if (!confirm('⚠️ XÓA VĨNH VIỄN giải "' + CURRENT_TOUR.ten_giai + '"?\n\nToàn bộ dữ liệu sẽ bị xóa!')) return;
   if (!confirm('🔴 XÁC NHẬN LẦN CUỐI?')) return;
-
-  toast('🗑️ Đang xóa...');
-  sb.removeAllChannels();
-  stopFallbackPolling();
-
+  toast('🗑️ Đang xóa...'); sb.removeAllChannels(); stopFallbackPolling();
   const mg = CURRENT_TOUR.ma_giai;
   if (CURRENT_TYPE === 'capdoi') {
     await sb.from('robin_tran_dau').delete().eq('ma_giai', mg);
@@ -2236,27 +1274,21 @@ async function deleteCurrentTour() {
     await sb.from('robin_canhan_vdv').delete().eq('ma_giai', mg);
     await sb.from('robin_canhan_tour').delete().eq('ma_giai', mg);
   }
-  toast('✅ Đã xóa');
-  goHome();
+  toast('✅ Đã xóa'); goHome();
 }
 
 function startFallbackPolling(maGiai, type) {
   stopFallbackPolling();
   fallbackTimer = setInterval(async () => {
     if (CURRENT_TOUR && CURRENT_TOUR.ma_giai === maGiai && !document.hidden) {
-      if (type === 'capdoi') await cdLoadData();
-      else await cnLoadData();
+      if (type === 'capdoi') await cdLoadData(); else await cnLoadData();
     }
   }, 30000);
 }
-
-function stopFallbackPolling() {
-  if (fallbackTimer) { clearInterval(fallbackTimer); fallbackTimer = null; }
-}
+function stopFallbackPolling() { if (fallbackTimer) { clearInterval(fallbackTimer); fallbackTimer = null; } }
 
 function initTiltEffect() {
   if (window.matchMedia("(pointer: coarse)").matches) return;
-
   const cards = document.querySelectorAll('.tour-card');
   cards.forEach(card => {
     let ticking = false;
@@ -2264,10 +1296,8 @@ function initTiltEffect() {
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
+          const x = e.clientX - rect.left, y = e.clientY - rect.top;
+          const centerX = rect.width / 2, centerY = rect.height / 2;
           const rotateX = ((y - centerY) / centerY) * -4;
           const rotateY = ((x - centerX) / centerX) * 4;
           card.style.transform = `perspective(1000px) translateY(-4px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
@@ -2276,9 +1306,7 @@ function initTiltEffect() {
         ticking = true;
       }
     });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = '';
-    });
+    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
   });
 }
 
@@ -2290,25 +1318,17 @@ function setupRealtime() {
 }
 
 document.addEventListener('visibilitychange', () => {
-  if (document.hidden) {
-    document.body.classList.add('paused-animations');
-  } else {
+  if (document.hidden) { document.body.classList.add('paused-animations'); } 
+  else {
     document.body.classList.remove('paused-animations');
-    if (CURRENT_TOUR) {
-      if (CURRENT_TYPE === 'capdoi') cdLoadData();
-      else cnLoadData();
-    }
+    if (CURRENT_TOUR) { if (CURRENT_TYPE === 'capdoi') cdLoadData(); else cnLoadData(); }
   }
 });
 
 (async () => {
   const u = sessionStorage.getItem('pb_admin');
-  if (u) {
-    try { CURRENT_USER = JSON.parse(u); } catch (e) { sessionStorage.removeItem('pb_admin'); }
-  }
-  updateAuthUI();
-  await loadAllTournaments();
-  setupRealtime();
+  if (u) { try { CURRENT_USER = JSON.parse(u); } catch (e) { sessionStorage.removeItem('pb_admin'); } }
+  updateAuthUI(); await loadAllTournaments(); setupRealtime();
 })();
 </script>
 </body>
