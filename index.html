@@ -21,7 +21,7 @@
   --gold: #ffd700;
   --bg-dark: #0a0e1a;
   --bg-deeper: #050810;
-  --bg-card: rgba(20, 26, 43, 0.9); /* 🚀 OPTIMIZED: Increased opacity to reduce blur dependency */
+  --bg-card: rgba(20, 26, 43, 0.9);
   --bg-card-solid: #141a2b;
   --bg-card-hover: #1c2438;
   --border: rgba(255, 255, 255, 0.08);
@@ -46,7 +46,6 @@ body {
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
-  /* 🚀 OPTIMIZED: Removed heavy perspective from body to save GPU memory */
 }
 
 body::before {
@@ -66,7 +65,7 @@ body::after {
     linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
   background-size: 50px 50px;
   pointer-events: none; z-index: 0;
-  animation: gridFloat 30s linear infinite; /* 🚀 OPTIMIZED: Slowed down animation */
+  animation: gridFloat 30s linear infinite;
 }
 body.paused-animations::after { animation-play-state: paused; }
 
@@ -76,7 +75,7 @@ body.paused-animations::after { animation-play-state: paused; }
 }
 
 .floating-balls { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-body.paused-animations .floating-balls { display: none; } /* 🚀 OPTIMIZED: Hide heavy elements when tab is hidden */
+body.paused-animations .floating-balls { display: none; }
 
 .ball { position: absolute; border-radius: 50%; filter: blur(50px); opacity: 0.25; animation: float 25s ease-in-out infinite; }
 .ball-1 { width: 300px; height: 300px; background: var(--primary); top: 10%; left: -5%; animation-delay: 0s; }
@@ -98,7 +97,6 @@ body.paused-animations .floating-balls { display: none; } /* 🚀 OPTIMIZED: Hid
 .auth-btns .btn { padding: 6px 12px; font-size: 0.75rem; min-height: 34px; border-radius: 10px; }
 .user-chip {
   background: rgba(255, 255, 255, 0.1);
-  /* 🚀 OPTIMIZED: Removed backdrop-filter for better mobile performance */
   border: 1px solid var(--border);
   padding: 6px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 600;
   display: flex; align-items: center; gap: 6px; color: var(--text);
@@ -155,7 +153,7 @@ body.paused-animations .floating-balls { display: none; } /* 🚀 OPTIMIZED: Hid
   font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
   text-decoration: none; white-space: nowrap; min-height: 38px; padding: 8px 16px;
-  will-change: transform; /* 🚀 OPTIMIZED: Hint to browser for smoother animation */
+  will-change: transform;
 }
 .btn-primary { background: linear-gradient(135deg, var(--primary), #ff9248); color: #000; box-shadow: 0 4px 12px var(--canhan-glow); }
 .btn-primary:hover:not(:disabled) { transform: translateY(-1px); }
@@ -245,7 +243,6 @@ body.paused-animations .floating-balls { display: none; } /* 🚀 OPTIMIZED: Hid
   padding: 22px; cursor: pointer; overflow: hidden;
   transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   animation: cardEntry 0.5s ease backwards;
-  /* 🚀 OPTIMIZED: Removed heavy 3d preserve-3d, using simple translateY for better performance */
 }
 @keyframes cardEntry {
   from { opacity: 0; transform: translateY(20px); }
@@ -541,7 +538,6 @@ body.paused-animations .floating-balls { display: none; } /* 🚀 OPTIMIZED: Hid
 .modal-overlay {
   display: none; position: fixed; inset: 0;
   background: rgba(10, 14, 26, 0.85); 
-  /* 🚀 OPTIMIZED: Reduced blur radius for better performance */
   backdrop-filter: blur(4px); 
   z-index: 1000; align-items: center; justify-content: center; padding: 16px;
 }
@@ -940,7 +936,6 @@ body.paused-animations .floating-balls { display: none; } /* 🚀 OPTIMIZED: Hid
 
 </div>
 
-<!-- Modals (Giữ nguyên cấu trúc, chỉ tối ưu class) -->
 <div id="loginModal" class="modal-overlay">
   <div class="modal-box">
     <button class="modal-close-x" onclick="closeModal('loginModal')" title="Đóng (ESC)">✕</button>
@@ -1051,11 +1046,11 @@ let caNhanTours = [];
 
 let cdTeams = [];
 let cdMatches = [];
-let cdLastHash = ''; // 🚀 OPTIMIZED: Hash to prevent unnecessary re-renders
+let cdLastHash = '';
 
 let cnVdvs = [];
 let cnMatches = [];
-let cnLastHash = ''; // 🚀 OPTIMIZED: Hash to prevent unnecessary re-renders
+let cnLastHash = '';
 
 let fallbackTimer = null;
 let IS_EDITING_SCORE = false;
@@ -1194,7 +1189,9 @@ function onRegUsernameInput() {
   const submitBtn = document.getElementById('regSubmitBtn');
   
   if (regUsernameTimer) clearTimeout(regUsernameTimer);
-  passInput.value = ''; confirmInput.value = '';
+  
+  passInput.value = '';
+  confirmInput.value = '';
   document.querySelectorAll('#pwdStrength .pwd-strength-bar').forEach(b => b.className = 'pwd-strength-bar');
   document.getElementById('regConfirmHelper').textContent = '';
   document.getElementById('regConfirmHelper').className = 'input-helper';
@@ -1227,15 +1224,22 @@ function onRegUsernameInput() {
         passInput.disabled = true; confirmInput.disabled = true; submitBtn.disabled = true;
         regUsernameValid = false;
       } else {
-        helper.textContent = '✅ Tên người dùng hợp lệ - Hãy đặt mật khẩu';
+        // Tên hợp lệ, hiển thị thông báo chờ 2s
+        helper.textContent = '✅ Tên hợp lệ! Đang mở khóa ô mật khẩu...';
         helper.className = 'input-helper ok';
-        setTimeout(() => {
-        passInput.disabled = false; 
-        confirmInput.disabled = false; 
-        submitBtn.disabled = false;
         regUsernameValid = true;
-        /setTimeout(() => passInput.focus(), 5000);
-        }, 5000);
+        
+        // 🌟 TRÌ HOÃN 2 GIÂY (2000ms) TRƯỚC KHI MỞ KHÓA Ô NHẬP LIỆU
+        setTimeout(() => {
+          passInput.disabled = false;
+          confirmInput.disabled = false;
+          submitBtn.disabled = false;
+          
+          // 🚫 ĐÃ BỎ LỆNH passInput.focus(); 
+          // Con trỏ sẽ giữ nguyên vị trí (thường là ở cuối ô Tên đăng nhập)
+          
+          helper.textContent = '✅ Tên người dùng hợp lệ - Mời bạn nhập mật khẩu';
+        }, 2000); 
       }
     } catch (e) {
       helper.textContent = '⚠️ Lỗi kết nối, thử lại';
@@ -1520,7 +1524,6 @@ async function cdLoadData() {
   cdTeams = t.data || [];
   cdMatches = m.data || [];
   
-  // 🚀 OPTIMIZED: Prevent re-render if data hasn't changed
   const currentHash = cdTeams.length + '|' + cdMatches.length + '|' + cdMatches.map(x=>x.trang_thai).join('');
   if (currentHash === cdLastHash) return;
   cdLastHash = currentHash;
@@ -1755,7 +1758,6 @@ function switchCdTab(name, btn) {
   document.getElementById('cdTab' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
 }
 
-// ===== CA NHAN FUNCTIONS =====
 async function cnLoadTour(maGiai) {
   const { data: tour } = await sb.from('robin_canhan_tour').select('*').eq('ma_giai', maGiai).single();
   if (!tour) { toast('Không tìm thấy giải', true); goHome(); return; }
@@ -1789,7 +1791,6 @@ async function cnLoadData() {
   cnVdvs = v.data || [];
   cnMatches = m.data || [];
 
-  // 🚀 OPTIMIZED: Prevent re-render if data hasn't changed
   const currentHash = cnVdvs.length + '|' + cnMatches.length + '|' + cnMatches.map(x=>x.trang_thai).join('');
   if (currentHash === cnLastHash) return;
   cnLastHash = currentHash;
@@ -2150,7 +2151,6 @@ async function deleteCurrentTour() {
 
 function startFallbackPolling(maGiai, type) {
   stopFallbackPolling();
-  // 🚀 OPTIMIZED: Increased interval to 30s to save battery/network, as Realtime is primary
   fallbackTimer = setInterval(async () => {
     if (CURRENT_TOUR && CURRENT_TOUR.ma_giai === maGiai && !document.hidden) {
       if (type === 'capdoi') await cdLoadData();
@@ -2163,9 +2163,8 @@ function stopFallbackPolling() {
   if (fallbackTimer) { clearInterval(fallbackTimer); fallbackTimer = null; }
 }
 
-// 🚀 OPTIMIZED: Throttled Tilt Effect, disabled on mobile
 function initTiltEffect() {
-  if (window.matchMedia("(pointer: coarse)").matches) return; // Disable on touch devices
+  if (window.matchMedia("(pointer: coarse)").matches) return;
 
   const cards = document.querySelectorAll('.tour-card');
   cards.forEach(card => {
@@ -2199,7 +2198,6 @@ function setupRealtime() {
     .subscribe();
 }
 
-// 🚀 OPTIMIZED: Pause heavy animations when tab is hidden to save CPU
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     document.body.classList.add('paused-animations');
