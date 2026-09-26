@@ -177,7 +177,6 @@ body::after {
 .btn-sm { padding: 6px 10px; font-size: 0.72rem; min-height: 32px; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* ===== 🏠 NÚT TRANG CHỦ 3D NỔI BẬT ===== */
 .btn-home-3d {
   background: linear-gradient(135deg, var(--primary) 0%, #ff9248 50%, var(--accent) 100%);
   color: #000;
@@ -335,6 +334,29 @@ body::after {
   background: rgba(255, 255, 255, 0.08); color: var(--text-dim);
   backdrop-filter: blur(10px);
 }
+
+/* ===== 🏷️ BADGE "CỦA BẠN" ===== */
+.tour-owner-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--green), #16a34a);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.4);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  backdrop-filter: blur(10px);
+  z-index: 2;
+}
+
 .tour-icon {
   font-size: 2.3rem; margin-bottom: 10px; display: inline-block;
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3)); transition: transform 0.4s;
@@ -366,6 +388,8 @@ body::after {
 }
 .empty-state .icon { font-size: 3.5rem; margin-bottom: 14px; opacity: 0.3; filter: grayscale(0.5); }
 .empty-state h3 { font-family: 'Oswald', sans-serif; font-size: 1.1rem; color: var(--text); margin-bottom: 6px; }
+.empty-state p { font-size: 0.85rem; line-height: 1.5; }
+.empty-state .highlight { color: var(--accent); font-weight: 600; }
 
 .loading { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 40px; grid-column: 1 / -1; }
 .loading-spinner {
@@ -628,89 +652,40 @@ body::after {
   text-transform: uppercase; letter-spacing: 0.5px;
 }
 
-.pwd-wrapper {
-  position: relative;
-  flex: 1;
-}
-.pwd-wrapper input {
-  width: 100%;
-  padding-right: 42px !important;
-}
+.pwd-wrapper { position: relative; flex: 1; }
+.pwd-wrapper input { width: 100%; padding-right: 42px !important; }
 .pwd-toggle {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: var(--text-dim);
-  cursor: pointer;
-  padding: 4px 6px;
-  font-size: 1rem;
-  border-radius: 4px;
-  transition: all 0.2s;
-  min-height: auto;
-  min-width: auto;
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; color: var(--text-dim);
+  cursor: pointer; padding: 4px 6px; font-size: 1rem;
+  border-radius: 4px; transition: all 0.2s;
+  min-height: auto; min-width: auto;
 }
 .pwd-toggle:hover:not(:disabled) { color: var(--accent); background: rgba(255, 255, 255, 0.05); }
 
 .input-helper {
-  font-size: 0.72rem;
-  color: var(--text-dim);
-  margin-top: -4px;
-  margin-bottom: 8px;
-  padding-left: 4px;
-  font-weight: 500;
+  font-size: 0.72rem; color: var(--text-dim);
+  margin-top: -4px; margin-bottom: 8px; padding-left: 4px; font-weight: 500;
 }
 .input-helper.err { color: var(--red); }
 .input-helper.ok { color: var(--green); }
 .input-helper.loading { color: var(--accent); }
 
 .modal-close-x {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border);
-  color: var(--text-dim);
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  transition: all 0.2s;
-  z-index: 2;
+  position: absolute; top: 12px; right: 12px;
+  background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);
+  color: var(--text-dim); width: 28px; height: 28px; border-radius: 50%;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; transition: all 0.2s; z-index: 2;
 }
-.modal-close-x:hover {
-  background: rgba(239, 68, 68, 0.2);
-  color: var(--red);
-  border-color: rgba(239, 68, 68, 0.3);
-}
+.modal-close-x:hover { background: rgba(239, 68, 68, 0.2); color: var(--red); border-color: rgba(239, 68, 68, 0.3); }
 
-.modal-link {
-  color: var(--primary);
-  font-weight: 700;
-  cursor: pointer;
-  text-decoration: none;
-  transition: color 0.2s;
-}
+.modal-link { color: var(--primary); font-weight: 700; cursor: pointer; text-decoration: none; transition: color 0.2s; }
 .modal-link:hover { color: var(--accent); text-decoration: underline; }
 
-.pwd-strength {
-  display: flex;
-  gap: 3px;
-  margin-top: -4px;
-  margin-bottom: 8px;
-}
+.pwd-strength { display: flex; gap: 3px; margin-top: -4px; margin-bottom: 8px; }
 .pwd-strength-bar {
-  flex: 1;
-  height: 3px;
-  background: var(--border);
-  border-radius: 2px;
-  transition: background 0.3s;
+  flex: 1; height: 3px; background: var(--border); border-radius: 2px; transition: background 0.3s;
 }
 .pwd-strength-bar.active.weak { background: var(--red); }
 .pwd-strength-bar.active.medium { background: var(--accent); }
@@ -779,22 +754,9 @@ body::after {
   .section-header { flex-direction: column; align-items: flex-start; }
   .section-icon { width: 48px; height: 48px; font-size: 1.4rem; }
   .section-title { font-size: 1.2rem; }
-  
-  .auth-btns { 
-    gap: 6px;
-    margin-bottom: 16px;
-  }
-  .auth-btns .btn { 
-    padding: 5px 10px; 
-    font-size: 0.7rem;
-    min-height: 32px;
-  }
-  .user-chip { 
-    padding: 5px 10px; 
-    font-size: 0.72rem;
-    max-width: 150px;
-  }
-  
+  .auth-btns { gap: 6px; margin-bottom: 16px; }
+  .auth-btns .btn { padding: 5px 10px; font-size: 0.7rem; min-height: 32px; }
+  .user-chip { padding: 5px 10px; font-size: 0.72rem; max-width: 150px; }
   .detail-hero { padding: 18px; }
   .detail-title { font-size: 1.4rem; }
   .btn-home-3d { padding: 9px 16px; font-size: 0.78rem; }
@@ -812,11 +774,7 @@ body::after {
   .hero-title { font-size: 1.8rem; letter-spacing: 1px; }
   .tour-name { font-size: 1.15rem; }
   .detail-title { font-size: 1.2rem; }
-  
-  .auth-btns {
-    flex-wrap: wrap;
-    gap: 5px;
-  }
+  .auth-btns { flex-wrap: wrap; gap: 5px; }
   .rank-table td:nth-child(2) { max-width: 90px; }
 }
 </style>
@@ -904,7 +862,6 @@ body::after {
     </footer>
   </div>
 
-  <!-- ===== DETAIL CAP DOI - ĐÃ SỬA NÚT ===== -->
   <div id="detailCapDoi" class="detail-screen">
     <div class="detail-hero capdoi">
       <div class="detail-top">
@@ -996,7 +953,6 @@ body::after {
     </div>
   </div>
 
-  <!-- ===== DETAIL CA NHAN - ĐÃ SỬA NÚT ===== -->
   <div id="detailCaNhan" class="detail-screen">
     <div class="detail-hero canhan">
       <div class="detail-top">
@@ -1086,7 +1042,6 @@ body::after {
 
 </div>
 
-<!-- ===== LOGIN MODAL ===== -->
 <div id="loginModal" class="modal-overlay">
   <div class="modal-box">
     <button class="modal-close-x" onclick="closeModal('loginModal')" title="Đóng (ESC)">✕</button>
@@ -1107,7 +1062,6 @@ body::after {
   </div>
 </div>
 
-<!-- ===== REGISTER MODAL - ĐÃ CẢI THIỆN ===== -->
 <div id="registerModal" class="modal-overlay">
   <div class="modal-box">
     <button class="modal-close-x" onclick="closeModal('registerModal')" title="Đóng (ESC)">✕</button>
@@ -1146,7 +1100,6 @@ body::after {
   </div>
 </div>
 
-<!-- ===== CHANGE PASSWORD MODAL ===== -->
 <div id="changePwdModal" class="modal-overlay">
   <div class="modal-box">
     <button class="modal-close-x" onclick="closeModal('changePwdModal')" title="Đóng (ESC)">✕</button>
@@ -1173,7 +1126,6 @@ body::after {
   </div>
 </div>
 
-<!-- ===== CREATE TOUR MODAL ===== -->
 <div id="createTourModal" class="modal-overlay">
   <div class="modal-box">
     <button class="modal-close-x" onclick="closeModal('createTourModal')" title="Đóng (ESC)">✕</button>
@@ -1213,13 +1165,9 @@ let cnMatches = [];
 let fallbackTimer = null;
 let IS_EDITING_SCORE = false;
 
-// Register state
 let regUsernameTimer = null;
 let regUsernameValid = false;
 
-// ============================================
-// UTILITY FUNCTIONS
-// ============================================
 function toast(msg, err = false) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -1240,9 +1188,7 @@ function closeModal(id) {
   const modal = document.getElementById(id);
   modal.classList.remove('show');
   modal.querySelectorAll('input').forEach(input => {
-    if (input.type === 'password' || input.type === 'text') {
-      input.value = '';
-    }
+    if (input.type === 'password' || input.type === 'text') input.value = '';
   });
   modal.querySelectorAll('.input-helper').forEach(h => {
     h.textContent = '';
@@ -1252,12 +1198,9 @@ function closeModal(id) {
     b.className = 'pwd-strength-bar';
   });
   modal.querySelectorAll('input[type="text"]').forEach(inp => {
-    if (inp.id && inp.id.includes('Pass')) {
-      inp.type = 'password';
-    }
+    if (inp.id && inp.id.includes('Pass')) inp.type = 'password';
   });
   
-  // Reset register state
   if (id === 'registerModal') {
     regUsernameValid = false;
     const passInput = document.getElementById('regPass');
@@ -1273,17 +1216,13 @@ function closeModal(id) {
 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay.show').forEach(m => {
-      m.classList.remove('show');
-    });
+    document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
   }
 });
 
 document.querySelectorAll('.modal-overlay').forEach(overlay => {
   overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) {
-      overlay.classList.remove('show');
-    }
+    if (e.target === overlay) overlay.classList.remove('show');
   });
 });
 
@@ -1364,9 +1303,6 @@ function formatDate(dateStr) {
   } catch { return 'Chưa cập nhật'; }
 }
 
-// ============================================
-// AUTH FUNCTIONS
-// ============================================
 function updateAuthUI() {
   const c = document.getElementById('authBtns');
   if (CURRENT_USER) {
@@ -1387,7 +1323,6 @@ function updateAuthUI() {
   }
 }
 
-// 🌟 ĐĂNG KÝ: Check username trước, enable password khi hợp lệ
 function onRegUsernameInput() {
   const val = document.getElementById('regUser').value.trim().toLowerCase();
   const helper = document.getElementById('regUserHelper');
@@ -1397,7 +1332,6 @@ function onRegUsernameInput() {
   
   if (regUsernameTimer) clearTimeout(regUsernameTimer);
   
-  // Clear password fields when username changes
   passInput.value = '';
   confirmInput.value = '';
   document.querySelectorAll('#pwdStrength .pwd-strength-bar').forEach(b => b.className = 'pwd-strength-bar');
@@ -1428,7 +1362,6 @@ function onRegUsernameInput() {
   helper.textContent = '⏳ Đang kiểm tra tên...';
   helper.className = 'input-helper loading';
   
-  // Debounce 500ms
   regUsernameTimer = setTimeout(async () => {
     try {
       const { data, error } = await sb.from('admin_users')
@@ -1447,7 +1380,6 @@ function onRegUsernameInput() {
       }
       
       if (data) {
-        // TÊN ĐÃ TỒN TẠI
         helper.textContent = '❌ Tên người dùng đã có - Hãy chọn tên khác';
         helper.className = 'input-helper err';
         passInput.disabled = true;
@@ -1455,14 +1387,12 @@ function onRegUsernameInput() {
         submitBtn.disabled = true;
         regUsernameValid = false;
       } else {
-        // TÊN CÓ SẴN
         helper.textContent = '✅ Tên người dùng hợp lệ - Hãy đặt mật khẩu';
         helper.className = 'input-helper ok';
         passInput.disabled = false;
         confirmInput.disabled = false;
         submitBtn.disabled = false;
         regUsernameValid = true;
-        // Auto focus vào password
         setTimeout(() => passInput.focus(), 100);
       }
     } catch (e) {
@@ -1539,7 +1469,6 @@ async function doRegister() {
   }
 }
 
-// 🌟 ĐĂNG NHẬP: Đơn giản, không rate limit
 async function doLogin() {
   const btn = document.getElementById('loginSubmitBtn');
   if (btn.disabled) return;
@@ -1569,7 +1498,6 @@ async function doLogin() {
     }
     
     if (!data) {
-      // Thông báo đơn giản - không rate limit
       toast('❌ Sai mật khẩu! Liên hệ admin để phục hồi', true);
       setLoading('loginSubmitBtn', false, 'Đăng nhập');
       return;
@@ -1661,20 +1589,27 @@ async function handleChangePassword() {
   }
 }
 
-// ============================================
-// TOURNAMENT FUNCTIONS
-// ============================================
+// ===================================================
+// 🌟 RENDER TOUR CARD - THÊM BADGE "CỦA BẠN"
+// ===================================================
 function renderTourCard(tour, type) {
   const isCapDoi = type === 'capdoi';
   const ngay = formatDate(tour.ngay_to_chuc);
   const diaDiem = tour.dia_diem || 'Chưa cập nhật';
   const icon = isCapDoi ? '🤝' : '🎾';
   const typeName = isCapDoi ? 'Cặp đôi' : 'Cá nhân';
+  
+  // Check owner badge
+  const isOwner = canManageTour(tour);
+  const ownerBadge = isOwner 
+    ? `<div class="tour-owner-badge">✓ Của bạn</div>` 
+    : '';
 
   return `
     <div class="tour-card ${type}"
          style="animation-delay: ${Math.random() * 0.3}s"
          onclick="openTourDetail('${type}', '${tour.ma_giai}')">
+      ${ownerBadge}
       <div class="tour-type-badge">${typeName}</div>
       <div class="tour-icon">${icon}</div>
       <h3 class="tour-name">${tour.ten_giai || 'Giải đấu'}</h3>
@@ -1699,18 +1634,34 @@ function renderTourCard(tour, type) {
   `;
 }
 
-function renderEmpty(type) {
+// ===================================================
+// 🌟 RENDER EMPTY - THÊM CONTEXT PARAMETER
+// ===================================================
+function renderEmpty(type, context) {
   const icon = type === 'capdoi' ? '🤝' : '🎾';
   const name = type === 'capdoi' ? 'Team Round Robin' : 'Robin Cá Nhân';
+  
+  let message = '';
+  if (context === 'guest') {
+    message = 'Chưa có giải nào trong hệ thống.<br><span class="highlight">Đăng nhập để tạo giải đấu đầu tiên!</span>';
+  } else if (context === 'user') {
+    message = 'Bạn chưa tạo giải nào.<br><span class="highlight">Bấm "➕ Tạo giải" để bắt đầu!</span>';
+  } else if (context === 'admin') {
+    message = 'Chưa có giải nào trong hệ thống.<br><span class="highlight">Hãy tạo giải đầu tiên!</span>';
+  }
+  
   return `
     <div class="empty-state">
       <div class="icon">${icon}</div>
       <h3>Chưa có giải ${name}</h3>
-      <p>Đăng nhập để tạo giải đấu đầu tiên!</p>
+      <p>${message}</p>
     </div>
   `;
 }
 
+// ===================================================
+// 🌟 LOAD ALL TOURNAMENTS - LOGIC PHÂN QUYỀN MỚI
+// ===================================================
 async function loadAllTournaments() {
   try {
     const [r1, r2] = await Promise.all([
@@ -1718,23 +1669,50 @@ async function loadAllTournaments() {
       sb.from('robin_canhan_tour').select('*').order('ngay_to_chuc', { ascending: false })
     ]);
 
-    capDoiTours = r1.data || [];
-    caNhanTours = r2.data || [];
+    let allCapDoi = r1.data || [];
+    let allCaNhan = r2.data || [];
+    
+    // 🌟 LOGIC PHÂN QUYỀN: Filter theo user
+    let visibleCapDoi, visibleCaNhan;
+    let context;
+    
+    if (!CURRENT_USER) {
+      // Khách: thấy TẤT CẢ
+      visibleCapDoi = allCapDoi;
+      visibleCaNhan = allCaNhan;
+      context = 'guest';
+    } else if (isSuperAdmin()) {
+      // Admin: thấy TẤT CẢ
+      visibleCapDoi = allCapDoi;
+      visibleCaNhan = allCaNhan;
+      context = 'admin';
+    } else {
+      // User thường: chỉ thấy giải của MÌNH
+      visibleCapDoi = allCapDoi.filter(t => t.admin_id === CURRENT_USER.id);
+      visibleCaNhan = allCaNhan.filter(t => t.admin_id === CURRENT_USER.id);
+      context = 'user';
+    }
 
+    capDoiTours = visibleCapDoi;
+    caNhanTours = visibleCaNhan;
+
+    // Update stats - đếm theo danh sách hiển thị
     document.getElementById('totalTours').textContent = capDoiTours.length + caNhanTours.length;
     document.getElementById('totalCapDoi').textContent = capDoiTours.length;
     document.getElementById('totalCaNhan').textContent = caNhanTours.length;
     document.getElementById('capDoiCount').textContent = capDoiTours.length;
     document.getElementById('caNhanCount').textContent = caNhanTours.length;
 
+    // Render CapDoi
     const capDoiGrid = document.getElementById('capDoiGrid');
     capDoiGrid.innerHTML = capDoiTours.length === 0
-      ? renderEmpty('capdoi')
+      ? renderEmpty('capdoi', context)
       : capDoiTours.map(t => renderTourCard(t, 'capdoi')).join('');
 
+    // Render CaNhan
     const caNhanGrid = document.getElementById('caNhanGrid');
     caNhanGrid.innerHTML = caNhanTours.length === 0
-      ? renderEmpty('canhan')
+      ? renderEmpty('canhan', context)
       : caNhanTours.map(t => renderTourCard(t, 'canhan')).join('');
 
     initTiltEffect();
