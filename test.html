@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>🏆 PICKLEBALL TOURNAMENT</title>
+<title>🏆 PICKLEBALL TOURNAMENT HUB</title>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -82,17 +82,52 @@ body::after {
 
 .wrapper { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 20px; }
 
+/* ===== HERO ===== */
+.hero { position: relative; text-align: center; padding: 50px 20px 30px; margin-bottom: 30px; transform-style: preserve-3d; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #000; font-family: 'Oswald', sans-serif; font-weight: 700;
+  font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+  padding: 8px 20px; border-radius: 30px; margin-bottom: 16px;
+  box-shadow: 0 0 30px rgba(255, 107, 53, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 30px rgba(255, 107, 53, 0.5); }
+  50% { box-shadow: 0 0 50px rgba(255, 107, 53, 0.8), 0 0 80px rgba(255, 209, 102, 0.4); }
+}
+.hero-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2.2rem, 7vw, 4rem);
+  font-weight: 700; text-transform: uppercase; letter-spacing: 2px; line-height: 1; margin-bottom: 10px;
+  background: linear-gradient(135deg, #fff 0%, #fff 30%, var(--accent) 60%, var(--primary) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  filter: drop-shadow(0 4px 20px rgba(255, 107, 53, 0.3));
+}
+.hero-subtitle {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem); font-weight: 400;
+  color: var(--text-dim); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 14px;
+}
+.hero-divider {
+  width: 100px; height: 4px; margin: 20px auto;
+  background: linear-gradient(90deg, transparent, var(--primary), var(--accent), var(--secondary), transparent);
+  border-radius: 2px; box-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+}
+.hero-stats { display: flex; justify-content: center; gap: 30px; margin-top: 20px; flex-wrap: wrap; }
+.hero-stat { text-align: center; transform: translateZ(20px); }
+.hero-stat-value {
+  font-family: 'Oswald', sans-serif; font-size: 2rem; font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1;
+}
+.hero-stat-label { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px; margin-top: 4px; }
+
 /* ===== AUTH BUTTONS ===== */
 .auth-btns {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  z-index: 50;
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+  position: absolute; top: 16px; right: 16px;
+  display: flex; gap: 8px; z-index: 10; align-items: center;
 }
 .auth-btns .btn { padding: 6px 12px; font-size: 0.75rem; min-height: 34px; border-radius: 10px; }
 .user-chip {
@@ -114,56 +149,6 @@ body::after {
   padding: 2px 6px; border-radius: 4px;
   text-transform: uppercase; letter-spacing: 0.5px;
 }
-
-/* ===== HERO - ĐÃ SỬA KHOẢNG CÁCH ĐỂ KHÔNG BỊ CHE ===== */
-.hero { position: relative; text-align: center; padding: 20px 20px 30px; margin-bottom: 30px; transform-style: preserve-3d; }
-
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  color: #000; font-family: 'Oswald', sans-serif; font-weight: 700;
-  font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
-  padding: 8px 20px; border-radius: 30px; 
-  margin-bottom: 32px; /* TĂNG KHOẢNG CÁCH ĐỂ BÓNG KHÔNG CHE CHỮ */
-  box-shadow: 0 0 30px rgba(255, 107, 53, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 30px rgba(255, 107, 53, 0.5); }
-  50% { box-shadow: 0 0 50px rgba(255, 107, 53, 0.8), 0 0 80px rgba(255, 209, 102, 0.4); }
-}
-
-.hero-title {
-  position: relative;
-  z-index: 10; /* Đảm bảo luôn nằm trên cùng */
-  font-family: 'Oswald', sans-serif;
-  font-size: clamp(2.2rem, 7vw, 4rem);
-  font-weight: 700; text-transform: uppercase; letter-spacing: 2px; line-height: 1.1; 
-  margin-bottom: 10px;
-  background: linear-gradient(135deg, #fff 0%, #fff 30%, var(--accent) 60%, var(--primary) 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  /* Thêm text-shadow để chữ nổi bật hoàn toàn khỏi nền/bóng */
-  filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.6)); 
-}
-
-.hero-subtitle {
-  font-family: 'Oswald', sans-serif;
-  font-size: clamp(0.9rem, 2.5vw, 1.2rem); font-weight: 400;
-  color: var(--text-dim); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 14px;
-}
-.hero-divider {
-  width: 100px; height: 4px; margin: 20px auto;
-  background: linear-gradient(90deg, transparent, var(--primary), var(--accent), var(--secondary), transparent);
-  border-radius: 2px; box-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
-}
-.hero-stats { display: flex; justify-content: center; gap: 30px; margin-top: 20px; flex-wrap: wrap; }
-.hero-stat { text-align: center; transform: translateZ(20px); }
-.hero-stat-value {
-  font-family: 'Oswald', sans-serif; font-size: 2rem; font-weight: 700;
-  background: linear-gradient(135deg, var(--accent), var(--primary));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1;
-}
-.hero-stat-label { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px; margin-top: 4px; }
 
 /* ===== BUTTONS ===== */
 .btn {
@@ -348,23 +333,16 @@ body::after {
 }
 .detail-hero.canhan::before { background: radial-gradient(circle, var(--canhan-glow) 0%, transparent 70%); }
 .detail-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; position: relative; z-index: 1; }
-
-/* ===== NÚT QUAY LẠI NỔI BẬT ===== */
 .detail-back {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 0.9rem; font-weight: 700;
-  color: #000;
-  background: linear-gradient(135deg, var(--accent), var(--primary));
-  border: none;
-  padding: 8px 16px; border-radius: 12px;
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.85rem; font-weight: 600;
+  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  padding: 6px 12px; border-radius: 10px;
   cursor: pointer; transition: all 0.2s;
-  box-shadow: 0 4px 15px var(--canhan-glow);
 }
-.detail-back:hover { 
-  transform: translateY(-2px) scale(1.05); 
-  box-shadow: 0 6px 20px var(--canhan-glow); 
-}
-
+.detail-back:hover { color: var(--text); background: rgba(255, 255, 255, 0.1); }
 .detail-title-wrap { flex: 1; min-width: 0; position: relative; z-index: 1; }
 .detail-type-badge {
   display: inline-block;
@@ -566,6 +544,7 @@ body::after {
 }
 .score-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.15); }
 .mc-actions { margin-top: 8px; display: flex; gap: 5px; justify-content: center; }
+.match-status-public { text-align: center; margin-top: 6px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.5px; }
 
 /* ===== MODAL ===== */
 .modal-overlay {
@@ -648,7 +627,7 @@ body::after {
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .wrapper { padding: 12px; }
-  .hero { padding: 15px 12px 25px; }
+  .hero { padding: 35px 12px 25px; }
   .hero-stats { gap: 18px; }
   .hero-stat-value { font-size: 1.6rem; }
   .tour-grid { grid-template-columns: 1fr; gap: 14px; }
@@ -656,16 +635,7 @@ body::after {
   .section-header { flex-direction: column; align-items: flex-start; }
   .section-icon { width: 48px; height: 48px; font-size: 1.4rem; }
   .section-title { font-size: 1.2rem; }
-  
-  .auth-btns { 
-    position: relative;
-    top: auto; right: auto;
-    gap: 6px; margin-bottom: 16px;
-    justify-content: center;
-  }
-  .auth-btns .btn { padding: 5px 10px; font-size: 0.7rem; min-height: 32px; }
-  .user-chip { padding: 5px 10px; font-size: 0.72rem; max-width: 150px; }
-  
+  .auth-btns { top: 10px; right: 10px; }
   .detail-hero { padding: 18px; }
   .detail-title { font-size: 1.4rem; }
   .rank-table { font-size: 0.75rem; }
@@ -679,10 +649,11 @@ body::after {
 }
 
 @media (max-width: 480px) {
-  .hero-title { font-size: 1.8rem; letter-spacing: 1px; }
+  .hero-title { font-size: 1.8rem; }
   .tour-name { font-size: 1.15rem; }
   .detail-title { font-size: 1.2rem; }
-  .auth-btns { flex-wrap: wrap; gap: 5px; }
+  .auth-btns .btn { padding: 5px 9px; font-size: 0.68rem; }
+  .user-chip { padding: 5px 9px; font-size: 0.7rem; }
   .rank-table td:nth-child(2) { max-width: 90px; }
 }
 </style>
@@ -700,18 +671,19 @@ body::after {
 
 <div class="wrapper">
 
+  <!-- ===== AUTH BUTTONS ===== -->
+  <div class="auth-btns" id="authBtns"></div>
+
   <!-- ===== HOME SCREEN ===== -->
   <div id="homeScreen">
     <section class="hero">
-      <div class="auth-btns" id="authBtns"></div>
-      
       <div class="hero-badge">🏆 TOURNAMENT HUB · PICKLEBALL</div>
-      <h1 class="hero-title"><br>GIẢI ĐẤU<br>PICKLEBALL</h1>
+      <h1 class="hero-title">GIẢI ĐẤU<br>PICKLEBALL</h1>
       <div class="hero-subtitle">Cạnh tranh · Đam mê · Chiến thắng</div>
       <div class="hero-divider"></div>
       <p style="font-size: 0.95rem; color: var(--text-dim); max-width: 600px; margin: 0 auto; line-height: 1.6;">
-        Kết nối đam mê – Bứt phá giới hạn!<br>
-        Nâng cao sức khỏe – Lan tỏa niềm vui.
+        Trung tâm quản lý và theo dõi các giải đấu Pickleball.<br>
+        Cập nhật bảng xếp hạng & lịch thi đấu theo thời gian thực.
       </p>
       <div class="hero-stats">
         <div class="hero-stat">
@@ -775,7 +747,7 @@ body::after {
   <div id="detailCapDoi" class="detail-screen">
     <div class="detail-hero capdoi">
       <div class="detail-top">
-        <button class="detail-back" onclick="goHome()">← TRANG CHỦ</button>
+        <button class="detail-back" onclick="goHome()">← Quay lại</button>
         <div class="detail-actions">
           <button class="btn btn-ghost btn-sm admin-only" onclick="editTourName()">✏️ Sửa tên</button>
           <button class="btn btn-danger btn-sm admin-only" onclick="deleteCurrentTour()">🗑️ Xóa giải</button>
@@ -1011,23 +983,27 @@ const SUPABASE_URL = 'https://mvefkcaqvjflrgmaybev.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12ZWZrY2FxdmpmbHJnbWF5YmV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2MDAzOTksImV4cCI6MjEwMjE3NjM5OX0.vCY4_JlSBqi6QRh7DYWAe42Ot-pChKaVSHn7DY2C34Q';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+// ===== GLOBAL STATE =====
 let CURRENT_USER = null;
 let CURRENT_TOUR = null;
-let CURRENT_TYPE = null;
+let CURRENT_TYPE = null; // 'capdoi' | 'canhan'
 let IS_TOUR_OWNER = false;
 
 let capDoiTours = [];
 let caNhanTours = [];
 
+// CapDoi state
 let cdTeams = [];
 let cdMatches = [];
 
+// CaNhan state
 let cnVdvs = [];
 let cnMatches = [];
 
 let fallbackTimer = null;
 let IS_EDITING_SCORE = false;
 
+// ===== HELPERS =====
 function toast(msg, err = false) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -1054,6 +1030,7 @@ function formatDate(dateStr) {
   } catch { return 'Chưa cập nhật'; }
 }
 
+// ===== AUTH =====
 function updateAuthUI() {
   const c = document.getElementById('authBtns');
   if (CURRENT_USER) {
@@ -1158,6 +1135,7 @@ async function handleChangePassword() {
   document.getElementById('cp_confirm').value = '';
 }
 
+// ===== HOME SCREEN =====
 function renderTourCard(tour, type) {
   const isCapDoi = type === 'capdoi';
   const ngay = formatDate(tour.ngay_to_chuc);
@@ -1238,6 +1216,7 @@ async function loadAllTournaments() {
   }
 }
 
+// ===== OPEN TOUR DETAIL =====
 async function openTourDetail(type, maGiai) {
   CURRENT_TYPE = type;
   document.getElementById('homeScreen').style.display = 'none';
@@ -1265,6 +1244,9 @@ function goHome() {
   loadAllTournaments();
 }
 
+// ============================================================
+// TEAM ROUND ROBIN (CẶP ĐÔI)
+// ============================================================
 async function cdLoadTour(maGiai) {
   const { data: tour } = await sb.from('robin_tour').select('*').eq('ma_giai', maGiai).single();
   if (!tour) { toast('Không tìm thấy giải', true); goHome(); return; }
@@ -1277,6 +1259,7 @@ async function cdLoadTour(maGiai) {
   document.getElementById('cdDate').textContent = formatDate(tour.ngay_to_chuc);
   document.getElementById('cdMaGiai').textContent = tour.ma_giai;
 
+  const hero = document.querySelector('#detailCapDoi .detail-hero');
   const container = document.getElementById('detailCapDoi');
   if (IS_TOUR_OWNER) {
     container.classList.add('is-owner');
@@ -1584,6 +1567,9 @@ function switchCdTab(name, btn) {
   document.getElementById('cdTab' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
 }
 
+// ============================================================
+// ROBIN CÁ NHÂN
+// ============================================================
 async function cnLoadTour(maGiai) {
   const { data: tour } = await sb.from('robin_canhan_tour').select('*').eq('ma_giai', maGiai).single();
   if (!tour) { toast('Không tìm thấy giải', true); goHome(); return; }
@@ -1662,10 +1648,7 @@ function cnRenderVdvs() {
   `).join('');
 }
 
-/* ============================================================
-   🌟 THUẬT TOÁN GHÉP CẶP 2v2 TỐI ƯU (OPTIMAL BALANCED)
-   Đảm bảo chênh lệch số trận giữa người nhiều nhất và ít nhất ≤ 1
-   ============================================================ */
+// Thuật toán ghép cặp 2v2 tối ưu
 function cnGenerate2v2Schedule() {
   const players = cnVdvs.map(v => ({ id: v.id, name: v.ten_vdv }));
   const n = players.length;
@@ -1693,16 +1676,12 @@ function cnGenerate2v2Schedule() {
       bestSolution = matches.map(m => ({ ...m }));
       return true;
     }
-    
     let minCount = Infinity;
     for (let i = 0; i < n; i++) if (matchCount[i] < K && matchCount[i] < minCount) minCount = matchCount[i];
-    
     const candidates = [];
     for (let i = 0; i < n; i++) if (matchCount[i] === minCount && matchCount[i] < K) candidates.push(i);
     if (candidates.length < 4) return false;
-    
     const p1 = candidates[Math.floor(Math.random() * candidates.length)];
-    
     const partnerCands = [];
     for (let i = 0; i < n; i++) {
       if (i === p1 || matchCount[i] >= K) continue;
@@ -1710,7 +1689,6 @@ function cnGenerate2v2Schedule() {
       partnerCands.push(i);
     }
     partnerCands.sort((a, b) => matchCount[a] - matchCount[b]);
-    
     for (const p2 of partnerCands) {
       const oppCands = [];
       for (let i = 0; i < n; i++) {
@@ -1718,19 +1696,16 @@ function cnGenerate2v2Schedule() {
         oppCands.push(i);
       }
       oppCands.sort((a, b) => matchCount[a] - matchCount[b]);
-      
       for (let i = 0; i < oppCands.length; i++) {
         for (let j = i + 1; j < oppCands.length; j++) {
           const p3 = oppCands[i];
           const p4 = oppCands[j];
           if (usedPartners.has(partnerKey(p3, p4))) continue;
-          
           const tempCounts = [...matchCount];
           [p1, p2, p3, p4].forEach(p => tempCounts[p]++);
           const maxC = Math.max(...tempCounts);
           const minC = Math.min(...tempCounts.filter((c, idx) => matchCount[idx] < K || [p1, p2, p3, p4].includes(idx)));
           if (maxC - minC > 1) continue;
-
           matches.push({
             vong: matches.length + 1,
             doi_a_1: players[p1].id, doi_a_2: players[p2].id,
@@ -1740,9 +1715,7 @@ function cnGenerate2v2Schedule() {
           usedPartners.add(partnerKey(p1, p2));
           usedPartners.add(partnerKey(p3, p4));
           [p1, p2, p3, p4].forEach(p => matchCount[p]++);
-          
           if (solve()) return true;
-          
           matches.pop();
           usedPartners.delete(partnerKey(p1, p2));
           usedPartners.delete(partnerKey(p3, p4));
@@ -1752,7 +1725,6 @@ function cnGenerate2v2Schedule() {
     }
     return false;
   }
-  
   for (let attempt = 0; attempt < 30 && !bestSolution; attempt++) {
     matches.length = 0;
     matchCount.fill(0);
@@ -1760,7 +1732,6 @@ function cnGenerate2v2Schedule() {
     callCount = 0;
     solve();
   }
-  
   return bestSolution || [];
 }
 
@@ -1781,7 +1752,7 @@ async function cnGenerateSchedule() {
 
   const { error } = await sb.from('robin_canhan_tran_dau').insert(matches);
   if (error) return toast('Lỗi: ' + error.message, true);
-  toast('✅ Đã tạo ' + matches.length + ' trận (cân bằng tối ưu)');
+  toast('✅ Đã tạo ' + matches.length + ' trận');
   await cnLoadData();
 }
 
@@ -1940,6 +1911,9 @@ function switchCnTab(name, btn) {
   document.getElementById('cnTab' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
 }
 
+// ============================================================
+// TOURNAMENT CRUD
+// ============================================================
 function showCreateTourModal() {
   if (!CURRENT_USER) return showModal('loginModal');
   document.getElementById('c_ngay').valueAsDate = new Date();
@@ -2024,6 +1998,7 @@ async function deleteCurrentTour() {
   goHome();
 }
 
+// ===== FALLBACK POLLING =====
 function startFallbackPolling(maGiai, type) {
   stopFallbackPolling();
   fallbackTimer = setInterval(async () => {
@@ -2040,6 +2015,7 @@ function stopFallbackPolling() {
   }
 }
 
+// ===== 3D TILT EFFECT =====
 function initTiltEffect() {
   document.querySelectorAll('.tour-card').forEach(card => {
     card.addEventListener('mousemove', (e) => {
@@ -2058,6 +2034,7 @@ function initTiltEffect() {
   });
 }
 
+// ===== REALTIME =====
 function setupRealtime() {
   sb.channel('homepage_tours')
     .on('postgres_changes', { event: '*', schema: 'public', table: 'robin_tour' }, loadAllTournaments)
@@ -2065,6 +2042,7 @@ function setupRealtime() {
     .subscribe();
 }
 
+// ===== MOBILE REFOCUS =====
 document.addEventListener('visibilitychange', () => {
   if (!document.hidden && CURRENT_TOUR) {
     if (CURRENT_TYPE === 'capdoi') cdLoadData();
@@ -2072,6 +2050,7 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 
+// ===== INIT =====
 (async () => {
   const u = sessionStorage.getItem('pb_admin');
   if (u) {
