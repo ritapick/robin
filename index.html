@@ -1225,7 +1225,7 @@ function onRegUsernameInput() {
         regUsernameValid = false;
       } else {
         // Tên hợp lệ, hiển thị thông báo chờ 2s
-        helper.textContent = '✅ Tên hợp lệ! Đang mở khóa ô mật khẩu...';
+        helper.textContent = '✅ Tên hợp lệ! vui lòng đặt mật khẩu...';
         helper.className = 'input-helper ok';
         regUsernameValid = true;
         
@@ -1239,7 +1239,7 @@ function onRegUsernameInput() {
           // Con trỏ sẽ giữ nguyên vị trí (thường là ở cuối ô Tên đăng nhập)
           
           helper.textContent = '✅ Tên người dùng hợp lệ - Mời bạn nhập mật khẩu';
-        }, 2000); 
+        }, 1000); 
       }
     } catch (e) {
       helper.textContent = '⚠️ Lỗi kết nối, thử lại';
