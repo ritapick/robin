@@ -1105,9 +1105,9 @@ async function cnGenerateSchedule() {
     return toast(`⚠️ Cần ít nhất 4 VĐV để đánh đôi 2v2! (Hiện tại chỉ có ${cnVdvs.length} VĐV)`, true);
   }
   
-  if (!confirm('Tạo lịch mới sẽ XÓA toàn bộ lịch và điểm số cũ. Tiếp tục?')) {
-    console.log("🔍 [DEBUG] Người dùng hủy tạo lịch");
-    return;
+ / if (!confirm('Tạo lịch mới sẽ XÓA toàn bộ lịch và điểm số cũ. Tiếp tục?')) {
+ /   console.log("🔍 [DEBUG] Người dùng hủy tạo lịch");
+ /   return;
   }
   
   const btn = document.getElementById('cnBtnGenSchedule');
