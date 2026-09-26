@@ -1821,7 +1821,7 @@ function cnRenderVdvs() {
   c.innerHTML = cnVdvs.map(v => `<div class="chip">🎾 <span class="name">${v.ten_vdv}</span>${IS_TOUR_OWNER ? `<button onclick="cnDeleteVdv('${v.id}')">✕</button>` : ''}</div>`).join('');
 }
 
-// 🌟 THUẬT TOÁN GHÉP CẶP 2v2 TỐI ƯU CHO ROBIN CÁ NHÂN
+// 🌟 THUẬT TOÁN TẠO LỊCH 2v2 TỐI ƯU CHO ROBIN CÁ NHÂN
 function cnGenerate2v2Schedule() {
   const players = cnVdvs.map(v => ({ id: v.id, name: v.ten_vdv }));
   const n = players.length;
@@ -1832,158 +1832,173 @@ function cnGenerate2v2Schedule() {
   while (K > 0 && (K * n) % 4 !== 0) K--;
   if (K < 1) return [];
 
-  const totalMatches = (K * n) / 4;
-  const partnerKey = (a, b) => (a < b ? a * 1000 + b : b * 1000 + a);
+  const targetMatches = (K * n) / 4;
+  const partnerKey = (a, b) => (a < b ? a + '-' + b : b + '-' + a);
 
-  // 2. Backtracking với Pruning
   const matchCount = new Array(n).fill(0);
-  const usedPartners = new Set();
+  const usedPairs = new Set();
   const matches = [];
   const startTime = Date.now();
-  const TIMEOUT = 5000; // 5 giây timeout
+  const TIMEOUT = 4000; // 4 giây timeout
   let callCount = 0;
   let bestSolution = null;
 
+  // Helper: Lấy danh sách người chơi khả dụng, sắp xếp theo số trận đã đấu (tăng dần) để ưu tiên cân bằng
+  function getAvailablePlayers(exclude = []) {
+    const avail = [];
+    for (let i = 0; i < n; i++) {
+      if (!exclude.includes(i) && matchCount[i] < K) {
+        avail.push(i);
+      }
+    }
+    avail.sort((a, b) => matchCount[a] - matchCount[b]);
+    return avail;
+  }
+
   function solve() {
-    if ((++callCount & 1023) === 0 && Date.now() - startTime > TIMEOUT) return false;
-    if (matches.length === totalMatches) {
+    // Kiểm tra timeout mỗi 512 lần gọi để đảm bảo hiệu năng
+    if ((++callCount & 511) === 0 && Date.now() - startTime > TIMEOUT) return false;
+    if (matches.length === targetMatches) {
       bestSolution = matches.map(m => ({ ...m }));
       return true;
     }
-    
-    // Ưu tiên người có ít trận nhất
-    let minCount = Infinity;
+
+    // Luôn chọn người có ít trận nhất để bắt đầu ghép cặp (đảm bảo cân bằng tuyệt đối)
+    let minCount = K + 1;
+    let p1 = -1;
     for (let i = 0; i < n; i++) {
-      if (matchCount[i] < K && matchCount[i] < minCount) minCount = matchCount[i];
-    }
-    
-    const candidates = [];
-    for (let i = 0; i < n; i++) {
-      if (matchCount[i] === minCount && matchCount[i] < K) candidates.push(i);
-    }
-    if (candidates.length < 4) return false;
-    
-    const p1 = candidates[Math.floor(Math.random() * candidates.length)];
-    const partnerCands = [];
-    for (let i = 0; i < n; i++) {
-      if (i === p1 || matchCount[i] >= K) continue;
-      if (usedPartners.has(partnerKey(p1, i))) continue;
-      partnerCands.push(i);
-    }
-    partnerCands.sort((a, b) => matchCount[a] - matchCount[b]);
-    
-    for (const p2 of partnerCands) {
-      const oppCands = [];
-      for (let i = 0; i < n; i++) {
-        if (i === p1 || i === p2 || matchCount[i] >= K) continue;
-        oppCands.push(i);
+      if (matchCount[i] < minCount) {
+        minCount = matchCount[i];
+        p1 = i;
       }
-      oppCands.sort((a, b) => matchCount[a] - matchCount[b]);
-      
-      for (let i = 0; i < oppCands.length; i++) {
-        for (let j = i + 1; j < oppCands.length; j++) {
-          const p3 = oppCands[i];
-          const p4 = oppCands[j];
-          if (usedPartners.has(partnerKey(p3, p4))) continue;
+    }
+    if (p1 === -1 || minCount >= K) return false;
+
+    const partners = getAvailablePlayers([p1]);
+    for (const p2 of partners) {
+      if (usedPairs.has(partnerKey(p1, p2))) continue;
+
+      const opponents = getAvailablePlayers([p1, p2]);
+      for (let i = 0; i < opponents.length; i++) {
+        for (let j = i + 1; j < opponents.length; j++) {
+          const p3 = opponents[i];
+          const p4 = opponents[j];
           
-          // Kiểm tra ràng buộc chênh lệch số trận <= 1
+          if (usedPairs.has(partnerKey(p3, p4))) continue;
+
+          // 🚀 PRUNING: Kiểm tra nghiêm ngặt chênh lệch <= 1 trước khi đệ quy
           const tempCounts = [...matchCount];
-          [p1, p2, p3, p4].forEach(p => tempCounts[p]++);
-          const maxC = Math.max(...tempCounts);
-          const minC = Math.min(...tempCounts.filter((c, idx) => matchCount[idx] < K || [p1, p2, p3, p4].includes(idx)));
-          if (maxC - minC > 1) continue;
+          tempCounts[p1]++; tempCounts[p2]++; tempCounts[p3]++; tempCounts[p4]++;
           
+          let tMax = 0, tMin = K;
+          for (let c of tempCounts) {
+            if (c > tMax) tMax = c;
+            if (c < tMin) tMin = c;
+          }
+          if (tMax - tMin > 1) continue; // Loại bỏ nhánh không thỏa mãn ngay lập tức
+
+          // Áp dụng nước đi
           matches.push({
             vong: matches.length + 1,
             doi_a_1: players[p1].id, doi_a_2: players[p2].id,
             doi_b_1: players[p3].id, doi_b_2: players[p4].id,
             trang_thai: 'chua_dau'
           });
-          usedPartners.add(partnerKey(p1, p2));
-          usedPartners.add(partnerKey(p3, p4));
-          [p1, p2, p3, p4].forEach(p => matchCount[p]++);
-          
+          usedPairs.add(partnerKey(p1, p2));
+          usedPairs.add(partnerKey(p3, p4));
+          matchCount[p1]++; matchCount[p2]++; matchCount[p3]++; matchCount[p4]++;
+
           if (solve()) return true;
-          
+
           // Backtrack
           matches.pop();
-          usedPartners.delete(partnerKey(p1, p2));
-          usedPartners.delete(partnerKey(p3, p4));
-          [p1, p2, p3, p4].forEach(p => matchCount[p]--);
+          usedPairs.delete(partnerKey(p1, p2));
+          usedPairs.delete(partnerKey(p3, p4));
+          matchCount[p1]--; matchCount[p2]--; matchCount[p3]--; matchCount[p4]--;
         }
       }
     }
     return false;
   }
 
-  // Thử tối đa 20 lần với random khác nhau
-  for (let attempt = 0; attempt < 20 && !bestSolution; attempt++) {
-    matches.length = 0; 
-    matchCount.fill(0); 
-    usedPartners.clear(); 
+  // Thử tối đa 15 lần với xáo trộn nhẹ để thoát khỏi cực tiểu địa phương
+  for (let attempt = 0; attempt < 15 && !bestSolution; attempt++) {
+    if (attempt > 0) {
+      for (let i = players.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [players[i], players[j]] = [players[j], players[i]];
+      }
+    }
+    matchCount.fill(0);
+    usedPairs.clear();
+    matches.length = 0;
     callCount = 0;
     solve();
   }
 
   if (bestSolution) return bestSolution;
 
-  // 3. FALLBACK GREEDY NẾU TIMEOUT HOẶC KHÔNG TÌM ĐƯỢC
-  console.warn('Backtracking timeout, falling back to greedy...');
-  const greedyMatches = [];
+  // 🚀 FALLBACK GREEDY: Nếu backtracking thất bại, dùng thuật toán tham lam đảm bảo <= 1 chênh lệch
+  console.warn('Backtracking timeout, using guaranteed balanced fallback...');
   const gMatchCount = new Array(n).fill(0);
-  const gUsedPartners = new Set();
-  const indices = Array.from({length: n}, (_, i) => i);
-  
-  for (let round = 0; round < K; round++) {
-    // Xáo trộn nhẹ để tăng tính đa dạng
-    for (let i = indices.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [indices[i], indices[j]] = [indices[j], indices[i]];
-    }
-    
-    // Ưu tiên những người có ít trận nhất
-    indices.sort((a, b) => gMatchCount[a] - gMatchCount[b]);
-    
-    const available = indices.filter(i => gMatchCount[i] < K);
-    if (available.length < 4) break;
-    
-    const p1 = available[0];
-    let p2 = -1;
-    for (let i = 1; i < available.length; i++) {
-      if (!gUsedPartners.has(partnerKey(p1, available[i]))) {
-        p2 = available[i];
-        break;
-      }
-    }
-    if (p2 === -1) continue;
-    
-    let p3 = -1, p4 = -1;
-    for (let i = 1; i < available.length; i++) {
-      if (available[i] === p2) continue;
-      for (let j = i + 1; j < available.length; j++) {
-        if (!gUsedPartners.has(partnerKey(available[i], available[j]))) {
-          p3 = available[i];
-          p4 = available[j];
-          break;
+  const gUsedPairs = new Set();
+  const gMatches = [];
+
+  // Tạo tất cả các tổ hợp 4 người hợp lệ
+  const allCombos = [];
+  for (let i = 0; i < n; i++) {
+    for (let j = i + 1; j < n; j++) {
+      for (let k = j + 1; k < n; k++) {
+        for (let l = k + 1; l < n; l++) {
+          // 3 cách chia 4 người thành 2 đội
+          allCombos.push([i, j, k, l]);
+          allCombos.push([i, k, j, l]);
+          allCombos.push([i, l, j, k]);
         }
       }
-      if (p3 !== -1) break;
-    }
-    
-    if (p3 !== -1 && p4 !== -1) {
-      greedyMatches.push({
-        vong: greedyMatches.length + 1,
-        doi_a_1: players[p1].id, doi_a_2: players[p2].id,
-        doi_b_1: players[p3].id, doi_b_2: players[p4].id,
-        trang_thai: 'chua_dau'
-      });
-      gUsedPartners.add(partnerKey(p1, p2));
-      gUsedPartners.add(partnerKey(p3, p4));
-      [p1, p2, p3, p4].forEach(p => gMatchCount[p]++);
     }
   }
-  
-  return greedyMatches.length > 0 ? greedyMatches : [];
+
+  // Xáo trộn để tăng tính ngẫu nhiên
+  for (let i = allCombos.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [allCombos[i], allCombos[j]] = [allCombos[j], allCombos[i]];
+  }
+
+  // Sắp xếp ưu tiên các combo có tổng số trận của 4 người thấp nhất
+  allCombos.sort((a, b) => {
+    const sumA = gMatchCount[a[0]] + gMatchCount[a[1]] + gMatchCount[a[2]] + gMatchCount[a[3]];
+    const sumB = gMatchCount[b[0]] + gMatchCount[b[1]] + gMatchCount[b[2]] + gMatchCount[b[3]];
+    return sumA - sumB;
+  });
+
+  for (const combo of allCombos) {
+    const [p1, p2, p3, p4] = combo;
+    
+    if (gMatchCount[p1] >= K || gMatchCount[p2] >= K || gMatchCount[p3] >= K || gMatchCount[p4] >= K) continue;
+    if (gUsedPairs.has(partnerKey(p1, p2)) || gUsedPairs.has(partnerKey(p3, p4))) continue;
+
+    const tempCounts = [...gMatchCount];
+    tempCounts[p1]++; tempCounts[p2]++; tempCounts[p3]++; tempCounts[p4]++;
+    let tMax = 0, tMin = K;
+    for (let c of tempCounts) {
+      if (c > tMax) tMax = c;
+      if (c < tMin) tMin = c;
+    }
+    if (tMax - tMin > 1) continue;
+
+    gMatches.push({
+      vong: gMatches.length + 1,
+      doi_a_1: players[p1].id, doi_a_2: players[p2].id,
+      doi_b_1: players[p3].id, doi_b_2: players[p4].id,
+      trang_thai: 'chua_dau'
+    });
+    gUsedPairs.add(partnerKey(p1, p2));
+    gUsedPairs.add(partnerKey(p3, p4));
+    gMatchCount[p1]++; gMatchCount[p2]++; gMatchCount[p3]++; gMatchCount[p4]++;
+  }
+
+  return gMatches;
 }
 
 async function cnGenerateSchedule() {
