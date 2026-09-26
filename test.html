@@ -19,8 +19,6 @@
   --bd: #e2e8f0;
   --r: 16px;
   --shadow: 0 4px 12px rgba(0,0,0,0.06);
-  --blue-dark: #1e40af;
-  --blue-light: #2563eb;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html { font-size: 16px; }
@@ -75,7 +73,7 @@ body {
 .btn-success { background: var(--grad-success); color: #fff; }
 .btn-danger { background: var(--grad-danger); color: #fff; }
 .btn-ghost { background: rgba(255,255,255,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.4); }
-.btn-ghost-dark { background: #fff; color: var(--tx); border: 1px solid var(--bd); }
+.btn-ghost-dark { background: #fff; color: var(--tx); border: 1px solid var(--bd); font-weight: 800; }
 .btn-sm { padding: 6px 10px; font-size: 11px; border-radius: 6px; min-height: 32px; }
 .btn-icon { padding: 4px; border-radius: 6px; background: #f1f5f9; color: var(--ts); border: none; cursor: pointer; font-size: 12px; min-width: 28px; min-height: 28px; }
 .btn-export { background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%); color: #fff; box-shadow: 0 4px 10px rgba(239,68,68,0.3); width: 100%; max-width: 300px; }
@@ -417,7 +415,7 @@ let CURRENT_TOUR = null;
 let IS_TOUR_OWNER = false; 
 let TEAMS = [], MATCHES = [];
 let fallbackTimer = null;
-let IS_EDITING_SCORE = false; // 🌟 Chống chớp màn hình khi nhập điểm
+let IS_EDITING_SCORE = false;
 
 function toast(msg, err = false) {
   const t = document.getElementById('toast');
@@ -632,7 +630,7 @@ function backToList() {
 
 async function loadData() {
   if (!CURRENT_TOUR) return;
-  if (IS_EDITING_SCORE) return; // 🌟 Chống chớp màn hình khi đang nhập điểm
+  if (IS_EDITING_SCORE) return;
   
   const mg = CURRENT_TOUR.ma_giai;
   const { data: t } = await sb.from('robin_team').select('*').eq('ma_giai', mg).order('created_at');
@@ -810,7 +808,6 @@ function renderMatch(m) {
   const aW = done && m.diem_a > m.diem_b;
   const bW = done && m.diem_b > m.diem_a;
   
-  // Hỗ trợ linh hoạt cả 2v2 (doi_a_1) và 1v1 (doi_a_id)
   const is2v2 = m.doi_a_1 !== undefined;
   const teamAName = is2v2 ? `${tn(m.doi_a_1)} & ${tn(m.doi_a_2)}` : tn(m.doi_a_id);
   const teamBName = is2v2 ? `${tn(m.doi_b_1)} & ${tn(m.doi_b_2)}` : tn(m.doi_b_id);
@@ -909,7 +906,7 @@ function renderStandings() {
     const hc = x.hs > 0 ? 'plus' : x.hs < 0 ? 'minus' : '';
     const hs = x.hs > 0 ? '+' + x.hs : x.hs;
     const medal = getMedal(r);
-    const total = totalMatchesMap[x.ten] || 0; // Sử dụng tổng trận thực tế
+    const total = totalMatchesMap[x.ten] || 0;
     return `<tr class="${cls}"><td class="td-rank">${medal}${r}</td><td class="td-team">${x.ten}</td><td><b>${x.tran}</b>/${total}</td><td style="color:#059669;font-weight:800">${x.thang}</td><td style="color:#ef4444;font-weight:800">${x.thua}</td><td class="td-points">${x.diem}</td><td class="${hc}">${hs}</td></tr>`;
   }).join('');
 }
