@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>🏆 PICKLEBALL TOURNAMENT HUB</title>
+<title>🏆 PICKLEBALL TOURNAMENT</title>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -82,8 +82,39 @@ body::after {
 
 .wrapper { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 20px; }
 
-/* ===== HERO ===== */
-.hero { position: relative; text-align: center; padding: 50px 20px 30px; margin-bottom: 30px; transform-style: preserve-3d; }
+.auth-btns {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  min-height: 40px;
+}
+.auth-btns .btn { padding: 6px 12px; font-size: 0.75rem; min-height: 34px; border-radius: 10px; }
+.user-chip {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text);
+}
+.admin-badge {
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: #000; font-size: 0.6rem; font-weight: 800;
+  padding: 2px 6px; border-radius: 4px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+.hero { position: relative; text-align: center; padding: 20px 20px 30px; margin-bottom: 30px; transform-style: preserve-3d; }
 .hero-badge {
   display: inline-flex; align-items: center; gap: 8px;
   background: linear-gradient(135deg, var(--primary), var(--accent));
@@ -124,33 +155,6 @@ body::after {
 }
 .hero-stat-label { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px; margin-top: 4px; }
 
-/* ===== AUTH BUTTONS ===== */
-.auth-btns {
-  position: absolute; top: 16px; right: 16px;
-  display: flex; gap: 8px; z-index: 10; align-items: center;
-}
-.auth-btns .btn { padding: 6px 12px; font-size: 0.75rem; min-height: 34px; border-radius: 10px; }
-.user-chip {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--border);
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--text);
-}
-.admin-badge {
-  background: linear-gradient(135deg, var(--accent), var(--primary));
-  color: #000; font-size: 0.6rem; font-weight: 800;
-  padding: 2px 6px; border-radius: 4px;
-  text-transform: uppercase; letter-spacing: 0.5px;
-}
-
-/* ===== BUTTONS ===== */
 .btn {
   border: none; border-radius: 10px; font-family: 'Inter', sans-serif;
   font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
@@ -158,11 +162,11 @@ body::after {
   text-decoration: none; white-space: nowrap; min-height: 38px; padding: 8px 16px;
 }
 .btn-primary { background: linear-gradient(135deg, var(--primary), #ff9248); color: #000; box-shadow: 0 4px 12px var(--canhan-glow); }
-.btn-primary:hover { transform: translateY(-1px); }
+.btn-primary:hover:not(:disabled) { transform: translateY(-1px); }
 .btn-success { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
 .btn-danger { background: rgba(239, 68, 68, 0.15); color: var(--red); border: 1px solid rgba(239, 68, 68, 0.3); }
 .btn-secondary { background: var(--bg-card); color: var(--text); border: 1px solid var(--border); backdrop-filter: blur(10px); }
-.btn-secondary:hover { background: var(--bg-card-hover); }
+.btn-secondary:hover:not(:disabled) { background: var(--bg-card-hover); }
 .btn-ghost { background: rgba(255, 255, 255, 0.1); color: var(--text); border: 1px solid var(--border); backdrop-filter: blur(10px); }
 .btn-export {
   background: linear-gradient(135deg, var(--accent), var(--primary));
@@ -173,7 +177,17 @@ body::after {
 .btn-sm { padding: 6px 10px; font-size: 0.72rem; min-height: 32px; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* ===== SECTIONS ===== */
+/* ===== SPINNER CHO BUTTON ===== */
+.btn-spinner {
+  display: inline-block;
+  width: 14px; height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
 .section { margin-bottom: 50px; transform-style: preserve-3d; }
 .section-header {
   display: flex; align-items: center; justify-content: space-between;
@@ -220,10 +234,8 @@ body::after {
 }
 .section-count b { color: var(--accent); font-size: 1rem; }
 
-/* ===== TOURNAMENT GRID ===== */
 .tour-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 22px; }
 
-/* ===== 3D TOURNAMENT CARD ===== */
 .tour-card {
   position: relative; background: var(--bg-card);
   border: 1px solid var(--border); border-radius: 18px;
@@ -290,7 +302,6 @@ body::after {
 .tour-card.canhan .tour-arrow { background: linear-gradient(135deg, var(--canhan-1), var(--canhan-2)); color: #fff; box-shadow: 0 4px 12px var(--canhan-glow); }
 .tour-card:hover .tour-arrow { transform: translateX(4px) scale(1.1); }
 
-/* ===== EMPTY STATE ===== */
 .empty-state {
   text-align: center; padding: 50px 20px; color: var(--text-dim);
   grid-column: 1 / -1; background: var(--bg-card);
@@ -299,7 +310,6 @@ body::after {
 .empty-state .icon { font-size: 3.5rem; margin-bottom: 14px; opacity: 0.3; filter: grayscale(0.5); }
 .empty-state h3 { font-family: 'Oswald', sans-serif; font-size: 1.1rem; color: var(--text); margin-bottom: 6px; }
 
-/* ===== LOADING ===== */
 .loading { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 40px; grid-column: 1 / -1; }
 .loading-spinner {
   width: 44px; height: 44px;
@@ -309,7 +319,6 @@ body::after {
 @keyframes rotate { to { transform: rotate(360deg); } }
 .loading-text { font-family: 'Oswald', sans-serif; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; color: var(--text-dim); }
 
-/* ===== DETAIL SCREEN ===== */
 .detail-screen { display: none; animation: fadeIn 0.4s ease; }
 .detail-screen.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -375,7 +384,6 @@ body::after {
 .detail-info-item { display: flex; align-items: center; gap: 6px; }
 .detail-actions { display: flex; gap: 8px; flex-wrap: wrap; position: relative; z-index: 1; }
 
-/* ===== TABS ===== */
 .detail-tabs {
   display: flex; background: var(--bg-card); border: 1px solid var(--border);
   border-radius: 14px; padding: 4px; margin-bottom: 16px;
@@ -396,7 +404,6 @@ body::after {
 .detail-tab-content { display: none; animation: fadeIn 0.3s; }
 .detail-tab-content.active { display: block; }
 
-/* ===== ADMIN CONTROLS ===== */
 .admin-controls {
   background: var(--bg-card); border: 1px solid var(--border);
   border-radius: 16px; padding: 18px; margin-bottom: 16px;
@@ -445,7 +452,6 @@ body::after {
   font-family: 'Oswald', sans-serif;
 }
 
-/* ===== STANDINGS TABLE ===== */
 .card {
   background: var(--bg-card); border: 1px solid var(--border);
   border-radius: 16px; padding: 18px; margin-bottom: 16px;
@@ -486,7 +492,6 @@ body::after {
 .minus { color: var(--red); font-weight: 700; }
 .points-cell { font-weight: 800; font-size: 1rem; color: var(--accent); }
 
-/* ===== MATCH CARDS ===== */
 .match-grid { display: grid; gap: 12px; }
 .match-card {
   background: var(--bg-card); border-radius: 14px;
@@ -546,20 +551,22 @@ body::after {
 .mc-actions { margin-top: 8px; display: flex; gap: 5px; justify-content: center; }
 .match-status-public { text-align: center; margin-top: 6px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.5px; }
 
-/* ===== MODAL ===== */
+/* ===== MODAL - ĐÃ CẢI THIỆN ===== */
 .modal-overlay {
   display: none; position: fixed; inset: 0;
   background: rgba(10, 14, 26, 0.9); backdrop-filter: blur(6px);
   z-index: 1000; align-items: center; justify-content: center;
   padding: 16px;
 }
-.modal-overlay.show { display: flex; }
+.modal-overlay.show { display: flex; animation: modalOverlayIn 0.2s; }
+@keyframes modalOverlayIn { from { opacity: 0; } to { opacity: 1; } }
 .modal-box {
   background: var(--bg-card-solid); border: 1px solid var(--border);
   padding: 24px; border-radius: 18px;
   width: 100%; max-width: 400px;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
   animation: modalPop 0.3s;
+  position: relative;
 }
 @keyframes modalPop { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .modal-box h2 {
@@ -568,7 +575,97 @@ body::after {
   text-transform: uppercase; letter-spacing: 0.5px;
 }
 
-/* ===== TOAST ===== */
+/* ===== PASSWORD WRAPPER ===== */
+.pwd-wrapper {
+  position: relative;
+  flex: 1;
+}
+.pwd-wrapper input {
+  width: 100%;
+  padding-right: 42px !important;
+}
+.pwd-toggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 4px 6px;
+  font-size: 1rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+  min-height: auto;
+  min-width: auto;
+}
+.pwd-toggle:hover { color: var(--accent); background: rgba(255, 255, 255, 0.05); }
+
+/* ===== INPUT HELPER ===== */
+.input-helper {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  margin-top: -4px;
+  margin-bottom: 8px;
+  padding-left: 4px;
+}
+.input-helper.err { color: var(--red); }
+.input-helper.ok { color: var(--green); }
+
+/* ===== MODAL CLOSE BUTTON ===== */
+.modal-close-x {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: all 0.2s;
+  z-index: 2;
+}
+.modal-close-x:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--red);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* ===== MODAL LINK ===== */
+.modal-link {
+  color: var(--primary);
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.modal-link:hover { color: var(--accent); text-decoration: underline; }
+
+/* ===== PASSWORD STRENGTH ===== */
+.pwd-strength {
+  display: flex;
+  gap: 3px;
+  margin-top: -4px;
+  margin-bottom: 8px;
+}
+.pwd-strength-bar {
+  flex: 1;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  transition: background 0.3s;
+}
+.pwd-strength-bar.active.weak { background: var(--red); }
+.pwd-strength-bar.active.medium { background: var(--accent); }
+.pwd-strength-bar.active.strong { background: var(--green); }
+
 #toast {
   position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px);
   background: var(--bg-card-solid); color: var(--text);
@@ -583,7 +680,6 @@ body::after {
 #toast.show { transform: translateX(-50%) translateY(0); }
 #toast.err { border-left-color: var(--red); }
 
-/* ===== EXPORT AREA ===== */
 #exportArea { position: absolute; left: -9999px; top: 0; width: 800px; }
 .export-card {
   width: 800px; min-height: 600px; padding: 40px;
@@ -614,7 +710,6 @@ body::after {
 .export-table .thua { color: #dc2626 !important; font-weight: 800; }
 .export-footer { text-align: center; margin-top: 24px; font-size: 13px; opacity: 0.9; font-weight: 600; position: relative; z-index: 1; color: #fff; }
 
-/* ===== FOOTER ===== */
 .footer {
   text-align: center; padding: 40px 20px; color: var(--text-dim);
   font-size: 0.82rem; border-top: 1px solid var(--border); margin-top: 30px;
@@ -624,10 +719,9 @@ body::after {
   color: var(--accent); font-size: 1rem; letter-spacing: 2px; margin-bottom: 6px;
 }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .wrapper { padding: 12px; }
-  .hero { padding: 35px 12px 25px; }
+  .hero { padding: 15px 12px 25px; }
   .hero-stats { gap: 18px; }
   .hero-stat-value { font-size: 1.6rem; }
   .tour-grid { grid-template-columns: 1fr; gap: 14px; }
@@ -635,7 +729,22 @@ body::after {
   .section-header { flex-direction: column; align-items: flex-start; }
   .section-icon { width: 48px; height: 48px; font-size: 1.4rem; }
   .section-title { font-size: 1.2rem; }
-  .auth-btns { top: 10px; right: 10px; }
+  
+  .auth-btns { 
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .auth-btns .btn { 
+    padding: 5px 10px; 
+    font-size: 0.7rem;
+    min-height: 32px;
+  }
+  .user-chip { 
+    padding: 5px 10px; 
+    font-size: 0.72rem;
+    max-width: 150px;
+  }
+  
   .detail-hero { padding: 18px; }
   .detail-title { font-size: 1.4rem; }
   .rank-table { font-size: 0.75rem; }
@@ -649,11 +758,14 @@ body::after {
 }
 
 @media (max-width: 480px) {
-  .hero-title { font-size: 1.8rem; }
+  .hero-title { font-size: 1.8rem; letter-spacing: 1px; }
   .tour-name { font-size: 1.15rem; }
   .detail-title { font-size: 1.2rem; }
-  .auth-btns .btn { padding: 5px 9px; font-size: 0.68rem; }
-  .user-chip { padding: 5px 9px; font-size: 0.7rem; }
+  
+  .auth-btns {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
   .rank-table td:nth-child(2) { max-width: 90px; }
 }
 </style>
@@ -671,19 +783,17 @@ body::after {
 
 <div class="wrapper">
 
-  <!-- ===== AUTH BUTTONS ===== -->
-  <div class="auth-btns" id="authBtns"></div>
-
-  <!-- ===== HOME SCREEN ===== -->
   <div id="homeScreen">
     <section class="hero">
+      <div class="auth-btns" id="authBtns"></div>
+      
       <div class="hero-badge">🏆 TOURNAMENT HUB · PICKLEBALL</div>
       <h1 class="hero-title">GIẢI ĐẤU<br>PICKLEBALL</h1>
       <div class="hero-subtitle">Cạnh tranh · Đam mê · Chiến thắng</div>
       <div class="hero-divider"></div>
       <p style="font-size: 0.95rem; color: var(--text-dim); max-width: 600px; margin: 0 auto; line-height: 1.6;">
-        Trung tâm quản lý và theo dõi các giải đấu Pickleball.<br>
-        Cập nhật bảng xếp hạng & lịch thi đấu theo thời gian thực.
+        Kết nối đam mê – Bứt phá giới hạn!<br>
+        Kết nối đam mê – Lan tỏa niềm vui.
       </p>
       <div class="hero-stats">
         <div class="hero-stat">
@@ -743,7 +853,6 @@ body::after {
     </footer>
   </div>
 
-  <!-- ===== DETAIL SCREEN (CAP DOI) ===== -->
   <div id="detailCapDoi" class="detail-screen">
     <div class="detail-hero capdoi">
       <div class="detail-top">
@@ -832,7 +941,6 @@ body::after {
     </div>
   </div>
 
-  <!-- ===== DETAIL SCREEN (CA NHAN) ===== -->
   <div id="detailCaNhan" class="detail-screen">
     <div class="detail-hero canhan">
       <div class="detail-top">
@@ -919,50 +1027,94 @@ body::after {
 
 </div>
 
-<!-- ===== MODALS ===== -->
+<!-- ===== LOGIN MODAL - ĐÃ CẢI THIỆN ===== -->
 <div id="loginModal" class="modal-overlay">
   <div class="modal-box">
+    <button class="modal-close-x" onclick="closeModal('loginModal')" title="Đóng (ESC)">✕</button>
     <h2>🔑 Đăng nhập</h2>
     <div class="input-row" style="flex-direction: column;">
-      <input type="text" id="loginUser" placeholder="Tên đăng nhập">
-      <input type="password" id="loginPass" placeholder="Mật khẩu" onkeypress="if(event.key==='Enter')doLogin()">
+      <input type="text" id="loginUser" placeholder="Tên đăng nhập" autocomplete="username" oninput="validateLoginUsername()">
+      <div class="input-helper" id="loginUserHelper"></div>
     </div>
-    <button class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="doLogin()">Đăng nhập</button>
+    <div class="input-row" style="flex-direction: column;">
+      <div class="pwd-wrapper">
+        <input type="password" id="loginPass" placeholder="Mật khẩu" autocomplete="current-password" onkeypress="if(event.key==='Enter')doLogin()">
+        <button type="button" class="pwd-toggle" onclick="togglePwd('loginPass', this)">👁️</button>
+      </div>
+    </div>
+    <button class="btn btn-primary" id="loginSubmitBtn" style="width: 100%; margin-top: 10px;" onclick="doLogin()">Đăng nhập</button>
     <p style="text-align: center; margin-top: 12px; font-size: 0.8rem; color: var(--text-dim);">
-      Chưa có tài khoản? <a href="#" onclick="closeModal('loginModal'); showModal('registerModal')" style="color: var(--primary); font-weight: 700;">Đăng ký</a>
+      Chưa có tài khoản? <span class="modal-link" onclick="closeModal('loginModal'); showModal('registerModal')">Đăng ký ngay</span>
     </p>
-    <button class="btn btn-secondary" style="width: 100%; margin-top: 10px;" onclick="closeModal('loginModal')">Hủy</button>
   </div>
 </div>
 
+<!-- ===== REGISTER MODAL - ĐÃ CẢI THIỆN ===== -->
 <div id="registerModal" class="modal-overlay">
   <div class="modal-box">
-    <h2>📝 Đăng ký</h2>
+    <button class="modal-close-x" onclick="closeModal('registerModal')" title="Đóng (ESC)">✕</button>
+    <h2>📝 Đăng ký tài khoản</h2>
     <div class="input-row" style="flex-direction: column;">
-      <input type="text" id="regUser" placeholder="Tên (không dấu, không cách)">
-      <input type="password" id="regPass" placeholder="Mật khẩu (tối thiểu 3 ký tự)">
-      <input type="password" id="regPassConfirm" placeholder="Nhập lại mật khẩu">
+      <input type="text" id="regUser" placeholder="Tên đăng nhập" autocomplete="username" oninput="validateRegUsername()">
+      <div class="input-helper" id="regUserHelper">Chỉ chữ thường, số, gạch dưới (3-20 ký tự)</div>
     </div>
-    <button class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="doRegister()">Tạo tài khoản</button>
-    <button class="btn btn-secondary" style="width: 100%; margin-top: 10px;" onclick="closeModal('registerModal')">Hủy</button>
+    <div class="input-row" style="flex-direction: column;">
+      <div class="pwd-wrapper">
+        <input type="password" id="regPass" placeholder="Mật khẩu (tối thiểu 3 ký tự)" autocomplete="new-password" oninput="checkPwdStrength()">
+        <button type="button" class="pwd-toggle" onclick="togglePwd('regPass', this)">👁️</button>
+      </div>
+      <div class="pwd-strength" id="pwdStrength">
+        <div class="pwd-strength-bar"></div>
+        <div class="pwd-strength-bar"></div>
+        <div class="pwd-strength-bar"></div>
+        <div class="pwd-strength-bar"></div>
+      </div>
+    </div>
+    <div class="input-row" style="flex-direction: column;">
+      <div class="pwd-wrapper">
+        <input type="password" id="regPassConfirm" placeholder="Nhập lại mật khẩu" autocomplete="new-password" onkeypress="if(event.key==='Enter')doRegister()">
+        <button type="button" class="pwd-toggle" onclick="togglePwd('regPassConfirm', this)">👁️</button>
+      </div>
+      <div class="input-helper" id="regConfirmHelper"></div>
+    </div>
+    <button class="btn btn-primary" id="regSubmitBtn" style="width: 100%; margin-top: 10px;" onclick="doRegister()">Tạo tài khoản</button>
+    <p style="text-align: center; margin-top: 12px; font-size: 0.8rem; color: var(--text-dim);">
+      Đã có tài khoản? <span class="modal-link" onclick="closeModal('registerModal'); showModal('loginModal')">Đăng nhập</span>
+    </p>
   </div>
 </div>
 
+<!-- ===== CHANGE PASSWORD MODAL ===== -->
 <div id="changePwdModal" class="modal-overlay">
   <div class="modal-box">
+    <button class="modal-close-x" onclick="closeModal('changePwdModal')" title="Đóng (ESC)">✕</button>
     <h2>🔑 Đổi mật khẩu</h2>
     <div class="input-row" style="flex-direction: column;">
-      <input type="password" id="cp_current" placeholder="Mật khẩu hiện tại">
-      <input type="password" id="cp_new" placeholder="Mật khẩu mới (≥3 ký tự)">
-      <input type="password" id="cp_confirm" placeholder="Xác nhận mật khẩu mới">
+      <div class="pwd-wrapper">
+        <input type="password" id="cp_current" placeholder="Mật khẩu hiện tại">
+        <button type="button" class="pwd-toggle" onclick="togglePwd('cp_current', this)">👁️</button>
+      </div>
     </div>
-    <button class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="handleChangePassword()">Cập nhật</button>
-    <button class="btn btn-secondary" style="width: 100%; margin-top: 10px;" onclick="closeModal('changePwdModal')">Hủy</button>
+    <div class="input-row" style="flex-direction: column;">
+      <div class="pwd-wrapper">
+        <input type="password" id="cp_new" placeholder="Mật khẩu mới (≥3 ký tự)" oninput="checkPwdStrength('cp_new')">
+        <button type="button" class="pwd-toggle" onclick="togglePwd('cp_new', this)">👁️</button>
+      </div>
+    </div>
+    <div class="input-row" style="flex-direction: column;">
+      <div class="pwd-wrapper">
+        <input type="password" id="cp_confirm" placeholder="Xác nhận mật khẩu mới" onkeypress="if(event.key==='Enter')handleChangePassword()">
+        <button type="button" class="pwd-toggle" onclick="togglePwd('cp_confirm', this)">👁️</button>
+      </div>
+    </div>
+    <button class="btn btn-primary" id="cpSubmitBtn" style="width: 100%; margin-top: 10px;" onclick="handleChangePassword()">Cập nhật</button>
   </div>
 </div>
 
+<!-- ===== CREATE TOUR MODAL ===== -->
 <div id="createTourModal" class="modal-overlay">
   <div class="modal-box">
+    <button class="modal-close-x" onclick="closeModal('createTourModal')" title="Đóng (ESC)">✕</button>
     <h2>🎉 Tạo giải mới</h2>
     <div class="input-row" style="flex-direction: column;">
       <select id="c_type">
@@ -973,8 +1125,7 @@ body::after {
       <input type="text" id="c_dia_diem" placeholder="Địa điểm">
       <input type="date" id="c_ngay">
     </div>
-    <button class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="createNewTour()">Tạo giải</button>
-    <button class="btn btn-secondary" style="width: 100%; margin-top: 10px;" onclick="closeModal('createTourModal')">Hủy</button>
+    <button class="btn btn-primary" id="createSubmitBtn" style="width: 100%; margin-top: 10px;" onclick="createNewTour()">Tạo giải</button>
   </div>
 </div>
 
@@ -983,35 +1134,205 @@ const SUPABASE_URL = 'https://mvefkcaqvjflrgmaybev.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12ZWZrY2FxdmpmbHJnbWF5YmV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2MDAzOTksImV4cCI6MjEwMjE3NjM5OX0.vCY4_JlSBqi6QRh7DYWAe42Ot-pChKaVSHn7DY2C34Q';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ===== GLOBAL STATE =====
 let CURRENT_USER = null;
 let CURRENT_TOUR = null;
-let CURRENT_TYPE = null; // 'capdoi' | 'canhan'
+let CURRENT_TYPE = null;
 let IS_TOUR_OWNER = false;
 
 let capDoiTours = [];
 let caNhanTours = [];
 
-// CapDoi state
 let cdTeams = [];
 let cdMatches = [];
 
-// CaNhan state
 let cnVdvs = [];
 let cnMatches = [];
 
 let fallbackTimer = null;
 let IS_EDITING_SCORE = false;
 
-// ===== HELPERS =====
+// ===== RATE LIMITING STATE =====
+let loginAttempts = 0;
+let loginLockUntil = 0;
+
+// ============================================
+// UTILITY FUNCTIONS
+// ============================================
 function toast(msg, err = false) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.className = 'show' + (err ? ' err' : '');
   setTimeout(() => t.className = '', 3000);
 }
-function showModal(id) { document.getElementById(id).classList.add('show'); }
-function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+function showModal(id) {
+  const modal = document.getElementById(id);
+  modal.classList.add('show');
+  // Auto focus input đầu tiên
+  setTimeout(() => {
+    const firstInput = modal.querySelector('input:not([type="date"]):not([type="hidden"])');
+    if (firstInput) firstInput.focus();
+  }, 100);
+}
+
+function closeModal(id) {
+  const modal = document.getElementById(id);
+  modal.classList.remove('show');
+  // Reset tất cả input khi đóng
+  modal.querySelectorAll('input').forEach(input => {
+    if (input.type === 'password' || input.type === 'text') {
+      input.value = '';
+    }
+  });
+  // Reset helpers
+  modal.querySelectorAll('.input-helper').forEach(h => {
+    h.textContent = '';
+    h.className = 'input-helper';
+  });
+  // Reset password strength
+  modal.querySelectorAll('.pwd-strength-bar').forEach(b => {
+    b.className = 'pwd-strength-bar';
+  });
+  // Reset password visibility
+  modal.querySelectorAll('input[type="text"]').forEach(inp => {
+    if (inp.id && inp.id.includes('Pass')) {
+      inp.type = 'password';
+    }
+  });
+}
+
+// ESC to close modal
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.show').forEach(m => {
+      m.classList.remove('show');
+    });
+  }
+});
+
+// Click outside modal to close
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) {
+      overlay.classList.remove('show');
+    }
+  });
+});
+
+// Toggle password visibility
+function togglePwd(inputId, btn) {
+  const input = document.getElementById(inputId);
+  if (input.type === 'password') {
+    input.type = 'text';
+    btn.textContent = '🙈';
+  } else {
+    input.type = 'password';
+    btn.textContent = '👁️';
+  }
+}
+
+// Set loading state for button
+function setLoading(btnId, isLoading, originalText) {
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+  if (isLoading) {
+    btn.dataset.originalText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="btn-spinner"></span> Đang xử lý...';
+  } else {
+    btn.disabled = false;
+    btn.innerHTML = btn.dataset.originalText || originalText;
+  }
+}
+
+// Validate username regex: chỉ a-z, 0-9, underscore
+const USERNAME_REGEX = /^[a-z0-9_]{3,20}$/;
+
+function validateUsernameFormat(username) {
+  if (!username) return { valid: false, msg: '' };
+  if (username.length < 3) return { valid: false, msg: 'Tối thiểu 3 ký tự' };
+  if (username.length > 20) return { valid: false, msg: 'Tối đa 20 ký tự' };
+  if (/\s/.test(username)) return { valid: false, msg: 'Không được có khoảng trắng' };
+  if (!USERNAME_REGEX.test(username)) return { valid: false, msg: 'Chỉ cho phép chữ thường, số, gạch dưới' };
+  if (username === 'admin') return { valid: false, msg: 'Tên này đã được hệ thống sử dụng' };
+  return { valid: true, msg: '✓ Hợp lệ' };
+}
+
+// Live validate login username
+function validateLoginUsername() {
+  const val = document.getElementById('loginUser').value.trim().toLowerCase();
+  const helper = document.getElementById('loginUserHelper');
+  if (!val) {
+    helper.textContent = '';
+    helper.className = 'input-helper';
+    return;
+  }
+  const result = validateUsernameFormat(val);
+  helper.textContent = result.msg;
+  helper.className = 'input-helper ' + (result.valid ? 'ok' : 'err');
+}
+
+// Live validate register username
+async function validateRegUsername() {
+  const val = document.getElementById('regUser').value.trim().toLowerCase();
+  const helper = document.getElementById('regUserHelper');
+  
+  if (!val) {
+    helper.textContent = 'Chỉ chữ thường, số, gạch dưới (3-20 ký tự)';
+    helper.className = 'input-helper';
+    return;
+  }
+  
+  const result = validateUsernameFormat(val);
+  if (!result.valid) {
+    helper.textContent = result.msg;
+    helper.className = 'input-helper err';
+    return;
+  }
+  
+  // Check tồn tại trong DB
+  try {
+    const { data } = await sb.from('admin_users')
+      .select('id')
+      .eq('username', val)
+      .maybeSingle();
+    
+    if (data) {
+      helper.textContent = '✗ Tên đã tồn tại, hãy chọn tên khác';
+      helper.className = 'input-helper err';
+    } else {
+      helper.textContent = '✓ Tên có sẵn';
+      helper.className = 'input-helper ok';
+    }
+  } catch (e) {
+    helper.textContent = '✓ Hợp lệ';
+    helper.className = 'input-helper ok';
+  }
+}
+
+// Password strength indicator
+function checkPwdStrength(inputId = 'regPass') {
+  const pwd = document.getElementById(inputId).value;
+  const bars = document.querySelectorAll('#pwdStrength .pwd-strength-bar');
+  
+  if (inputId !== 'regPass') return;
+  
+  let strength = 0;
+  if (pwd.length >= 3) strength++;
+  if (pwd.length >= 6) strength++;
+  if (/[A-Z]/.test(pwd) || /[0-9]/.test(pwd)) strength++;
+  if (/[^a-zA-Z0-9]/.test(pwd)) strength++;
+  
+  bars.forEach((bar, i) => {
+    bar.className = 'pwd-strength-bar';
+    if (i < strength) {
+      bar.classList.add('active');
+      if (strength <= 1) bar.classList.add('weak');
+      else if (strength <= 2) bar.classList.add('medium');
+      else bar.classList.add('strong');
+    }
+  });
+}
 
 function isSuperAdmin() {
   return CURRENT_USER && CURRENT_USER.username.toLowerCase() === 'admin';
@@ -1030,7 +1351,9 @@ function formatDate(dateStr) {
   } catch { return 'Chưa cập nhật'; }
 }
 
-// ===== AUTH =====
+// ============================================
+// AUTH FUNCTIONS - ĐÃ HOÀN THIỆN
+// ============================================
 function updateAuthUI() {
   const c = document.getElementById('authBtns');
   if (CURRENT_USER) {
@@ -1052,52 +1375,142 @@ function updateAuthUI() {
 }
 
 async function doRegister() {
+  // Check loading
+  const btn = document.getElementById('regSubmitBtn');
+  if (btn.disabled) return;
+  
   const user = document.getElementById('regUser').value.trim().toLowerCase();
-  const pass = document.getElementById('regPass').value.trim();
-  const confirm = document.getElementById('regPassConfirm').value.trim();
+  const pass = document.getElementById('regPass').value;
+  const confirm = document.getElementById('regPassConfirm').value;
+  const confirmHelper = document.getElementById('regConfirmHelper');
 
-  if (!user || !pass) return toast('Nhập đầy đủ thông tin', true);
-  if (user.length < 3) return toast('Tên tối thiểu 3 ký tự', true);
-  if (user.includes(' ')) return toast('Tên không được có khoảng trắng', true);
-  if (pass.length < 3) return toast('Mật khẩu tối thiểu 3 ký tự', true);
-  if (pass !== confirm) return toast('❌ Mật khẩu xác nhận không khớp', true);
-  if (user === 'admin') return toast('Tên này đã được hệ thống sử dụng', true);
-
-  const { error } = await sb.from('admin_users').insert({ username: user, password: pass });
-  if (error) {
-    if (error.code === '23505') return toast('Tên đã tồn tại!', true);
-    return toast('Lỗi: ' + error.message, true);
+  // Validation
+  if (!user || !pass || !confirm) {
+    toast('Vui lòng nhập đầy đủ thông tin', true);
+    return;
   }
-
-  closeModal('registerModal');
-  toast('✅ Đăng ký thành công! Hãy đăng nhập.');
-  showModal('loginModal');
-  document.getElementById('loginUser').value = user;
-  document.getElementById('regUser').value = '';
-  document.getElementById('regPass').value = '';
-  document.getElementById('regPassConfirm').value = '';
+  
+  const usernameValidation = validateUsernameFormat(user);
+  if (!usernameValidation.valid) {
+    toast(usernameValidation.msg, true);
+    return;
+  }
+  
+  if (pass.length < 3) {
+    toast('Mật khẩu tối thiểu 3 ký tự', true);
+    return;
+  }
+  
+  if (pass !== confirm) {
+    confirmHelper.textContent = '✗ Mật khẩu không khớp';
+    confirmHelper.className = 'input-helper err';
+    toast('Mật khẩu xác nhận không khớp', true);
+    return;
+  }
+  
+  setLoading('regSubmitBtn', true);
+  
+  try {
+    const { error } = await sb.from('admin_users').insert({ username: user, password: pass });
+    
+    if (error) {
+      if (error.code === '23505') {
+        toast('Tên đã tồn tại! Hãy chọn tên khác', true);
+        document.getElementById('regUserHelper').textContent = '✗ Tên đã tồn tại';
+        document.getElementById('regUserHelper').className = 'input-helper err';
+      } else {
+        toast('Lỗi: ' + error.message, true);
+      }
+      setLoading('regSubmitBtn', false, 'Tạo tài khoản');
+      return;
+    }
+    
+    closeModal('registerModal');
+    toast('✅ Đăng ký thành công! Hãy đăng nhập.');
+    showModal('loginModal');
+    document.getElementById('loginUser').value = user;
+    document.getElementById('loginPass').focus();
+    
+  } catch (e) {
+    console.error('Register error:', e);
+    toast('Lỗi kết nối: ' + e.message, true);
+  } finally {
+    setLoading('regSubmitBtn', false, 'Tạo tài khoản');
+  }
 }
 
 async function doLogin() {
+  // Check rate limiting
+  const now = Date.now();
+  if (now < loginLockUntil) {
+    const seconds = Math.ceil((loginLockUntil - now) / 1000);
+    toast(`⏱️ Thử lại sau ${seconds}s (quá nhiều lần sai)`, true);
+    return;
+  }
+  
+  const btn = document.getElementById('loginSubmitBtn');
+  if (btn.disabled) return;
+  
   const user = document.getElementById('loginUser').value.trim().toLowerCase();
-  const pass = document.getElementById('loginPass').value.trim();
-  if (!user || !pass) return toast('Vui lòng nhập tên và mật khẩu', true);
-
-  const { data, error } = await sb.from('admin_users')
-    .select('*')
-    .eq('username', user)
-    .eq('password', pass)
-    .single();
-
-  if (error || !data) return toast('Sai tên đăng nhập hoặc mật khẩu!', true);
-
-  CURRENT_USER = data;
-  sessionStorage.setItem('pb_admin', JSON.stringify(data));
-  closeModal('loginModal');
-  updateAuthUI();
-  toast('✅ Chào, ' + CURRENT_USER.username);
-  document.getElementById('loginPass').value = '';
-  await loadAllTournaments();
+  const pass = document.getElementById('loginPass').value;
+  
+  if (!user || !pass) {
+    toast('Vui lòng nhập tên và mật khẩu', true);
+    return;
+  }
+  
+  // Validate format
+  const usernameValidation = validateUsernameFormat(user);
+  if (!usernameValidation.valid && user !== 'admin') {
+    toast(usernameValidation.msg || 'Username không hợp lệ', true);
+    return;
+  }
+  
+  setLoading('loginSubmitBtn', true);
+  
+  try {
+    // Dùng maybeSingle thay vì single để tránh throw error
+    const { data, error } = await sb.from('admin_users')
+      .select('*')
+      .eq('username', user)
+      .eq('password', pass)
+      .maybeSingle();
+    
+    if (error) {
+      console.error('Login query error:', error);
+      toast('Lỗi kết nối CSDL: ' + error.message, true);
+      setLoading('loginSubmitBtn', false, 'Đăng nhập');
+      return;
+    }
+    
+    if (!data) {
+      loginAttempts++;
+      if (loginAttempts >= 3) {
+        loginLockUntil = Date.now() + 30000; // Lock 30s
+        loginAttempts = 0;
+        toast('🔒 Sai quá nhiều lần. Thử lại sau 30s', true);
+      } else {
+        toast(`Sai tên đăng nhập hoặc mật khẩu! (Lần ${loginAttempts}/3)`, true);
+      }
+      setLoading('loginSubmitBtn', false, 'Đăng nhập');
+      return;
+    }
+    
+    // Đăng nhập thành công
+    loginAttempts = 0;
+    CURRENT_USER = data;
+    sessionStorage.setItem('pb_admin', JSON.stringify(data));
+    closeModal('loginModal');
+    updateAuthUI();
+    toast('✅ Chào, ' + CURRENT_USER.username);
+    await loadAllTournaments();
+    
+  } catch (e) {
+    console.error('Login error:', e);
+    toast('Lỗi: ' + e.message, true);
+  } finally {
+    setLoading('loginSubmitBtn', false, 'Đăng nhập');
+  }
 }
 
 function doLogout() {
@@ -1109,33 +1522,72 @@ function doLogout() {
 }
 
 async function handleChangePassword() {
-  const current = document.getElementById('cp_current').value.trim();
-  const newPwd = document.getElementById('cp_new').value.trim();
-  const confirm = document.getElementById('cp_confirm').value.trim();
-  if (!current || !newPwd || !confirm) return toast('Vui lòng nhập đầy đủ', true);
-  if (newPwd !== confirm) return toast('Mật khẩu mới không khớp', true);
-  if (newPwd.length < 3) return toast('Mật khẩu mới tối thiểu 3 ký tự', true);
-
-  const { data, error: vErr } = await sb.from('admin_users')
-    .select('id')
-    .eq('id', CURRENT_USER.id)
-    .eq('password', current)
-    .single();
-  if (vErr || !data) return toast('Mật khẩu hiện tại không đúng', true);
-
-  const { error: uErr } = await sb.from('admin_users').update({ password: newPwd }).eq('id', CURRENT_USER.id);
-  if (uErr) return toast('Lỗi: ' + uErr.message, true);
-
-  CURRENT_USER.password = newPwd;
-  sessionStorage.setItem('pb_admin', JSON.stringify(CURRENT_USER));
-  toast('✅ Đổi mật khẩu thành công!');
-  closeModal('changePwdModal');
-  document.getElementById('cp_current').value = '';
-  document.getElementById('cp_new').value = '';
-  document.getElementById('cp_confirm').value = '';
+  const btn = document.getElementById('cpSubmitBtn');
+  if (btn.disabled) return;
+  
+  const current = document.getElementById('cp_current').value;
+  const newPwd = document.getElementById('cp_new').value;
+  const confirm = document.getElementById('cp_confirm').value;
+  
+  if (!current || !newPwd || !confirm) {
+    toast('Vui lòng nhập đầy đủ', true);
+    return;
+  }
+  if (newPwd.length < 3) {
+    toast('Mật khẩu mới tối thiểu 3 ký tự', true);
+    return;
+  }
+  if (newPwd !== confirm) {
+    toast('Mật khẩu mới không khớp', true);
+    return;
+  }
+  if (newPwd === current) {
+    toast('Mật khẩu mới phải khác mật khẩu cũ', true);
+    return;
+  }
+  
+  setLoading('cpSubmitBtn', true);
+  
+  try {
+    // Verify current password
+    const { data, error: vErr } = await sb.from('admin_users')
+      .select('id')
+      .eq('id', CURRENT_USER.id)
+      .eq('password', current)
+      .maybeSingle();
+      
+    if (vErr || !data) {
+      toast('Mật khẩu hiện tại không đúng', true);
+      setLoading('cpSubmitBtn', false, 'Cập nhật');
+      return;
+    }
+    
+    const { error: uErr } = await sb.from('admin_users')
+      .update({ password: newPwd })
+      .eq('id', CURRENT_USER.id);
+      
+    if (uErr) {
+      toast('Lỗi: ' + uErr.message, true);
+      setLoading('cpSubmitBtn', false, 'Cập nhật');
+      return;
+    }
+    
+    CURRENT_USER.password = newPwd;
+    sessionStorage.setItem('pb_admin', JSON.stringify(CURRENT_USER));
+    toast('✅ Đổi mật khẩu thành công!');
+    closeModal('changePwdModal');
+    
+  } catch (e) {
+    console.error('Change password error:', e);
+    toast('Lỗi: ' + e.message, true);
+  } finally {
+    setLoading('cpSubmitBtn', false, 'Cập nhật');
+  }
 }
 
-// ===== HOME SCREEN =====
+// ============================================
+// TOURNAMENT FUNCTIONS
+// ============================================
 function renderTourCard(tour, type) {
   const isCapDoi = type === 'capdoi';
   const ngay = formatDate(tour.ngay_to_chuc);
@@ -1216,7 +1668,6 @@ async function loadAllTournaments() {
   }
 }
 
-// ===== OPEN TOUR DETAIL =====
 async function openTourDetail(type, maGiai) {
   CURRENT_TYPE = type;
   document.getElementById('homeScreen').style.display = 'none';
@@ -1244,9 +1695,6 @@ function goHome() {
   loadAllTournaments();
 }
 
-// ============================================================
-// TEAM ROUND ROBIN (CẶP ĐÔI)
-// ============================================================
 async function cdLoadTour(maGiai) {
   const { data: tour } = await sb.from('robin_tour').select('*').eq('ma_giai', maGiai).single();
   if (!tour) { toast('Không tìm thấy giải', true); goHome(); return; }
@@ -1259,7 +1707,6 @@ async function cdLoadTour(maGiai) {
   document.getElementById('cdDate').textContent = formatDate(tour.ngay_to_chuc);
   document.getElementById('cdMaGiai').textContent = tour.ma_giai;
 
-  const hero = document.querySelector('#detailCapDoi .detail-hero');
   const container = document.getElementById('detailCapDoi');
   if (IS_TOUR_OWNER) {
     container.classList.add('is-owner');
@@ -1567,9 +2014,6 @@ function switchCdTab(name, btn) {
   document.getElementById('cdTab' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
 }
 
-// ============================================================
-// ROBIN CÁ NHÂN
-// ============================================================
 async function cnLoadTour(maGiai) {
   const { data: tour } = await sb.from('robin_canhan_tour').select('*').eq('ma_giai', maGiai).single();
   if (!tour) { toast('Không tìm thấy giải', true); goHome(); return; }
@@ -1648,7 +2092,6 @@ function cnRenderVdvs() {
   `).join('');
 }
 
-// Thuật toán ghép cặp 2v2 tối ưu
 function cnGenerate2v2Schedule() {
   const players = cnVdvs.map(v => ({ id: v.id, name: v.ten_vdv }));
   const n = players.length;
@@ -1911,9 +2354,6 @@ function switchCnTab(name, btn) {
   document.getElementById('cnTab' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
 }
 
-// ============================================================
-// TOURNAMENT CRUD
-// ============================================================
 function showCreateTourModal() {
   if (!CURRENT_USER) return showModal('loginModal');
   document.getElementById('c_ngay').valueAsDate = new Date();
@@ -1921,44 +2361,55 @@ function showCreateTourModal() {
 }
 
 async function createNewTour() {
+  const btn = document.getElementById('createSubmitBtn');
+  if (btn.disabled) return;
+  
   const type = document.getElementById('c_type').value;
   const ten = document.getElementById('c_ten_giai').value.trim();
   const dd = document.getElementById('c_dia_diem').value.trim();
   const ngay = document.getElementById('c_ngay').value;
   if (!ten || !ngay) return toast('Nhập tên giải và ngày', true);
-
-  if (type === 'capdoi') {
-    const { data: last } = await sb.from('robin_tour').select('ma_giai').order('ma_giai', { ascending: false }).limit(1);
-    let n = 1;
-    if (last && last.length && last[0].ma_giai.startsWith('G')) {
-      const cur = parseInt(last[0].ma_giai.substring(1), 10);
-      if (!isNaN(cur)) n = cur + 1;
+  
+  setLoading('createSubmitBtn', true);
+  
+  try {
+    if (type === 'capdoi') {
+      const { data: last } = await sb.from('robin_tour').select('ma_giai').order('ma_giai', { ascending: false }).limit(1);
+      let n = 1;
+      if (last && last.length && last[0].ma_giai.startsWith('G')) {
+        const cur = parseInt(last[0].ma_giai.substring(1), 10);
+        if (!isNaN(cur)) n = cur + 1;
+      }
+      const mg = 'G' + String(n).padStart(3, '0');
+      const { error } = await sb.from('robin_tour').insert({
+        ma_giai: mg, ten_giai: ten, dia_diem: dd, ngay_to_chuc: ngay, admin_id: CURRENT_USER.id
+      });
+      if (error) throw error;
+      closeModal('createTourModal');
+      toast('✅ Đã tạo giải!');
+      await loadAllTournaments();
+      setTimeout(() => openTourDetail('capdoi', mg), 300);
+    } else {
+      const { data: last } = await sb.from('robin_canhan_tour').select('ma_giai').order('ma_giai', { ascending: false }).limit(1);
+      let n = 1;
+      if (last && last.length && last[0].ma_giai.startsWith('C')) {
+        const cur = parseInt(last[0].ma_giai.substring(1), 10);
+        if (!isNaN(cur)) n = cur + 1;
+      }
+      const mg = 'C' + String(n).padStart(3, '0');
+      const { error } = await sb.from('robin_canhan_tour').insert({
+        ma_giai: mg, ten_giai: ten, dia_diem: dd, ngay_to_chuc: ngay, mat_khau_admin: '123', admin_id: CURRENT_USER.id
+      });
+      if (error) throw error;
+      closeModal('createTourModal');
+      toast('✅ Đã tạo giải!');
+      await loadAllTournaments();
+      setTimeout(() => openTourDetail('canhan', mg), 300);
     }
-    const mg = 'G' + String(n).padStart(3, '0');
-    const { error } = await sb.from('robin_tour').insert({
-      ma_giai: mg, ten_giai: ten, dia_diem: dd, ngay_to_chuc: ngay, admin_id: CURRENT_USER.id
-    });
-    if (error) return toast('Lỗi: ' + error.message, true);
-    closeModal('createTourModal');
-    toast('✅ Đã tạo giải!');
-    await loadAllTournaments();
-    setTimeout(() => openTourDetail('capdoi', mg), 300);
-  } else {
-    const { data: last } = await sb.from('robin_canhan_tour').select('ma_giai').order('ma_giai', { ascending: false }).limit(1);
-    let n = 1;
-    if (last && last.length && last[0].ma_giai.startsWith('C')) {
-      const cur = parseInt(last[0].ma_giai.substring(1), 10);
-      if (!isNaN(cur)) n = cur + 1;
-    }
-    const mg = 'C' + String(n).padStart(3, '0');
-    const { error } = await sb.from('robin_canhan_tour').insert({
-      ma_giai: mg, ten_giai: ten, dia_diem: dd, ngay_to_chuc: ngay, mat_khau_admin: '123', admin_id: CURRENT_USER.id
-    });
-    if (error) return toast('Lỗi: ' + error.message, true);
-    closeModal('createTourModal');
-    toast('✅ Đã tạo giải!');
-    await loadAllTournaments();
-    setTimeout(() => openTourDetail('canhan', mg), 300);
+  } catch (e) {
+    toast('Lỗi: ' + e.message, true);
+  } finally {
+    setLoading('createSubmitBtn', false, 'Tạo giải');
   }
 }
 
@@ -1998,7 +2449,6 @@ async function deleteCurrentTour() {
   goHome();
 }
 
-// ===== FALLBACK POLLING =====
 function startFallbackPolling(maGiai, type) {
   stopFallbackPolling();
   fallbackTimer = setInterval(async () => {
@@ -2015,7 +2465,6 @@ function stopFallbackPolling() {
   }
 }
 
-// ===== 3D TILT EFFECT =====
 function initTiltEffect() {
   document.querySelectorAll('.tour-card').forEach(card => {
     card.addEventListener('mousemove', (e) => {
@@ -2034,7 +2483,6 @@ function initTiltEffect() {
   });
 }
 
-// ===== REALTIME =====
 function setupRealtime() {
   sb.channel('homepage_tours')
     .on('postgres_changes', { event: '*', schema: 'public', table: 'robin_tour' }, loadAllTournaments)
@@ -2042,7 +2490,6 @@ function setupRealtime() {
     .subscribe();
 }
 
-// ===== MOBILE REFOCUS =====
 document.addEventListener('visibilitychange', () => {
   if (!document.hidden && CURRENT_TOUR) {
     if (CURRENT_TYPE === 'capdoi') cdLoadData();
@@ -2050,7 +2497,9 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 
-// ===== INIT =====
+// ============================================
+// INIT
+// ============================================
 (async () => {
   const u = sessionStorage.getItem('pb_admin');
   if (u) {
