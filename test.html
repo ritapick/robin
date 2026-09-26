@@ -335,7 +335,7 @@ body::after {
   backdrop-filter: blur(10px);
 }
 
-/* ===== 🏷️ BADGE NGƯỜI TẠO GIẢI - 2 VARIANT ===== */
+/* ===== 🏷️ BADGE NGƯỜI TẠO GIẢI ===== */
 .tour-creator-badge {
   position: absolute;
   top: 14px;
@@ -1186,7 +1186,6 @@ let IS_EDITING_SCORE = false;
 let regUsernameTimer = null;
 let regUsernameValid = false;
 
-// 🌟 MAP USERS: userId -> username
 let allUsersMap = {};
 
 function toast(msg, err = false) {
@@ -1610,9 +1609,6 @@ async function handleChangePassword() {
   }
 }
 
-// ===================================================
-// 🌟 LOAD ALL USERS - Tạo map userId -> username
-// ===================================================
 async function loadAllUsers() {
   try {
     const { data, error } = await sb.from('admin_users').select('id, username');
@@ -1632,14 +1628,13 @@ async function loadAllUsers() {
   }
 }
 
-// 🌟 Lấy tên người tạo giải
 function getTourCreatorName(tour) {
   if (!tour.admin_id) return null;
   return allUsersMap[tour.admin_id] || null;
 }
 
 // ===================================================
-// 🌟 RENDER TOUR CARD - BADGE TÊN NGƯỜI TẠO
+// 🌟 RENDER TOUR CARD - BADGE CHỈ HIỆN KHI ĐÃ ĐĂNG NHẬP
 // ===================================================
 function renderTourCard(tour, type) {
   const isCapDoi = type === 'capdoi';
@@ -1648,16 +1643,16 @@ function renderTourCard(tour, type) {
   const icon = isCapDoi ? '🤝' : '🎾';
   const typeName = isCapDoi ? 'Cặp đôi' : 'Cá nhân';
   
-  // 🌟 Lấy tên người tạo giải
-  const creatorName = getTourCreatorName(tour);
-  const isAdminCreator = creatorName === 'admin';
-  
-  // Tạo badge hiển thị tên người tạo
+  // 🌟 CHỈ HIỂN THỊ BADGE KHI ĐÃ ĐĂNG NHẬP (CURRENT_USER tồn tại)
   let creatorBadge = '';
-  if (creatorName) {
-    const badgeClass = isAdminCreator ? 'badge-admin' : 'badge-user';
-    const badgeIcon = isAdminCreator ? '👑' : '👤';
-    creatorBadge = `<div class="tour-creator-badge ${badgeClass}">${badgeIcon}<span class="creator-name">${creatorName}</span></div>`;
+  if (CURRENT_USER) {
+    const creatorName = getTourCreatorName(tour);
+    if (creatorName) {
+      const isAdminCreator = creatorName === 'admin';
+      const badgeClass = isAdminCreator ? 'badge-admin' : 'badge-user';
+      const badgeIcon = isAdminCreator ? '👑' : '👤';
+      creatorBadge = `<div class="tour-creator-badge ${badgeClass}">${badgeIcon}<span class="creator-name">${creatorName}</span></div>`;
+    }
   }
 
   return `
@@ -1711,12 +1706,8 @@ function renderEmpty(type, context) {
   `;
 }
 
-// ===================================================
-// 🌟 LOAD ALL TOURNAMENTS - ADMIN THẤY TẤT CẢ
-// ===================================================
 async function loadAllTournaments() {
   try {
-    // 🌟 Load users TRƯỚC để có map tên
     await loadAllUsers();
     
     const [r1, r2] = await Promise.all([
@@ -1727,7 +1718,6 @@ async function loadAllTournaments() {
     let allCapDoi = r1.data || [];
     let allCaNhan = r2.data || [];
     
-    // 🌟 LOGIC PHÂN QUYỀN
     let visibleCapDoi, visibleCaNhan;
     let context;
     
@@ -1737,7 +1727,7 @@ async function loadAllTournaments() {
       visibleCaNhan = allCaNhan;
       context = 'guest';
     } else if (isSuperAdmin()) {
-      // 🌟 Admin: thấy TẤT CẢ giải
+      // Admin: thấy TẤT CẢ
       visibleCapDoi = allCapDoi;
       visibleCaNhan = allCaNhan;
       context = 'admin';
