@@ -159,8 +159,9 @@ body.paused-animations .floating-balls { display: none; }
 
 /* 🚀 SỬA LỖI HIỂN THỊ NÚT ADMIN */
 .admin-only { display: none !important; }
-.is-owner .admin-only { display: inline-flex !important; } /* Đổi từ flex sang inline-flex để khớp với class .btn */
+.is-owner .admin-only { display: inline-flex !important; } 
 .is-owner .admin-block { display: block !important; }
+.is-owner .admin-inline { display: inline-flex !important; }
 .admin-block { display: none; }
 .admin-inline { display: none; }
 
@@ -965,12 +966,13 @@ function cnRenderVdvs() {
   c.innerHTML = cnVdvs.map(v => `<div class="chip">🎾 <span class="name">${v.ten_vdv}</span>${IS_TOUR_OWNER ? `<button onclick="cnDeleteVdv('${v.id}')">✕</button>` : ''}</div>`).join('');
 }
 
-// 🌟 THUẬT TOÁN TẠO LỊCH 2v2 TỐI ƯU CHO ROBIN CÁ NHÂN
+// 🌟 THUẬT TOÁN TẠO LỊCH 2v2 TỐI ƯU CHO ROBIN CÁ NHÂN (CHUẨN RITAPICK)
 function cnGenerate2v2Schedule() {
   const players = cnVdvs.map(v => ({ id: v.id, name: v.ten_vdv }));
   const n = players.length;
   if (n < 4) return [];
 
+  // 1. Tính K: số trận tối đa mỗi người sao cho (K * N) % 4 == 0
   let K = n - 1;
   while (K > 0 && (K * n) % 4 !== 0) K--;
   if (K < 1) return [];
@@ -982,7 +984,7 @@ function cnGenerate2v2Schedule() {
   const usedPairs = new Set();
   const matches = [];
   const startTime = Date.now();
-  const TIMEOUT = 4000; 
+  const TIMEOUT = 4000; // 4 giây timeout để tránh treo trình duyệt
   let callCount = 0;
   let bestSolution = null;
 
@@ -991,7 +993,7 @@ function cnGenerate2v2Schedule() {
     for (let i = 0; i < n; i++) {
       if (!exclude.includes(i) && matchCount[i] < K) avail.push(i);
     }
-    avail.sort((a, b) => matchCount[a] - matchCount[b]);
+    avail.sort((a, b) => matchCount[a] - matchCount[b]); // Ưu tiên người ít trận nhất
     return avail;
   }
 
@@ -1018,6 +1020,7 @@ function cnGenerate2v2Schedule() {
           const p3 = opponents[i], p4 = opponents[j];
           if (usedPairs.has(partnerKey(p3, p4))) continue;
 
+          // 🚀 PRUNING: Kiểm tra nghiêm ngặt chênh lệch <= 1 trước khi đệ quy
           const tempCounts = [...matchCount];
           tempCounts[p1]++; tempCounts[p2]++; tempCounts[p3]++; tempCounts[p4]++;
           let tMax = 0, tMin = K;
@@ -1030,6 +1033,7 @@ function cnGenerate2v2Schedule() {
 
           if (solve()) return true;
 
+          // Backtrack
           matches.pop();
           usedPairs.delete(partnerKey(p1, p2)); usedPairs.delete(partnerKey(p3, p4));
           matchCount[p1]--; matchCount[p2]--; matchCount[p3]--; matchCount[p4]--;
@@ -1039,6 +1043,7 @@ function cnGenerate2v2Schedule() {
     return false;
   }
 
+  // Thử tối đa 15 lần với xáo trộn nhẹ để thoát khỏi cực tiểu địa phương
   for (let attempt = 0; attempt < 15 && !bestSolution; attempt++) {
     if (attempt > 0) {
       for (let i = players.length - 1; i > 0; i--) {
@@ -1052,6 +1057,7 @@ function cnGenerate2v2Schedule() {
 
   if (bestSolution) return bestSolution;
 
+  // 🚀 FALLBACK GREEDY: Đảm bảo 100% không vi phạm ràng buộc chênh lệch <= 1
   console.warn('Backtracking timeout, using guaranteed balanced fallback...');
   const gMatchCount = new Array(n).fill(0);
   const gUsedPairs = new Set();
@@ -1101,37 +1107,62 @@ function cnGenerate2v2Schedule() {
 }
 
 async function cnGenerateSchedule() {
-  console.log("🔘 Nút Tạo lịch được bấm");
-  if (!IS_TOUR_OWNER) return toast('⚠️ Bạn không có quyền quản lý giải này!', true);
+  console.log("🔘 [DEBUG] Nút Tạo lịch được bấm");
+  if (!IS_TOUR_OWNER) {
+    console.warn("❌ [DEBUG] Không có quyền. IS_TOUR_OWNER:", IS_TOUR_OWNER, "CURRENT_USER:", CURRENT_USER);
+    return toast('⚠️ Bạn không có quyền quản lý giải này!', true);
+  }
   if (cnVdvs.length < 4) return toast(`⚠️ Cần ít nhất 4 VĐV để đánh đôi 2v2! (Hiện tại chỉ có ${cnVdvs.length} VĐV)`, true);
   
   if (!confirm('Tạo lịch mới sẽ XÓA toàn bộ lịch và điểm số cũ. Tiếp tục?')) return;
   
   const btn = document.getElementById('cnBtnGenSchedule');
-  btn.disabled = true; btn.textContent = '⏳ Đang tính...'; toast('⏳ Đang tạo lịch tối ưu...');
-  await new Promise(r => setTimeout(r, 50));
-  
-  await sb.from('robin_canhan_tran_dau').delete().eq('ma_giai', CURRENT_TOUR.ma_giai);
-  const matches = cnGenerate2v2Schedule().map(m => ({ ...m, ma_giai: CURRENT_TOUR.ma_giai }));
-  
-  btn.disabled = false; btn.textContent = '⚡ Tạo lịch 2v2';
-  if (matches.length === 0) return toast('❌ Không thể tạo lịch với số VĐV này', true);
-  
-  const { error } = await sb.from('robin_canhan_tran_dau').insert(matches);
-  if (error) return toast('Lỗi: ' + error.message, true);
-  
-  toast(`✅ Đã tạo thành công ${matches.length} trận`); 
-  await cnLoadData();
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '⏳ Đang tính toán...';
+  toast('⏳ Đang tạo lịch tối ưu (có thể mất vài giây)...');
+
+  // Cho phép UI cập nhật trước khi chạy thuật toán nặng
+  await new Promise(r => setTimeout(r, 100));
+
+  try {
+    const { error: deleteError } = await sb.from('robin_canhan_tran_dau').delete().eq('ma_giai', CURRENT_TOUR.ma_giai);
+    if (deleteError) throw deleteError;
+
+    const newMatches = cnGenerate2v2Schedule();
+    if (!newMatches || newMatches.length === 0) {
+      throw new Error("Không thể tạo lịch hợp lệ với số lượng VĐV hiện tại.");
+    }
+
+    const matchesToInsert = newMatches.map(m => ({ ...m, ma_giai: CURRENT_TOUR.ma_giai }));
+    const { error: insertError } = await sb.from('robin_canhan_tran_dau').insert(matchesToInsert);
+    if (insertError) throw insertError;
+
+    toast(`✅ Đã tạo thành công ${matchesToInsert.length} trận!`);
+    await cnLoadData();
+  } catch (err) {
+    console.error("Lỗi tạo lịch:", err);
+    toast('❌ Lỗi: ' + err.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
 }
 
 async function cnResetSchedule() {
-  console.log("🔘 Nút Xóa lịch được bấm");
+  console.log("🔘 [DEBUG] Nút Xóa lịch được bấm");
   if (!IS_TOUR_OWNER) return toast('⚠️ Bạn không có quyền quản lý giải này!', true);
   if (!confirm('Xóa toàn bộ lịch và điểm?')) return;
   
-  await sb.from('robin_canhan_tran_dau').delete().eq('ma_giai', CURRENT_TOUR.ma_giai); 
-  toast('✅ Đã xóa lịch'); 
-  await cnLoadData();
+  try {
+    const { error } = await sb.from('robin_canhan_tran_dau').delete().eq('ma_giai', CURRENT_TOUR.ma_giai);
+    if (error) throw error;
+    toast('✅ Đã xóa lịch'); 
+    await cnLoadData();
+  } catch (err) {
+    console.error("Lỗi xóa lịch:", err);
+    toast('❌ Lỗi: ' + err.message, true);
+  }
 }
 
 function cnGetVdvName(id) { const v = cnVdvs.find(x => x.id === id); return v ? v.ten_vdv : '???'; }
