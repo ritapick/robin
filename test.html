@@ -335,8 +335,8 @@ body::after {
   backdrop-filter: blur(10px);
 }
 
-/* ===== 🏷️ BADGE "CỦA BẠN" ===== */
-.tour-owner-badge {
+/* ===== 🏷️ BADGE NGƯỜI TẠO GIẢI - 2 VARIANT ===== */
+.tour-creator-badge {
   position: absolute;
   top: 14px;
   left: 14px;
@@ -347,14 +347,29 @@ body::after {
   letter-spacing: 1px;
   padding: 4px 10px;
   border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  backdrop-filter: blur(10px);
+  z-index: 2;
+  max-width: calc(100% - 100px);
+  overflow: hidden;
+}
+.tour-creator-badge.badge-admin {
+  background: linear-gradient(135deg, var(--accent), var(--gold));
+  color: #000;
+  box-shadow: 0 2px 8px rgba(255, 209, 102, 0.4);
+}
+.tour-creator-badge.badge-user {
   background: linear-gradient(135deg, var(--green), #16a34a);
   color: #fff;
   box-shadow: 0 2px 8px rgba(34, 197, 94, 0.4);
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  backdrop-filter: blur(10px);
-  z-index: 2;
+}
+.tour-creator-badge .creator-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 120px;
 }
 
 .tour-icon {
@@ -768,6 +783,7 @@ body::after {
   .mc-score { font-size: 1rem; min-width: 26px; }
   .score-input { width: 38px; font-size: 0.95rem; }
   .vs-circle { width: 30px; height: 30px; font-size: 0.7rem; }
+  .tour-creator-badge .creator-name { max-width: 90px; }
 }
 
 @media (max-width: 480px) {
@@ -776,6 +792,8 @@ body::after {
   .detail-title { font-size: 1.2rem; }
   .auth-btns { flex-wrap: wrap; gap: 5px; }
   .rank-table td:nth-child(2) { max-width: 90px; }
+  .tour-creator-badge { font-size: 0.6rem; padding: 3px 8px; }
+  .tour-creator-badge .creator-name { max-width: 70px; }
 }
 </style>
 </head>
@@ -1167,6 +1185,9 @@ let IS_EDITING_SCORE = false;
 
 let regUsernameTimer = null;
 let regUsernameValid = false;
+
+// 🌟 MAP USERS: userId -> username
+let allUsersMap = {};
 
 function toast(msg, err = false) {
   const t = document.getElementById('toast');
@@ -1590,7 +1611,35 @@ async function handleChangePassword() {
 }
 
 // ===================================================
-// 🌟 RENDER TOUR CARD - THÊM BADGE "CỦA BẠN"
+// 🌟 LOAD ALL USERS - Tạo map userId -> username
+// ===================================================
+async function loadAllUsers() {
+  try {
+    const { data, error } = await sb.from('admin_users').select('id, username');
+    if (error) {
+      console.error('Load users error:', error);
+      allUsersMap = {};
+      return;
+    }
+    
+    allUsersMap = {};
+    (data || []).forEach(u => {
+      allUsersMap[u.id] = u.username;
+    });
+  } catch (e) {
+    console.error('Load users error:', e);
+    allUsersMap = {};
+  }
+}
+
+// 🌟 Lấy tên người tạo giải
+function getTourCreatorName(tour) {
+  if (!tour.admin_id) return null;
+  return allUsersMap[tour.admin_id] || null;
+}
+
+// ===================================================
+// 🌟 RENDER TOUR CARD - BADGE TÊN NGƯỜI TẠO
 // ===================================================
 function renderTourCard(tour, type) {
   const isCapDoi = type === 'capdoi';
@@ -1599,17 +1648,23 @@ function renderTourCard(tour, type) {
   const icon = isCapDoi ? '🤝' : '🎾';
   const typeName = isCapDoi ? 'Cặp đôi' : 'Cá nhân';
   
-  // Check owner badge
-  const isOwner = canManageTour(tour);
-  const ownerBadge = isOwner 
-    ? `<div class="tour-owner-badge">✓ Của bạn</div>` 
-    : '';
+  // 🌟 Lấy tên người tạo giải
+  const creatorName = getTourCreatorName(tour);
+  const isAdminCreator = creatorName === 'admin';
+  
+  // Tạo badge hiển thị tên người tạo
+  let creatorBadge = '';
+  if (creatorName) {
+    const badgeClass = isAdminCreator ? 'badge-admin' : 'badge-user';
+    const badgeIcon = isAdminCreator ? '👑' : '👤';
+    creatorBadge = `<div class="tour-creator-badge ${badgeClass}">${badgeIcon}<span class="creator-name">${creatorName}</span></div>`;
+  }
 
   return `
     <div class="tour-card ${type}"
          style="animation-delay: ${Math.random() * 0.3}s"
          onclick="openTourDetail('${type}', '${tour.ma_giai}')">
-      ${ownerBadge}
+      ${creatorBadge}
       <div class="tour-type-badge">${typeName}</div>
       <div class="tour-icon">${icon}</div>
       <h3 class="tour-name">${tour.ten_giai || 'Giải đấu'}</h3>
@@ -1634,9 +1689,6 @@ function renderTourCard(tour, type) {
   `;
 }
 
-// ===================================================
-// 🌟 RENDER EMPTY - THÊM CONTEXT PARAMETER
-// ===================================================
 function renderEmpty(type, context) {
   const icon = type === 'capdoi' ? '🤝' : '🎾';
   const name = type === 'capdoi' ? 'Team Round Robin' : 'Robin Cá Nhân';
@@ -1660,10 +1712,13 @@ function renderEmpty(type, context) {
 }
 
 // ===================================================
-// 🌟 LOAD ALL TOURNAMENTS - LOGIC PHÂN QUYỀN MỚI
+// 🌟 LOAD ALL TOURNAMENTS - ADMIN THẤY TẤT CẢ
 // ===================================================
 async function loadAllTournaments() {
   try {
+    // 🌟 Load users TRƯỚC để có map tên
+    await loadAllUsers();
+    
     const [r1, r2] = await Promise.all([
       sb.from('robin_tour').select('*').order('ngay_to_chuc', { ascending: false }),
       sb.from('robin_canhan_tour').select('*').order('ngay_to_chuc', { ascending: false })
@@ -1672,7 +1727,7 @@ async function loadAllTournaments() {
     let allCapDoi = r1.data || [];
     let allCaNhan = r2.data || [];
     
-    // 🌟 LOGIC PHÂN QUYỀN: Filter theo user
+    // 🌟 LOGIC PHÂN QUYỀN
     let visibleCapDoi, visibleCaNhan;
     let context;
     
@@ -1682,7 +1737,7 @@ async function loadAllTournaments() {
       visibleCaNhan = allCaNhan;
       context = 'guest';
     } else if (isSuperAdmin()) {
-      // Admin: thấy TẤT CẢ
+      // 🌟 Admin: thấy TẤT CẢ giải
       visibleCapDoi = allCapDoi;
       visibleCaNhan = allCaNhan;
       context = 'admin';
@@ -1696,20 +1751,17 @@ async function loadAllTournaments() {
     capDoiTours = visibleCapDoi;
     caNhanTours = visibleCaNhan;
 
-    // Update stats - đếm theo danh sách hiển thị
     document.getElementById('totalTours').textContent = capDoiTours.length + caNhanTours.length;
     document.getElementById('totalCapDoi').textContent = capDoiTours.length;
     document.getElementById('totalCaNhan').textContent = caNhanTours.length;
     document.getElementById('capDoiCount').textContent = capDoiTours.length;
     document.getElementById('caNhanCount').textContent = caNhanTours.length;
 
-    // Render CapDoi
     const capDoiGrid = document.getElementById('capDoiGrid');
     capDoiGrid.innerHTML = capDoiTours.length === 0
       ? renderEmpty('capdoi', context)
       : capDoiTours.map(t => renderTourCard(t, 'capdoi')).join('');
 
-    // Render CaNhan
     const caNhanGrid = document.getElementById('caNhanGrid');
     caNhanGrid.innerHTML = caNhanTours.length === 0
       ? renderEmpty('canhan', context)
