@@ -82,7 +82,7 @@ body::after {
 
 .wrapper { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 20px; }
 
-/* ===== AUTH BUTTONS ===== */
+/* ===== AUTH BUTTONS - ĐÃ SỬA VỊ TRÍ ĐỂ KHÔNG CHE TIÊU ĐỀ ===== */
 .auth-btns {
   position: absolute;
   top: 15px;
@@ -115,16 +115,14 @@ body::after {
   text-transform: uppercase; letter-spacing: 0.5px;
 }
 
-/* ===== HERO - ĐÃ SỬA KHOẢNG CÁCH ĐỂ KHÔNG BỊ CHE ===== */
+/* ===== HERO - ĐÃ SỬA Z-INDEX ĐỂ TIÊU ĐỀ KHÔNG BỊ CHE ===== */
 .hero { position: relative; text-align: center; padding: 20px 20px 30px; margin-bottom: 30px; transform-style: preserve-3d; }
-
 .hero-badge {
   display: inline-flex; align-items: center; gap: 8px;
   background: linear-gradient(135deg, var(--primary), var(--accent));
   color: #000; font-family: 'Oswald', sans-serif; font-weight: 700;
   font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
-  padding: 8px 20px; border-radius: 30px; 
-  margin-bottom: 32px; /* TĂNG KHOẢNG CÁCH ĐỂ BÓNG KHÔNG CHE CHỮ */
+  padding: 8px 20px; border-radius: 30px; margin-bottom: 16px;
   box-shadow: 0 0 30px rgba(255, 107, 53, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   animation: pulse-glow 2s ease-in-out infinite;
 }
@@ -132,20 +130,16 @@ body::after {
   0%, 100% { box-shadow: 0 0 30px rgba(255, 107, 53, 0.5); }
   50% { box-shadow: 0 0 50px rgba(255, 107, 53, 0.8), 0 0 80px rgba(255, 209, 102, 0.4); }
 }
-
 .hero-title {
   position: relative;
-  z-index: 10; /* Đảm bảo luôn nằm trên cùng */
+  z-index: 10; /* Đảm bảo tiêu đề luôn nằm trên cùng */
   font-family: 'Oswald', sans-serif;
   font-size: clamp(2.2rem, 7vw, 4rem);
-  font-weight: 700; text-transform: uppercase; letter-spacing: 2px; line-height: 1.1; 
-  margin-bottom: 10px;
+  font-weight: 700; text-transform: uppercase; letter-spacing: 2px; line-height: 1.1; margin-bottom: 10px;
   background: linear-gradient(135deg, #fff 0%, #fff 30%, var(--accent) 60%, var(--primary) 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  /* Thêm text-shadow để chữ nổi bật hoàn toàn khỏi nền/bóng */
-  filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.6)); 
+  filter: drop-shadow(0 4px 20px rgba(255, 107, 53, 0.3));
 }
-
 .hero-subtitle {
   font-family: 'Oswald', sans-serif;
   font-size: clamp(0.9rem, 2.5vw, 1.2rem); font-weight: 400;
@@ -349,7 +343,7 @@ body::after {
 .detail-hero.canhan::before { background: radial-gradient(circle, var(--canhan-glow) 0%, transparent 70%); }
 .detail-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; position: relative; z-index: 1; }
 
-/* ===== NÚT QUAY LẠI NỔI BẬT ===== */
+/* ===== NÚT QUAY LẠI ĐÃ ĐƯỢC LÀM NỔI BẬT ===== */
 .detail-back {
   display: inline-flex; align-items: center; gap: 8px;
   font-size: 0.9rem; font-weight: 700;
@@ -566,6 +560,7 @@ body::after {
 }
 .score-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.15); }
 .mc-actions { margin-top: 8px; display: flex; gap: 5px; justify-content: center; }
+.match-status-public { text-align: center; margin-top: 6px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.5px; }
 
 /* ===== MODAL ===== */
 .modal-overlay {
@@ -706,12 +701,12 @@ body::after {
       <div class="auth-btns" id="authBtns"></div>
       
       <div class="hero-badge">🏆 TOURNAMENT HUB · PICKLEBALL</div>
-      <h1 class="hero-title"><br>GIẢI ĐẤU<br>PICKLEBALL</h1>
+      <h1 class="hero-title">GIẢI ĐẤU<br>PICKLEBALL</h1>
       <div class="hero-subtitle">Cạnh tranh · Đam mê · Chiến thắng</div>
       <div class="hero-divider"></div>
       <p style="font-size: 0.95rem; color: var(--text-dim); max-width: 600px; margin: 0 auto; line-height: 1.6;">
         Kết nối đam mê – Bứt phá giới hạn!<br>
-        Nâng cao sức khỏe – Lan tỏa niềm vui.
+        Kết nối đam mê – Lan tỏa niềm vui.
       </p>
       <div class="hero-stats">
         <div class="hero-stat">
@@ -775,7 +770,7 @@ body::after {
   <div id="detailCapDoi" class="detail-screen">
     <div class="detail-hero capdoi">
       <div class="detail-top">
-        <button class="detail-back" onclick="goHome()">← TRANG CHỦ</button>
+        <button class="detail-back" onclick="goHome()">← Quay lại</button>
         <div class="detail-actions">
           <button class="btn btn-ghost btn-sm admin-only" onclick="editTourName()">✏️ Sửa tên</button>
           <button class="btn btn-danger btn-sm admin-only" onclick="deleteCurrentTour()">🗑️ Xóa giải</button>
@@ -1671,6 +1666,7 @@ function cnGenerate2v2Schedule() {
   const n = players.length;
   if (n < 4) return [];
 
+  // Tính K: số trận mỗi người cần tham gia (lớn nhất thỏa K ≤ N-1 và K×N chia hết cho 4)
   let K = n - 1;
   while (K > 0 && (K * n) % 4 !== 0) K--;
   if (K < 1) return [];
@@ -1694,6 +1690,7 @@ function cnGenerate2v2Schedule() {
       return true;
     }
     
+    // Tìm người có ít trận nhất
     let minCount = Infinity;
     for (let i = 0; i < n; i++) if (matchCount[i] < K && matchCount[i] < minCount) minCount = matchCount[i];
     
@@ -1703,6 +1700,7 @@ function cnGenerate2v2Schedule() {
     
     const p1 = candidates[Math.floor(Math.random() * candidates.length)];
     
+    // Tìm đồng đội cho p1 (ưu tiên người cũng có ít trận)
     const partnerCands = [];
     for (let i = 0; i < n; i++) {
       if (i === p1 || matchCount[i] >= K) continue;
@@ -1712,6 +1710,7 @@ function cnGenerate2v2Schedule() {
     partnerCands.sort((a, b) => matchCount[a] - matchCount[b]);
     
     for (const p2 of partnerCands) {
+      // Tìm 2 người còn lại (đối thủ)
       const oppCands = [];
       for (let i = 0; i < n; i++) {
         if (i === p1 || i === p2 || matchCount[i] >= K) continue;
@@ -1725,12 +1724,14 @@ function cnGenerate2v2Schedule() {
           const p4 = oppCands[j];
           if (usedPartners.has(partnerKey(p3, p4))) continue;
           
+          // Kiểm tra cân bằng: sau trận này, chênh lệch ≤ 1
           const tempCounts = [...matchCount];
           [p1, p2, p3, p4].forEach(p => tempCounts[p]++);
           const maxC = Math.max(...tempCounts);
           const minC = Math.min(...tempCounts.filter((c, idx) => matchCount[idx] < K || [p1, p2, p3, p4].includes(idx)));
           if (maxC - minC > 1) continue;
 
+          // Thử chọn
           matches.push({
             vong: matches.length + 1,
             doi_a_1: players[p1].id, doi_a_2: players[p2].id,
@@ -1743,6 +1744,7 @@ function cnGenerate2v2Schedule() {
           
           if (solve()) return true;
           
+          // Backtrack
           matches.pop();
           usedPartners.delete(partnerKey(p1, p2));
           usedPartners.delete(partnerKey(p3, p4));
@@ -1753,6 +1755,7 @@ function cnGenerate2v2Schedule() {
     return false;
   }
   
+  // Thử nhiều lần với random khác nhau để tìm lời giải tối ưu
   for (let attempt = 0; attempt < 30 && !bestSolution; attempt++) {
     matches.length = 0;
     matchCount.fill(0);
