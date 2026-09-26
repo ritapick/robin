@@ -1231,7 +1231,8 @@ function onRegUsernameInput() {
         helper.className = 'input-helper ok';
         passInput.disabled = false; confirmInput.disabled = false; submitBtn.disabled = false;
         regUsernameValid = true;
-        setTimeout(() => passInput.focus(), 5000);
+        /setTimeout(() => passInput.focus(), 5000);
+        setTimeout(() );
       }
     } catch (e) {
       helper.textContent = '⚠️ Lỗi kết nối, thử lại';
