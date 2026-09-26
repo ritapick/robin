@@ -177,7 +177,64 @@ body::after {
 .btn-sm { padding: 6px 10px; font-size: 0.72rem; min-height: 32px; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* ===== SPINNER CHO BUTTON ===== */
+/* ===== 🏠 NÚT TRANG CHỦ 3D NỔI BẬT ===== */
+.btn-home-3d {
+  background: linear-gradient(135deg, var(--primary) 0%, #ff9248 50%, var(--accent) 100%);
+  color: #000;
+  font-weight: 800;
+  padding: 11px 22px;
+  border-radius: 12px;
+  box-shadow: 
+    0 4px 0 #c2410c,
+    0 6px 12px rgba(255, 107, 53, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(0);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 0.85rem;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  position: relative;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.btn-home-3d::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 8px;
+  right: 8px;
+  height: 40%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4), transparent);
+  border-radius: 10px 10px 50% 50%;
+  pointer-events: none;
+}
+.btn-home-3d:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 0 #c2410c,
+    0 10px 20px rgba(255, 107, 53, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+.btn-home-3d:active {
+  transform: translateY(2px);
+  box-shadow: 
+    0 2px 0 #c2410c,
+    0 3px 8px rgba(255, 107, 53, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.btn-home-3d .home-icon {
+  font-size: 1.1rem;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
 .btn-spinner {
   display: inline-block;
   width: 14px; height: 14px;
@@ -342,16 +399,6 @@ body::after {
 }
 .detail-hero.canhan::before { background: radial-gradient(circle, var(--canhan-glow) 0%, transparent 70%); }
 .detail-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; position: relative; z-index: 1; }
-.detail-back {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 0.85rem; font-weight: 600;
-  color: var(--text-dim);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border);
-  padding: 6px 12px; border-radius: 10px;
-  cursor: pointer; transition: all 0.2s;
-}
-.detail-back:hover { color: var(--text); background: rgba(255, 255, 255, 0.1); }
 .detail-title-wrap { flex: 1; min-width: 0; position: relative; z-index: 1; }
 .detail-type-badge {
   display: inline-block;
@@ -420,8 +467,15 @@ body::after {
   background: var(--bg-deeper); border: 1px solid var(--border);
   color: var(--text); padding: 10px 12px; border-radius: 10px;
   font-size: 0.85rem; font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
 }
-.input-row input:focus, .input-row select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1); }
+.input-row input:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: var(--bg-card-hover);
+  color: var(--text-dim);
+}
+.input-row input:focus:not(:disabled), .input-row select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1); }
 
 .admin-only { display: none !important; }
 .is-owner .admin-only { display: flex !important; }
@@ -551,7 +605,6 @@ body::after {
 .mc-actions { margin-top: 8px; display: flex; gap: 5px; justify-content: center; }
 .match-status-public { text-align: center; margin-top: 6px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.5px; }
 
-/* ===== MODAL - ĐÃ CẢI THIỆN ===== */
 .modal-overlay {
   display: none; position: fixed; inset: 0;
   background: rgba(10, 14, 26, 0.9); backdrop-filter: blur(6px);
@@ -575,7 +628,6 @@ body::after {
   text-transform: uppercase; letter-spacing: 0.5px;
 }
 
-/* ===== PASSWORD WRAPPER ===== */
 .pwd-wrapper {
   position: relative;
   flex: 1;
@@ -600,20 +652,20 @@ body::after {
   min-height: auto;
   min-width: auto;
 }
-.pwd-toggle:hover { color: var(--accent); background: rgba(255, 255, 255, 0.05); }
+.pwd-toggle:hover:not(:disabled) { color: var(--accent); background: rgba(255, 255, 255, 0.05); }
 
-/* ===== INPUT HELPER ===== */
 .input-helper {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   color: var(--text-dim);
   margin-top: -4px;
   margin-bottom: 8px;
   padding-left: 4px;
+  font-weight: 500;
 }
 .input-helper.err { color: var(--red); }
 .input-helper.ok { color: var(--green); }
+.input-helper.loading { color: var(--accent); }
 
-/* ===== MODAL CLOSE BUTTON ===== */
 .modal-close-x {
   position: absolute;
   top: 12px;
@@ -638,7 +690,6 @@ body::after {
   border-color: rgba(239, 68, 68, 0.3);
 }
 
-/* ===== MODAL LINK ===== */
 .modal-link {
   color: var(--primary);
   font-weight: 700;
@@ -648,7 +699,6 @@ body::after {
 }
 .modal-link:hover { color: var(--accent); text-decoration: underline; }
 
-/* ===== PASSWORD STRENGTH ===== */
 .pwd-strength {
   display: flex;
   gap: 3px;
@@ -747,6 +797,7 @@ body::after {
   
   .detail-hero { padding: 18px; }
   .detail-title { font-size: 1.4rem; }
+  .btn-home-3d { padding: 9px 16px; font-size: 0.78rem; }
   .rank-table { font-size: 0.75rem; }
   .rank-table thead th { font-size: 0.65rem; padding: 8px 4px; }
   .rank-table td { padding: 8px 4px; font-size: 0.73rem; }
@@ -853,10 +904,14 @@ body::after {
     </footer>
   </div>
 
+  <!-- ===== DETAIL CAP DOI - ĐÃ SỬA NÚT ===== -->
   <div id="detailCapDoi" class="detail-screen">
     <div class="detail-hero capdoi">
       <div class="detail-top">
-        <button class="detail-back" onclick="goHome()">← Quay lại</button>
+        <button class="btn-home-3d" onclick="goHome()">
+          <span class="home-icon">🏠</span>
+          <span>Trang Chủ</span>
+        </button>
         <div class="detail-actions">
           <button class="btn btn-ghost btn-sm admin-only" onclick="editTourName()">✏️ Sửa tên</button>
           <button class="btn btn-danger btn-sm admin-only" onclick="deleteCurrentTour()">🗑️ Xóa giải</button>
@@ -941,10 +996,14 @@ body::after {
     </div>
   </div>
 
+  <!-- ===== DETAIL CA NHAN - ĐÃ SỬA NÚT ===== -->
   <div id="detailCaNhan" class="detail-screen">
     <div class="detail-hero canhan">
       <div class="detail-top">
-        <button class="detail-back" onclick="goHome()">← Quay lại</button>
+        <button class="btn-home-3d" onclick="goHome()">
+          <span class="home-icon">🏠</span>
+          <span>Trang Chủ</span>
+        </button>
         <div class="detail-actions">
           <button class="btn btn-ghost btn-sm admin-only" onclick="editTourName()">✏️ Sửa tên</button>
           <button class="btn btn-danger btn-sm admin-only" onclick="deleteCurrentTour()">🗑️ Xóa giải</button>
@@ -1027,14 +1086,13 @@ body::after {
 
 </div>
 
-<!-- ===== LOGIN MODAL - ĐÃ CẢI THIỆN ===== -->
+<!-- ===== LOGIN MODAL ===== -->
 <div id="loginModal" class="modal-overlay">
   <div class="modal-box">
     <button class="modal-close-x" onclick="closeModal('loginModal')" title="Đóng (ESC)">✕</button>
     <h2>🔑 Đăng nhập</h2>
     <div class="input-row" style="flex-direction: column;">
-      <input type="text" id="loginUser" placeholder="Tên đăng nhập" autocomplete="username" oninput="validateLoginUsername()">
-      <div class="input-helper" id="loginUserHelper"></div>
+      <input type="text" id="loginUser" placeholder="Tên đăng nhập" autocomplete="username">
     </div>
     <div class="input-row" style="flex-direction: column;">
       <div class="pwd-wrapper">
@@ -1054,13 +1112,15 @@ body::after {
   <div class="modal-box">
     <button class="modal-close-x" onclick="closeModal('registerModal')" title="Đóng (ESC)">✕</button>
     <h2>📝 Đăng ký tài khoản</h2>
+    
     <div class="input-row" style="flex-direction: column;">
-      <input type="text" id="regUser" placeholder="Tên đăng nhập" autocomplete="username" oninput="validateRegUsername()">
+      <input type="text" id="regUser" placeholder="Tên đăng nhập" autocomplete="username" oninput="onRegUsernameInput()">
       <div class="input-helper" id="regUserHelper">Chỉ chữ thường, số, gạch dưới (3-20 ký tự)</div>
     </div>
+    
     <div class="input-row" style="flex-direction: column;">
       <div class="pwd-wrapper">
-        <input type="password" id="regPass" placeholder="Mật khẩu (tối thiểu 3 ký tự)" autocomplete="new-password" oninput="checkPwdStrength()">
+        <input type="password" id="regPass" placeholder="Mật khẩu (tối thiểu 3 ký tự)" autocomplete="new-password" oninput="checkPwdStrength()" disabled>
         <button type="button" class="pwd-toggle" onclick="togglePwd('regPass', this)">👁️</button>
       </div>
       <div class="pwd-strength" id="pwdStrength">
@@ -1070,14 +1130,16 @@ body::after {
         <div class="pwd-strength-bar"></div>
       </div>
     </div>
+    
     <div class="input-row" style="flex-direction: column;">
       <div class="pwd-wrapper">
-        <input type="password" id="regPassConfirm" placeholder="Nhập lại mật khẩu" autocomplete="new-password" onkeypress="if(event.key==='Enter')doRegister()">
+        <input type="password" id="regPassConfirm" placeholder="Nhập lại mật khẩu" autocomplete="new-password" onkeypress="if(event.key==='Enter')doRegister()" disabled>
         <button type="button" class="pwd-toggle" onclick="togglePwd('regPassConfirm', this)">👁️</button>
       </div>
       <div class="input-helper" id="regConfirmHelper"></div>
     </div>
-    <button class="btn btn-primary" id="regSubmitBtn" style="width: 100%; margin-top: 10px;" onclick="doRegister()">Tạo tài khoản</button>
+    
+    <button class="btn btn-primary" id="regSubmitBtn" style="width: 100%; margin-top: 10px;" onclick="doRegister()" disabled>Tạo tài khoản</button>
     <p style="text-align: center; margin-top: 12px; font-size: 0.8rem; color: var(--text-dim);">
       Đã có tài khoản? <span class="modal-link" onclick="closeModal('registerModal'); showModal('loginModal')">Đăng nhập</span>
     </p>
@@ -1097,7 +1159,7 @@ body::after {
     </div>
     <div class="input-row" style="flex-direction: column;">
       <div class="pwd-wrapper">
-        <input type="password" id="cp_new" placeholder="Mật khẩu mới (≥3 ký tự)" oninput="checkPwdStrength('cp_new')">
+        <input type="password" id="cp_new" placeholder="Mật khẩu mới (≥3 ký tự)">
         <button type="button" class="pwd-toggle" onclick="togglePwd('cp_new', this)">👁️</button>
       </div>
     </div>
@@ -1151,9 +1213,9 @@ let cnMatches = [];
 let fallbackTimer = null;
 let IS_EDITING_SCORE = false;
 
-// ===== RATE LIMITING STATE =====
-let loginAttempts = 0;
-let loginLockUntil = 0;
+// Register state
+let regUsernameTimer = null;
+let regUsernameValid = false;
 
 // ============================================
 // UTILITY FUNCTIONS
@@ -1168,9 +1230,8 @@ function toast(msg, err = false) {
 function showModal(id) {
   const modal = document.getElementById(id);
   modal.classList.add('show');
-  // Auto focus input đầu tiên
   setTimeout(() => {
-    const firstInput = modal.querySelector('input:not([type="date"]):not([type="hidden"])');
+    const firstInput = modal.querySelector('input:not([type="date"]):not([type="hidden"]):not([disabled])');
     if (firstInput) firstInput.focus();
   }, 100);
 }
@@ -1178,30 +1239,38 @@ function showModal(id) {
 function closeModal(id) {
   const modal = document.getElementById(id);
   modal.classList.remove('show');
-  // Reset tất cả input khi đóng
   modal.querySelectorAll('input').forEach(input => {
     if (input.type === 'password' || input.type === 'text') {
       input.value = '';
     }
   });
-  // Reset helpers
   modal.querySelectorAll('.input-helper').forEach(h => {
     h.textContent = '';
     h.className = 'input-helper';
   });
-  // Reset password strength
   modal.querySelectorAll('.pwd-strength-bar').forEach(b => {
     b.className = 'pwd-strength-bar';
   });
-  // Reset password visibility
   modal.querySelectorAll('input[type="text"]').forEach(inp => {
     if (inp.id && inp.id.includes('Pass')) {
       inp.type = 'password';
     }
   });
+  
+  // Reset register state
+  if (id === 'registerModal') {
+    regUsernameValid = false;
+    const passInput = document.getElementById('regPass');
+    const confirmInput = document.getElementById('regPassConfirm');
+    const submitBtn = document.getElementById('regSubmitBtn');
+    const helper = document.getElementById('regUserHelper');
+    if (passInput) passInput.disabled = true;
+    if (confirmInput) confirmInput.disabled = true;
+    if (submitBtn) submitBtn.disabled = true;
+    if (helper) helper.textContent = 'Chỉ chữ thường, số, gạch dưới (3-20 ký tự)';
+  }
 }
 
-// ESC to close modal
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     document.querySelectorAll('.modal-overlay.show').forEach(m => {
@@ -1210,7 +1279,6 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Click outside modal to close
 document.querySelectorAll('.modal-overlay').forEach(overlay => {
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) {
@@ -1219,9 +1287,9 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
   });
 });
 
-// Toggle password visibility
 function togglePwd(inputId, btn) {
   const input = document.getElementById(inputId);
+  if (input.disabled) return;
   if (input.type === 'password') {
     input.type = 'text';
     btn.textContent = '🙈';
@@ -1231,7 +1299,6 @@ function togglePwd(inputId, btn) {
   }
 }
 
-// Set loading state for button
 function setLoading(btnId, isLoading, originalText) {
   const btn = document.getElementById(btnId);
   if (!btn) return;
@@ -1245,7 +1312,6 @@ function setLoading(btnId, isLoading, originalText) {
   }
 }
 
-// Validate username regex: chỉ a-z, 0-9, underscore
 const USERNAME_REGEX = /^[a-z0-9_]{3,20}$/;
 
 function validateUsernameFormat(username) {
@@ -1258,59 +1324,6 @@ function validateUsernameFormat(username) {
   return { valid: true, msg: '✓ Hợp lệ' };
 }
 
-// Live validate login username
-function validateLoginUsername() {
-  const val = document.getElementById('loginUser').value.trim().toLowerCase();
-  const helper = document.getElementById('loginUserHelper');
-  if (!val) {
-    helper.textContent = '';
-    helper.className = 'input-helper';
-    return;
-  }
-  const result = validateUsernameFormat(val);
-  helper.textContent = result.msg;
-  helper.className = 'input-helper ' + (result.valid ? 'ok' : 'err');
-}
-
-// Live validate register username
-async function validateRegUsername() {
-  const val = document.getElementById('regUser').value.trim().toLowerCase();
-  const helper = document.getElementById('regUserHelper');
-  
-  if (!val) {
-    helper.textContent = 'Chỉ chữ thường, số, gạch dưới (3-20 ký tự)';
-    helper.className = 'input-helper';
-    return;
-  }
-  
-  const result = validateUsernameFormat(val);
-  if (!result.valid) {
-    helper.textContent = result.msg;
-    helper.className = 'input-helper err';
-    return;
-  }
-  
-  // Check tồn tại trong DB
-  try {
-    const { data } = await sb.from('admin_users')
-      .select('id')
-      .eq('username', val)
-      .maybeSingle();
-    
-    if (data) {
-      helper.textContent = '✗ Tên đã tồn tại, hãy chọn tên khác';
-      helper.className = 'input-helper err';
-    } else {
-      helper.textContent = '✓ Tên có sẵn';
-      helper.className = 'input-helper ok';
-    }
-  } catch (e) {
-    helper.textContent = '✓ Hợp lệ';
-    helper.className = 'input-helper ok';
-  }
-}
-
-// Password strength indicator
 function checkPwdStrength(inputId = 'regPass') {
   const pwd = document.getElementById(inputId).value;
   const bars = document.querySelectorAll('#pwdStrength .pwd-strength-bar');
@@ -1352,7 +1365,7 @@ function formatDate(dateStr) {
 }
 
 // ============================================
-// AUTH FUNCTIONS - ĐÃ HOÀN THIỆN
+// AUTH FUNCTIONS
 // ============================================
 function updateAuthUI() {
   const c = document.getElementById('authBtns');
@@ -1374,25 +1387,108 @@ function updateAuthUI() {
   }
 }
 
+// 🌟 ĐĂNG KÝ: Check username trước, enable password khi hợp lệ
+function onRegUsernameInput() {
+  const val = document.getElementById('regUser').value.trim().toLowerCase();
+  const helper = document.getElementById('regUserHelper');
+  const passInput = document.getElementById('regPass');
+  const confirmInput = document.getElementById('regPassConfirm');
+  const submitBtn = document.getElementById('regSubmitBtn');
+  
+  if (regUsernameTimer) clearTimeout(regUsernameTimer);
+  
+  // Clear password fields when username changes
+  passInput.value = '';
+  confirmInput.value = '';
+  document.querySelectorAll('#pwdStrength .pwd-strength-bar').forEach(b => b.className = 'pwd-strength-bar');
+  document.getElementById('regConfirmHelper').textContent = '';
+  document.getElementById('regConfirmHelper').className = 'input-helper';
+  
+  if (!val) {
+    helper.textContent = 'Chỉ chữ thường, số, gạch dưới (3-20 ký tự)';
+    helper.className = 'input-helper';
+    passInput.disabled = true;
+    confirmInput.disabled = true;
+    submitBtn.disabled = true;
+    regUsernameValid = false;
+    return;
+  }
+  
+  const formatResult = validateUsernameFormat(val);
+  if (!formatResult.valid) {
+    helper.textContent = '❌ ' + formatResult.msg;
+    helper.className = 'input-helper err';
+    passInput.disabled = true;
+    confirmInput.disabled = true;
+    submitBtn.disabled = true;
+    regUsernameValid = false;
+    return;
+  }
+  
+  helper.textContent = '⏳ Đang kiểm tra tên...';
+  helper.className = 'input-helper loading';
+  
+  // Debounce 500ms
+  regUsernameTimer = setTimeout(async () => {
+    try {
+      const { data, error } = await sb.from('admin_users')
+        .select('id')
+        .eq('username', val)
+        .maybeSingle();
+      
+      if (error) {
+        helper.textContent = '⚠️ Lỗi kiểm tra, thử lại';
+        helper.className = 'input-helper err';
+        passInput.disabled = true;
+        confirmInput.disabled = true;
+        submitBtn.disabled = true;
+        regUsernameValid = false;
+        return;
+      }
+      
+      if (data) {
+        // TÊN ĐÃ TỒN TẠI
+        helper.textContent = '❌ Tên người dùng đã có - Hãy chọn tên khác';
+        helper.className = 'input-helper err';
+        passInput.disabled = true;
+        confirmInput.disabled = true;
+        submitBtn.disabled = true;
+        regUsernameValid = false;
+      } else {
+        // TÊN CÓ SẴN
+        helper.textContent = '✅ Tên người dùng hợp lệ - Hãy đặt mật khẩu';
+        helper.className = 'input-helper ok';
+        passInput.disabled = false;
+        confirmInput.disabled = false;
+        submitBtn.disabled = false;
+        regUsernameValid = true;
+        // Auto focus vào password
+        setTimeout(() => passInput.focus(), 100);
+      }
+    } catch (e) {
+      helper.textContent = '⚠️ Lỗi kết nối, thử lại';
+      helper.className = 'input-helper err';
+      regUsernameValid = false;
+    }
+  }, 500);
+}
+
 async function doRegister() {
-  // Check loading
   const btn = document.getElementById('regSubmitBtn');
   if (btn.disabled) return;
+  
+  if (!regUsernameValid) {
+    toast('Vui lòng đợi kiểm tra tên người dùng', true);
+    return;
+  }
   
   const user = document.getElementById('regUser').value.trim().toLowerCase();
   const pass = document.getElementById('regPass').value;
   const confirm = document.getElementById('regPassConfirm').value;
   const confirmHelper = document.getElementById('regConfirmHelper');
-
-  // Validation
-  if (!user || !pass || !confirm) {
-    toast('Vui lòng nhập đầy đủ thông tin', true);
-    return;
-  }
   
-  const usernameValidation = validateUsernameFormat(user);
-  if (!usernameValidation.valid) {
-    toast(usernameValidation.msg, true);
+  if (!pass || !confirm) {
+    toast('Vui lòng nhập đầy đủ mật khẩu', true);
     return;
   }
   
@@ -1402,7 +1498,7 @@ async function doRegister() {
   }
   
   if (pass !== confirm) {
-    confirmHelper.textContent = '✗ Mật khẩu không khớp';
+    confirmHelper.textContent = '❌ Mật khẩu không khớp';
     confirmHelper.className = 'input-helper err';
     toast('Mật khẩu xác nhận không khớp', true);
     return;
@@ -1416,8 +1512,12 @@ async function doRegister() {
     if (error) {
       if (error.code === '23505') {
         toast('Tên đã tồn tại! Hãy chọn tên khác', true);
-        document.getElementById('regUserHelper').textContent = '✗ Tên đã tồn tại';
+        document.getElementById('regUserHelper').textContent = '❌ Tên đã tồn tại';
         document.getElementById('regUserHelper').className = 'input-helper err';
+        document.getElementById('regPass').disabled = true;
+        document.getElementById('regPassConfirm').disabled = true;
+        document.getElementById('regSubmitBtn').disabled = true;
+        regUsernameValid = false;
       } else {
         toast('Lỗi: ' + error.message, true);
       }
@@ -1439,15 +1539,8 @@ async function doRegister() {
   }
 }
 
+// 🌟 ĐĂNG NHẬP: Đơn giản, không rate limit
 async function doLogin() {
-  // Check rate limiting
-  const now = Date.now();
-  if (now < loginLockUntil) {
-    const seconds = Math.ceil((loginLockUntil - now) / 1000);
-    toast(`⏱️ Thử lại sau ${seconds}s (quá nhiều lần sai)`, true);
-    return;
-  }
-  
   const btn = document.getElementById('loginSubmitBtn');
   if (btn.disabled) return;
   
@@ -1459,17 +1552,9 @@ async function doLogin() {
     return;
   }
   
-  // Validate format
-  const usernameValidation = validateUsernameFormat(user);
-  if (!usernameValidation.valid && user !== 'admin') {
-    toast(usernameValidation.msg || 'Username không hợp lệ', true);
-    return;
-  }
-  
   setLoading('loginSubmitBtn', true);
   
   try {
-    // Dùng maybeSingle thay vì single để tránh throw error
     const { data, error } = await sb.from('admin_users')
       .select('*')
       .eq('username', user)
@@ -1477,27 +1562,19 @@ async function doLogin() {
       .maybeSingle();
     
     if (error) {
-      console.error('Login query error:', error);
-      toast('Lỗi kết nối CSDL: ' + error.message, true);
+      console.error('Login error:', error);
+      toast('Lỗi kết nối: ' + error.message, true);
       setLoading('loginSubmitBtn', false, 'Đăng nhập');
       return;
     }
     
     if (!data) {
-      loginAttempts++;
-      if (loginAttempts >= 3) {
-        loginLockUntil = Date.now() + 30000; // Lock 30s
-        loginAttempts = 0;
-        toast('🔒 Sai quá nhiều lần. Thử lại sau 30s', true);
-      } else {
-        toast(`Sai tên đăng nhập hoặc mật khẩu! (Lần ${loginAttempts}/3)`, true);
-      }
+      // Thông báo đơn giản - không rate limit
+      toast('❌ Sai mật khẩu! Liên hệ admin để phục hồi', true);
       setLoading('loginSubmitBtn', false, 'Đăng nhập');
       return;
     }
     
-    // Đăng nhập thành công
-    loginAttempts = 0;
     CURRENT_USER = data;
     sessionStorage.setItem('pb_admin', JSON.stringify(data));
     closeModal('loginModal');
@@ -1549,7 +1626,6 @@ async function handleChangePassword() {
   setLoading('cpSubmitBtn', true);
   
   try {
-    // Verify current password
     const { data, error: vErr } = await sb.from('admin_users')
       .select('id')
       .eq('id', CURRENT_USER.id)
@@ -1693,6 +1769,7 @@ function goHome() {
   document.getElementById('detailCaNhan').classList.remove('active');
   document.getElementById('homeScreen').style.display = 'block';
   loadAllTournaments();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 async function cdLoadTour(maGiai) {
@@ -2497,9 +2574,6 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 
-// ============================================
-// INIT
-// ============================================
 (async () => {
   const u = sessionStorage.getItem('pb_admin');
   if (u) {
