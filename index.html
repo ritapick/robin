@@ -1229,10 +1229,13 @@ function onRegUsernameInput() {
       } else {
         helper.textContent = '✅ Tên người dùng hợp lệ - Hãy đặt mật khẩu';
         helper.className = 'input-helper ok';
-        passInput.disabled = false; confirmInput.disabled = false; submitBtn.disabled = false;
+        setTimeout(
+        passInput.disabled = false; 
+        confirmInput.disabled = false; 
+        submitBtn.disabled = false;
         regUsernameValid = true;
         /setTimeout(() => passInput.focus(), 5000);
-        setTimeout(() );
+        () );
       }
     } catch (e) {
       helper.textContent = '⚠️ Lỗi kết nối, thử lại';
