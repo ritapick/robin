@@ -115,6 +115,20 @@ header p {
 .btn-sm { padding: 5px 9px; font-size: 0.68rem; min-height: 30px; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
+/* 🌟 NÚT TRANG CHỦ 3D NỔI BẬT (Lấy từ teamrb.html) */
+.btn-home-3d {
+  background: linear-gradient(135deg, var(--primary) 0%, #ff9248 50%, var(--accent) 100%);
+  color: #000; font-weight: 800; padding: 11px 22px; border-radius: 12px;
+  box-shadow: 0 4px 0 #c2410c, 0 6px 12px rgba(255, 107, 53, 0.3);
+  transform: translateY(0); transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 1.5px;
+  font-size: 0.85rem; border: none; cursor: pointer; display: inline-flex;
+  align-items: center; gap: 7px; position: relative; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.btn-home-3d:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #c2410c, 0 10px 20px rgba(255, 107, 53, 0.4); }
+.btn-home-3d:active { transform: translateY(2px); box-shadow: 0 2px 0 #c2410c, 0 3px 8px rgba(255, 107, 53, 0.3); }
+.btn-home-3d .home-icon { font-size: 1.1rem; }
+
 .section { margin-bottom: 20px; }
 .section-head { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
 .section-icon { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
@@ -241,6 +255,7 @@ header p {
     .vs-circle { width: 26px; height: 26px; font-size: 0.6rem; }
     .btn { font-size: 0.72rem; padding: 6px 10px; min-height: 32px; }
     .btn-sm { font-size: 0.65rem; padding: 4px 8px; min-height: 28px; }
+    .btn-home-3d { padding: 9px 16px; font-size: 0.78rem; }
 }
 @media (max-width: 360px) {
     .rank-table td:nth-child(2) { max-width: 70px; }
@@ -271,9 +286,12 @@ header p {
     </div>
 
     <div id="tourDetailScreen" style="display:none">
-        <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap">
-            <!-- 🌟 ĐÃ CẬP NHẬT: Quay lại trang chủ index.html thay vì danh sách nội bộ -->
-            <button class="btn btn-secondary btn-sm" onclick="window.location.href='index.html'">← Trang chủ</button>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+            <!-- 🌟 ĐÃ CẬP NHẬT: Nút Trang Chủ phong cách 3D nổi bật -->
+            <button class="btn-home-3d" onclick="window.location.href='index.html'">
+                <span class="home-icon">🏠</span>
+                <span>Trang Chủ</span>
+            </button>
             <button class="btn btn-secondary btn-sm" onclick="loadData()">🔄 Cập nhật</button>
             <button class="btn btn-primary btn-sm admin-only" onclick="showUpdateModal()">✏️ Chỉnh sửa</button>
             <button class="btn btn-danger btn-sm admin-only" onclick="deleteCurrentTour()" style="margin-left:auto">🗑️ Xóa giải</button>
@@ -445,7 +463,6 @@ async function doLogin() {
     CURRENT_USER = data; sessionStorage.setItem('pb_admin', JSON.stringify(data));
     closeModal('loginModal'); updateAuthUI(); toast('✅ Chào, ' + CURRENT_USER.username); 
     
-    // 🌟 Nếu đang ở màn hình chi tiết, load lại dữ liệu, ngược lại load danh sách
     if (CURRENT_TOUR) {
         await loadData();
     } else {
@@ -492,7 +509,7 @@ async function deleteTour(ma_giai, tourName) {
     if (error) return toast('Lỗi: ' + error.message, true);
     toast('✅ Đã xóa'); 
     if (CURRENT_TOUR && CURRENT_TOUR.ma_giai === ma_giai) { CURRENT_TOUR = null; IS_TOUR_OWNER = false; }
-    window.location.href = 'index.html'; // Quay về trang chủ sau khi xóa
+    window.location.href = 'index.html';
 }
 async function deleteCurrentTour() { if (CURRENT_TOUR) await deleteTour(CURRENT_TOUR.ma_giai, CURRENT_TOUR.ten_giai); }
 
@@ -846,7 +863,6 @@ document.addEventListener('visibilitychange', () => { if (!document.hidden && CU
 
 // 🌟 KHỞI TẠO TRANG VỚI LOGIC "DEEP LINKING" (VÀO THẲNG CHI TIẾT)
 (async () => {
-    // 1. Khôi phục Session (SSO)
     const u = sessionStorage.getItem('pb_admin');
     if (u) {
         try { CURRENT_USER = JSON.parse(u); } catch (e) { sessionStorage.removeItem('pb_admin'); }
@@ -854,15 +870,12 @@ document.addEventListener('visibilitychange', () => { if (!document.hidden && CU
     updateAuthUI();
     document.getElementById('c_ngay').valueAsDate = new Date();
 
-    // 2. Kiểm tra tham số URL (ví dụ: cnv2.html?ma_giai=C008)
     const urlParams = new URLSearchParams(window.location.search);
     const maGiai = urlParams.get('ma_giai');
 
     if (maGiai) {
-        // 🎯 Có mã giải trên URL -> Vào thẳng màn hình chi tiết
         await openTour(maGiai);
     } else {
-        // 📋 Không có mã giải -> Hiển thị danh sách giải như bình thường
         loadTourList();
     }
 })();
