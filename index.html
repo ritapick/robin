@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🏆 PICKLEBALL ROBIN - TRANG CHỦ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --primary: #ff6b35; --secondary: #00b4d8; --accent: #ffd166; --gold: #ffd700;
+  --bg-dark: #0a0e1a; --bg-deeper: #050810; --bg-card: rgba(20, 26, 43, 0.9);
+  --bg-card-solid: #141a2b; --bg-card-hover: #1c2438; --border: rgba(255, 255, 255, 0.08);
+  --text: #e8ecf4; --text-dim: #7a8ba5; --green: #22c55e; --red: #ef4444;
+  --capdoi-1: #16a34a; --capdoi-2: #15803d; --capdoi-glow: rgba(22, 163, 74, 0.4);
+  --canhan-1: #ff6b35; --canhan-2: #dc2626; --canhan-glow: rgba(255, 107, 53, 0.4);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif; background: var(--bg-dark);
+  color: var(--text); min-height: 100vh; overflow-x: hidden;
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background: radial-gradient(ellipse at 20% 15%, rgba(255, 107, 53, 0.12) 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 85%, rgba(0, 180, 216, 0.1) 0%, transparent 50%);
+  pointer-events: none; z-index: 0;
+}
+body::after {
+  content: ''; position: fixed; inset: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 50px 50px; pointer-events: none; z-index: 0;
+  animation: gridFloat 30s linear infinite;
+}
+@keyframes gridFloat { from { background-position: 0 0; } to { background-position: 50px 50px; } }
+
+.floating-balls { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.ball { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.2; animation: float 25s ease-in-out infinite; }
+.ball-1 { width: 300px; height: 300px; background: var(--primary); top: 10%; left: -5%; }
+.ball-2 { width: 400px; height: 400px; background: var(--secondary); top: 60%; right: -10%; animation-delay: -5s; }
+.ball-3 { width: 250px; height: 250px; background: var(--accent); bottom: 10%; left: 30%; animation-delay: -10s; }
+@keyframes float { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.05); } 66% { transform: translate(-20px, 20px) scale(0.95); } }
+
+.wrapper { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+.auth-btns { display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; min-height: 40px; }
+.auth-btns .btn { padding: 6px 12px; font-size: 0.75rem; min-height: 34px; border-radius: 10px; }
+.user-chip {
+  background: rgba(255, 255, 255, 0.1); border: 1px solid var(--border);
+  padding: 6px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 600;
+  display: flex; align-items: center; gap: 6px; color: var(--text);
+}
+.admin-badge {
+  background: linear-gradient(135deg, var(--accent), var(--primary)); color: #000;
+  font-size: 0.6rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+.hero { text-align: center; padding: 20px 20px 40px; margin-bottom: 20px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #000; font-family: 'Oswald', sans-serif; font-weight: 700;
+  font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+  padding: 8px 20px; border-radius: 30px; margin-bottom: 16px;
+  box-shadow: 0 0 20px rgba(255, 107, 53, 0.4);
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+@keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 53, 0.4); } 50% { box-shadow: 0 0 35px rgba(255, 107, 53, 0.6); } }
+.hero-title {
+  font-family: 'Oswald', sans-serif; font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-weight: 700; text-transform: uppercase; letter-spacing: 2px; line-height: 1; margin-bottom: 10px;
+  background: linear-gradient(135deg, #fff 0%, #fff 30%, var(--accent) 60%, var(--primary) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  filter: drop-shadow(0 4px 15px rgba(255, 107, 53, 0.2));
+}
+.hero-subtitle { font-family: 'Oswald', sans-serif; font-size: clamp(0.9rem, 2.5vw, 1.2rem); font-weight: 400; color: var(--text-dim); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 14px; }
+.hero-divider { width: 100px; height: 4px; margin: 20px auto; background: linear-gradient(90deg, transparent, var(--primary), var(--accent), var(--secondary), transparent); border-radius: 2px; box-shadow: 0 0 15px rgba(255, 107, 53, 0.4); }
+.hero-stats { display: flex; justify-content: center; gap: 30px; margin-top: 20px; flex-wrap: wrap; }
+.hero-stat { text-align: center; }
+.hero-stat-value {
+  font-family: 'Oswald', sans-serif; font-size: 2rem; font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1;
+}
+.hero-stat-label { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px; margin-top: 4px; }
+
+.btn {
+  border: none; border-radius: 10px; font-family: 'Inter', sans-serif;
+  font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  text-decoration: none; white-space: nowrap; min-height: 38px; padding: 8px 16px;
+}
+.btn-primary { background: linear-gradient(135deg, var(--primary), #ff9248); color: #000; box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4); }
+.btn-primary:hover:not(:disabled) { transform: translateY(-1px); }
+.btn-ghost { background: rgba(255, 255, 255, 0.1); color: var(--text); border: 1px solid var(--border); }
+.btn-ghost:hover { background: rgba(255, 255, 255, 0.15); }
+.btn-sm { padding: 6px 10px; font-size: 0.72rem; min-height: 32px; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.section { margin-bottom: 60px; }
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--border);
+  position: relative; flex-wrap: wrap; gap: 12px;
+}
+.section-header::before { content: ''; position: absolute; bottom: -2px; left: 0; width: 120px; height: 2px; }
+.section-header.capdoi::before { background: linear-gradient(90deg, var(--capdoi-1), transparent); }
+.section-header.canhan::before { background: linear-gradient(90deg, var(--canhan-1), transparent); }
+
+.section-title-wrap { display: flex; align-items: center; gap: 14px; }
+.section-icon {
+  width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem; flex-shrink: 0; transition: transform 0.3s;
+}
+.section-icon:hover { transform: scale(1.1); }
+.section-icon.capdoi { background: linear-gradient(135deg, var(--capdoi-1), var(--capdoi-2)); box-shadow: 0 8px 20px var(--capdoi-glow); }
+.section-icon.canhan { background: linear-gradient(135deg, var(--canhan-1), var(--canhan-2)); box-shadow: 0 8px 20px var(--canhan-glow); }
+.section-title { font-family: 'Oswald', sans-serif; font-size: clamp(1.3rem, 4vw, 2rem); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text); }
+.section-title span { display: block; font-size: 0.8rem; font-weight: 400; color: var(--text-dim); letter-spacing: 2px; margin-top: 2px; }
+.section-count { background: var(--bg-card); border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-family: 'Oswald', sans-serif; font-size: 0.85rem; color: var(--text-dim); }
+.section-count b { color: var(--accent); font-size: 1rem; }
+
+.tour-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 22px; }
+.tour-card {
+  position: relative; background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px;
+  padding: 22px; cursor: pointer; overflow: hidden; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  animation: cardEntry 0.5s ease backwards;
+}
+@keyframes cardEntry { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.tour-card:hover { transform: translateY(-6px); border-color: rgba(255, 255, 255, 0.15); }
+.tour-card.capdoi:hover { box-shadow: 0 15px 30px -10px var(--capdoi-glow); border-color: var(--capdoi-1); }
+.tour-card.canhan:hover { box-shadow: 0 15px 30px -10px var(--canhan-glow); border-color: var(--canhan-1); }
+
+.tour-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; border-radius: 18px 18px 0 0; }
+.tour-card.capdoi::after { background: linear-gradient(90deg, var(--capdoi-1), var(--capdoi-2)); }
+.tour-card.canhan::after { background: linear-gradient(90deg, var(--canhan-1), var(--canhan-2)); }
+
+.tour-type-badge {
+  position: absolute; top: 14px; right: 14px; font-family: 'Oswald', sans-serif; font-size: 0.68rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 1px; padding: 4px 10px; border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08); color: var(--text-dim);
+}
+.tour-creator-badge {
+  position: absolute; top: 14px; left: 14px; font-family: 'Oswald', sans-serif; font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1px; padding: 4px 10px; border-radius: 10px;
+  display: inline-flex; align-items: center; gap: 5px; z-index: 2; max-width: calc(100% - 100px); overflow: hidden;
+}
+.tour-creator-badge.badge-admin { background: linear-gradient(135deg, var(--accent), var(--gold)); color: #000; box-shadow: 0 2px 8px rgba(255, 209, 102, 0.4); }
+.tour-creator-badge.badge-user { background: linear-gradient(135deg, var(--green), #16a34a); color: #fff; box-shadow: 0 2px 8px rgba(34, 197, 94, 0.4); }
+.tour-creator-badge .creator-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 120px; }
+
+.tour-icon { font-size: 2.3rem; margin-bottom: 10px; display: inline-block; filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3)); transition: transform 0.3s; }
+.tour-card:hover .tour-icon { transform: translateY(-4px) scale(1.1) rotate(-5deg); }
+.tour-name { font-family: 'Oswald', sans-serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; color: var(--text); line-height: 1.2; padding-right: 80px; word-break: break-word; }
+.tour-meta { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+.tour-meta-item { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-dim); }
+.tour-meta-item .icon { font-size: 0.95rem; opacity: 0.7; }
+.tour-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid var(--border); }
+.tour-creator { font-size: 0.73rem; color: var(--text-dim); display: flex; align-items: center; gap: 6px; }
+.tour-arrow {
+  width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; transition: all 0.3s;
+}
+.tour-card.capdoi .tour-arrow { background: linear-gradient(135deg, var(--capdoi-1), var(--capdoi-2)); color: #fff; }
+.tour-card.canhan .tour-arrow { background: linear-gradient(135deg, var(--canhan-1), var(--canhan-2)); color: #fff; }
+.tour-card:hover .tour-arrow { transform: translateX(4px); }
+
+.empty-state { text-align: center; padding: 50px 20px; color: var(--text-dim); grid-column: 1 / -1; background: var(--bg-card); border-radius: 18px; border: 1px dashed var(--border); }
+.empty-state .icon { font-size: 3.5rem; margin-bottom: 14px; opacity: 0.3; filter: grayscale(0.5); }
+.empty-state h3 { font-family: 'Oswald', sans-serif; font-size: 1.1rem; color: var(--text); margin-bottom: 6px; }
+.empty-state p { font-size: 0.85rem; line-height: 1.5; }
+.empty-state .highlight { color: var(--accent); font-weight: 600; }
+
+.loading { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 40px; grid-column: 1 / -1; }
+.loading-spinner {
+  width: 44px; height: 44px; border: 3px solid var(--border); border-top-color: var(--primary);
+  border-radius: 50%; animation: rotate 0.8s linear infinite;
+}
+@keyframes rotate { to { transform: rotate(360deg); } }
+.loading-text { font-family: 'Oswald', sans-serif; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; color: var(--text-dim); }
+
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(10, 14, 26, 0.85); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; padding: 16px; }
+.modal-overlay.show { display: flex; animation: modalOverlayIn 0.2s; }
+@keyframes modalOverlayIn { from { opacity: 0; } to { opacity: 1; } }
+.modal-box {
+  background: var(--bg-card-solid); border: 1px solid var(--border); padding: 24px; border-radius: 18px;
+  width: 100%; max-width: 400px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5); position: relative;
+  animation: modalPop 0.3s;
+}
+@keyframes modalPop { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.modal-box h2 { font-family: 'Oswald', sans-serif; font-size: 1.2rem; text-align: center; margin-bottom: 16px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
+.input-row { display: flex; gap: 8px; margin-bottom: 10px; flex-direction: column; }
+.input-row input {
+  background: var(--bg-deeper); border: 1px solid var(--border); color: var(--text);
+  padding: 10px 12px; border-radius: 10px; font-size: 0.85rem; font-family: 'Inter', sans-serif; transition: all 0.2s;
+}
+.input-row input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1); }
+.modal-close-x {
+  position: absolute; top: 12px; right: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);
+  color: var(--text-dim); width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: all 0.2s; z-index: 2;
+}
+.modal-close-x:hover { background: rgba(239, 68, 68, 0.2); color: var(--red); border-color: rgba(239, 68, 68, 0.3); }
+.modal-link { color: var(--primary); font-weight: 700; cursor: pointer; text-decoration: none; transition: color 0.2s; }
+.modal-link:hover { color: var(--accent); text-decoration: underline; }
+
+#toast {
+  position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px);
+  background: var(--bg-card-solid); color: var(--text); padding: 12px 22px; border-radius: 12px;
+  font-size: 0.85rem; font-weight: 600; z-index: 9999; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  border-left: 4px solid var(--green); max-width: 90vw; text-align: center; transition: transform 0.3s;
+}
+#toast.show { transform: translateX(-50%) translateY(0); }
+#toast.err { border-left-color: var(--red); }
+
+.footer { text-align: center; padding: 40px 20px; color: var(--text-dim); font-size: 0.82rem; border-top: 1px solid var(--border); margin-top: 30px; }
+.footer-brand { font-family: 'Oswald', sans-serif; font-weight: 700; color: var(--accent); font-size: 1rem; letter-spacing: 2px; margin-bottom: 6px; }
+
+@media (max-width: 768px) {
+  .wrapper { padding: 12px; }
+  .hero { padding: 15px 12px 30px; }
+  .hero-stats { gap: 18px; }
+  .hero-stat-value { font-size: 1.6rem; }
+  .tour-grid { grid-template-columns: 1fr; gap: 14px; }
+  .tour-card { padding: 18px; }
+  .section-header { flex-direction: column; align-items: flex-start; }
+  .section-icon { width: 48px; height: 48px; font-size: 1.4rem; }
+  .section-title { font-size: 1.2rem; }
+  .auth-btns { gap: 6px; margin-bottom: 16px; }
+  .auth-btns .btn { padding: 5px 10px; font-size: 0.7rem; min-height: 32px; }
+  .user-chip { padding: 5px 10px; font-size: 0.72rem; max-width: 150px; }
+}
+
+@media (max-width: 480px) {
+  .hero-title { font-size: 1.8rem; letter-spacing: 1px; }
+  .tour-name { font-size: 1.15rem; }
+  .tour-creator-badge { font-size: 0.6rem; padding: 3px 8px; }
+  .tour-creator-badge .creator-name { max-width: 70px; }
+}
+</style>
+</head>
+<body>
+
+<div class="floating-balls">
+  <div class="ball ball-1"></div>
+  <div class="ball ball-2"></div>
+  <div class="ball ball-3"></div>
+</div>
+
+<div id="toast"></div>
+
+<div class="wrapper">
+  <section class="hero">
+    <div class="auth-btns" id="authBtns"></div>
+    <div class="hero-badge">🏆 ROBIN TOURNAMENT · PICKLEBALL</div>
+    <h1 class="hero-title">GIẢI ĐẤU PICKLEBALL</h1>
+    <div class="hero-subtitle">Cạnh tranh · Đam mê · Chiến thắng</div>
+    <div class="hero-divider"></div>
+    <p style="font-size: 0.95rem; color: var(--text-dim); max-width: 600px; margin: 0 auto; line-height: 1.6;">
+      Bứt phá giới hạn – Lan tỏa niềm vui
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-value" id="totalTours">0</div>
+        <div class="hero-stat-label">Tổng giải</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value" id="totalCapDoi">0</div>
+        <div class="hero-stat-label">Team Robin</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value" id="totalCaNhan">0</div>
+        <div class="hero-stat-label">Robin Cá Nhân</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM ROBIN SECTION -->
+  <section class="section">
+    <div class="section-header capdoi">
+      <div class="section-title-wrap">
+        <div class="section-icon capdoi">🤝</div>
+        <div>
+          <h2 class="section-title">
+            TEAM ROUND ROBIN
+            <span>Thể thức đôi · Vòng tròn tính điểm</span>
+          </h2>
+        </div>
+      </div>
+      <div class="section-count"><b id="capDoiCount">0</b> giải</div>
+    </div>
+    <div class="tour-grid" id="capDoiGrid">
+      <div class="loading"><div class="loading-spinner"></div><div class="loading-text">Đang tải...</div></div>
+    </div>
+  </section>
+
+  <!-- INDIVIDUAL ROBIN SECTION -->
+  <section class="section">
+    <div class="section-header canhan">
+      <div class="section-title-wrap">
+        <div class="section-icon canhan">🎾</div>
+        <div>
+          <h2 class="section-title">
+            ROBIN CÁ NHÂN
+            <span>Thể thức cặp đôi · Tính điểm cá nhân</span>
+          </h2>
+        </div>
+      </div>
+      <div class="section-count"><b id="caNhanCount">0</b> giải</div>
+    </div>
+    <div class="tour-grid" id="caNhanGrid">
+      <div class="loading"><div class="loading-spinner"></div><div class="loading-text">Đang tải...</div></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-brand">🏆 LY DUNG RITA PICKLEBALL</div>
+    <p>© 2026 · Real-time Tournament Management</p>
+  </footer>
+</div>
+
+<!-- LOGIN MODAL -->
+<div id="loginModal" class="modal-overlay">
+  <div class="modal-box">
+    <button class="modal-close-x" onclick="closeModal('loginModal')" title="Đóng (ESC)">✕</button>
+    <h2>🔑 Đăng nhập</h2>
+    <div class="input-row">
+      <input type="text" id="loginUser" placeholder="Tên đăng nhập" autocomplete="username">
+    </div>
+    <div class="input-row">
+      <input type="password" id="loginPass" placeholder="Mật khẩu" autocomplete="current-password" onkeypress="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="btn btn-primary" id="loginSubmitBtn" style="width: 100%; margin-top: 10px;" onclick="doLogin()">Đăng nhập</button>
+    <p style="text-align: center; margin-top: 12px; font-size: 0.8rem; color: var(--text-dim);">
+      Chưa có tài khoản? <span class="modal-link" onclick="closeModal('loginModal'); showModal('registerModal')">Đăng ký ngay</span>
+    </p>
+  </div>
+</div>
+
+<!-- REGISTER MODAL -->
+<div id="registerModal" class="modal-overlay">
+  <div class="modal-box">
+    <button class="modal-close-x" onclick="closeModal('registerModal')" title="Đóng (ESC)">✕</button>
+    <h2>📝 Đăng ký tài khoản</h2>
+    <div class="input-row">
+      <input type="text" id="regUser" placeholder="Tên đăng nhập (3-20 ký tự, chữ thường, số, _)" autocomplete="username">
+    </div>
+    <div class="input-row">
+      <input type="password" id="regPass" placeholder="Mật khẩu (tối thiểu 3 ký tự)" autocomplete="new-password">
+    </div>
+    <div class="input-row">
+      <input type="password" id="regPassConfirm" placeholder="Nhập lại mật khẩu" autocomplete="new-password" onkeypress="if(event.key==='Enter')doRegister()">
+    </div>
+    <button class="btn btn-primary" id="regSubmitBtn" style="width: 100%; margin-top: 10px;" onclick="doRegister()">Tạo tài khoản</button>
+    <p style="text-align: center; margin-top: 12px; font-size: 0.8rem; color: var(--text-dim);">
+      Đã có tài khoản? <span class="modal-link" onclick="closeModal('registerModal'); showModal('loginModal')">Đăng nhập</span>
+    </p>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://mvefkcaqvjflrgmaybev.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12ZWZrY2FxdmpmbHJnbWF5YmV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2MDAzOTksImV4cCI6MjEwMjE3NjM5OX0.vCY4_JlSBqi6QRh7DYWAe42Ot-pChKaVSHn7DY2C34Q';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let CURRENT_USER = null;
+let allUsersMap = {};
+
+function toast(msg, err = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show' + (err ? ' err' : '');
+  setTimeout(() => t.className = '', 3000);
+}
+
+function showModal(id) {
+  const modal = document.getElementById(id);
+  modal.classList.add('show');
+  setTimeout(() => {
+    const firstInput = modal.querySelector('input:not([disabled])');
+    if (firstInput) firstInput.focus();
+  }, 100);
+}
+
+function closeModal(id) {
+  const modal = document.getElementById(id);
+  modal.classList.remove('show');
+  modal.querySelectorAll('input').forEach(input => {
+    if (input.type === 'password' || input.type === 'text') input.value = '';
+  });
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
+});
+
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('show'); });
+});
+
+function isSuperAdmin() { return CURRENT_USER && CURRENT_USER.username.toLowerCase() === 'admin'; }
+
+function updateAuthUI() {
+  const c = document.getElementById('authBtns');
+  if (CURRENT_USER) {
+    const badge = isSuperAdmin() ? '<span class="admin-badge">ADMIN</span>' : '';
+    c.innerHTML = `<span class="user-chip">👤 ${CURRENT_USER.username}${badge}</span>
+      <button class="btn btn-ghost btn-sm" onclick="doLogout()">Thoát</button>`;
+  } else {
+    c.innerHTML = `<button class="btn btn-ghost btn-sm" onclick="showModal('loginModal')">🔑 Đăng nhập</button>
+      <button class="btn btn-primary btn-sm" onclick="showModal('registerModal')">📝 Đăng ký</button>`;
+  }
+}
+
+async function loadAllUsers() {
+  try {
+    const { data, error } = await sb.from('admin_users').select('id, username');
+    if (!error && data) {
+      allUsersMap = {};
+      data.forEach(u => { allUsersMap[u.id] = u.username; });
+    }
+  } catch (e) { allUsersMap = {}; }
+}
+
+function getTourCreatorName(tour) {
+  if (!tour || !tour.admin_id) return null;
+  return allUsersMap[tour.admin_id] || null;
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return 'Chưa cập nhật';
+  try { return new Date(dateStr).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' }); } 
+  catch { return 'Chưa cập nhật'; }
+}
+
+function renderTourCard(tour, type) {
+  const isCapDoi = type === 'capdoi';
+  const ngay = formatDate(tour.ngay_to_chuc);
+  const diaDiem = tour.dia_diem || 'Chưa cập nhật';
+  const icon = isCapDoi ? '🤝' : '🎾';
+  const typeName = isCapDoi ? 'Cặp đôi' : 'Cá nhân';
+  
+  let creatorBadge = '';
+  if (CURRENT_USER) {
+    const creatorName = getTourCreatorName(tour);
+    if (creatorName) {
+      const isAdminCreator = creatorName === 'admin';
+      const badgeClass = isAdminCreator ? 'badge-admin' : 'badge-user';
+      const badgeIcon = isAdminCreator ? '👑' : '👤';
+      creatorBadge = `<div class="tour-creator-badge ${badgeClass}">${badgeIcon}<span class="creator-name">${creatorName}</span></div>`;
+    }
+  }
+
+  // 🌟 Link tới trang chi tiết của giải (chỉ truyền ma_giai)
+  const targetUrl = isCapDoi 
+    ? `https://ritapick.github.io/robin/teamrb.html?ma_giai=${tour.ma_giai}`
+    : `https://ritapick.github.io/robin/cnv2.html?ma_giai=${tour.ma_giai}`;
+
+  return `<div class="tour-card ${type}" style="animation-delay: ${Math.random() * 0.2}s" onclick="window.location.href='${targetUrl}'">
+      ${creatorBadge}
+      <div class="tour-type-badge">${typeName}</div>
+      <div class="tour-icon">${icon}</div>
+      <h3 class="tour-name">${tour.ten_giai || 'Giải đấu'}</h3>
+      <div class="tour-meta">
+        <div class="tour-meta-item"><span class="icon">📍</span><span>${diaDiem}</span></div>
+        <div class="tour-meta-item"><span class="icon">📅</span><span>${ngay}</span></div>
+      </div>
+      <div class="tour-footer">
+        <div class="tour-creator"><span>🏆</span><span>Mã: <b>${tour.ma_giai}</b></span></div>
+        <div class="tour-arrow">→</div>
+      </div>
+    </div>`;
+}
+
+function renderEmpty(type, context) {
+  const icon = type === 'capdoi' ? '🤝' : '🎾';
+  const name = type === 'capdoi' ? 'Team Robin' : 'Robin Cá Nhân';
+  let message = '';
+  if (context === 'guest') message = 'Chưa có giải nào trong hệ thống.<br><span class="highlight">Đăng nhập để tạo giải đấu đầu tiên!</span>';
+  else message = 'Chưa có giải nào trong hệ thống.';
+  
+  return `<div class="empty-state"><div class="icon">${icon}</div><h3>Chưa có giải ${name}</h3><p>${message}</p></div>`;
+}
+
+async function loadTournaments() {
+  try {
+    await loadAllUsers();
+    const [r1, r2] = await Promise.all([
+      sb.from('robin_tour').select('*').order('ngay_to_chuc', { ascending: false }),
+      sb.from('robin_canhan_tour').select('*').order('ngay_to_chuc', { ascending: false })
+    ]);
+
+    const capDoiTours = r1.data || [];
+    const caNhanTours = r2.data || [];
+    const context = CURRENT_USER ? 'user' : 'guest';
+
+    document.getElementById('totalTours').textContent = capDoiTours.length + caNhanTours.length;
+    document.getElementById('totalCapDoi').textContent = capDoiTours.length;
+    document.getElementById('totalCaNhan').textContent = caNhanTours.length;
+    document.getElementById('capDoiCount').textContent = capDoiTours.length;
+    document.getElementById('caNhanCount').textContent = caNhanTours.length;
+
+    document.getElementById('capDoiGrid').innerHTML = capDoiTours.length === 0 
+      ? renderEmpty('capdoi', context) 
+      : capDoiTours.map(t => renderTourCard(t, 'capdoi')).join('');
+
+    document.getElementById('caNhanGrid').innerHTML = caNhanTours.length === 0 
+      ? renderEmpty('canhan', context) 
+      : caNhanTours.map(t => renderTourCard(t, 'canhan')).join('');
+
+  } catch (e) {
+    toast('Lỗi tải dữ liệu: ' + e.message, true);
+  }
+}
+
+async function doLogin() {
+  const btn = document.getElementById('loginSubmitBtn');
+  if (btn.disabled) return;
+  const user = document.getElementById('loginUser').value.trim().toLowerCase();
+  const pass = document.getElementById('loginPass').value;
+  if (!user || !pass) return toast('Vui lòng nhập tên và mật khẩu', true);
+  
+  btn.disabled = true;
+  btn.innerHTML = '<span class="btn-spinner"></span> Đang xử lý...';
+  
+  try {
+    const { data, error } = await sb.from('admin_users').select('*').eq('username', user).eq('password', pass).maybeSingle();
+    if (error) throw error;
+    if (!data) {
+      toast('❌ Sai tên đăng nhập hoặc mật khẩu', true);
+      btn.disabled = false;
+      btn.innerHTML = 'Đăng nhập';
+      return;
+    }
+    
+    CURRENT_USER = data;
+    // 🌟 Lưu session vào sessionStorage - chia sẻ giữa các trang cùng domain
+    sessionStorage.setItem('pb_admin', JSON.stringify(data));
+    
+    closeModal('loginModal');
+    updateAuthUI();
+    toast('✅ Chào, ' + CURRENT_USER.username);
+    loadTournaments();
+  } catch (e) {
+    toast('Lỗi: ' + e.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Đăng nhập';
+  }
+}
+
+function doLogout() {
+  CURRENT_USER = null;
+  sessionStorage.removeItem('pb_admin');
+  updateAuthUI();
+  toast('Đã đăng xuất');
+  loadTournaments();
+}
+
+async function doRegister() {
+  const btn = document.getElementById('regSubmitBtn');
+  if (btn.disabled) return;
+  const user = document.getElementById('regUser').value.trim().toLowerCase();
+  const pass = document.getElementById('regPass').value;
+  const confirm = document.getElementById('regPassConfirm').value;
+  
+  if (!user || !pass || !confirm) return toast('Vui lòng nhập đầy đủ', true);
+  if (!/^[a-z0-9_]{3,20}$/.test(user)) return toast('Tên chỉ chứa chữ thường, số, gạch dưới (3-20 ký tự)', true);
+  if (user === 'admin') return toast('Tên này đã được hệ thống sử dụng', true);
+  if (pass.length < 3) return toast('Mật khẩu tối thiểu 3 ký tự', true);
+  if (pass !== confirm) return toast('Mật khẩu xác nhận không khớp', true);
+  
+  btn.disabled = true;
+  btn.innerHTML = '<span class="btn-spinner"></span> Đang xử lý...';
+  
+  try {
+    const { error } = await sb.from('admin_users').insert({ username: user, password: pass });
+    if (error) {
+      if (error.code === '23505') return toast('Tên đăng nhập đã tồn tại', true);
+      throw error;
+    }
+    closeModal('registerModal');
+    toast('✅ Đăng ký thành công! Hãy đăng nhập.');
+    showModal('loginModal');
+    document.getElementById('loginUser').value = user;
+    document.getElementById('loginPass').focus();
+  } catch (e) {
+    toast('Lỗi: ' + e.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Tạo tài khoản';
+  }
+}
+
+// 🌟 KHÔI PHỤC SESSION KHI TẢI TRANG (Single Sign-On)
+(function init() {
+  const u = sessionStorage.getItem('pb_admin');
+  if (u) {
+    try { CURRENT_USER = JSON.parse(u); } catch (e) { sessionStorage.removeItem('pb_admin'); }
+  }
+  updateAuthUI();
+  loadTournaments();
+})();
+</script>
+</body>
+</html>
