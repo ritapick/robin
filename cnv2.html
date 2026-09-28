@@ -38,10 +38,9 @@ body::before {
 }
 .wrapper { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 8px; }
 
-/* --- ĐÃ ĐIỀU CHỈNH: SỬ DỤNG CSS GRID ĐỂ CHỐNG CHỒNG CHÉO --- */
 header {
     display: grid;
-    grid-template-columns: 1fr auto 1fr; /* Trái - Giữa - Phải */
+    grid-template-columns: 1fr auto 1fr;
     grid-template-rows: auto auto auto auto;
     align-items: center;
     padding: 16px 12px 14px 12px;
@@ -50,13 +49,13 @@ header {
 }
 
 .auth-btns {
-    grid-column: 3; /* Đẩy sang làn phải */
+    grid-column: 3;
     grid-row: 1;
-    justify-self: end; /* Căn sát phải */
+    justify-self: end;
     display: flex;
     gap: 6px;
     align-items: center;
-    background: rgba(11, 15, 25, 0.9); /* Nền hơi mờ để nổi bật */
+    background: rgba(11, 15, 25, 0.9);
     backdrop-filter: blur(8px);
     padding: 6px 10px;
     border-radius: 8px;
@@ -67,7 +66,7 @@ header {
 .auth-btns .user-label { font-size: 0.72rem; font-weight: 600; color: var(--text); max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .badge {
-    grid-column: 2; /* Giữ ở làn giữa */
+    grid-column: 2;
     grid-row: 1;
     display: inline-flex; align-items: center; gap: 6px;
     background: linear-gradient(90deg, var(--primary), var(--accent));
@@ -75,7 +74,7 @@ header {
     font-size: 0.6rem; letter-spacing: 1.5px; text-transform: uppercase;
     padding: 3px 12px; border-radius: 20px;
     box-shadow: 0 0 15px var(--primary-glow);
-    margin: 0; /* Grid gap sẽ lo khoảng cách */
+    margin: 0;
 }
 
 header h1 {
@@ -100,7 +99,6 @@ header p {
     width: 50px; height: 3px; background: linear-gradient(90deg, var(--primary), var(--accent)); 
     margin: 10px auto 0; border-radius: 2px;
 }
-/* ------------------------------------------------------------- */
 
 .btn {
     border: none; border-radius: 8px; font-family: 'Inter', sans-serif;
@@ -211,11 +209,8 @@ header p {
 .vdv-chip .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .vdv-chip button { background: none; border: none; color: var(--red); cursor: pointer; font-weight: 700; padding: 0 2px; flex-shrink: 0; }
 
-/* --- RESPONSIVE CHO MOBILE --- */
 @media (max-width: 480px) {
     .wrapper { padding: 6px; }
-    
-    /* Trên mobile, chuyển nút đăng nhập lên hẳn trên cùng, chiếm trọn chiều ngang để không chèn ép tiêu đề */
     header {
         grid-template-columns: 1fr;
         grid-template-rows: auto auto auto auto auto;
@@ -260,9 +255,9 @@ header p {
 <div class="wrapper">
     <header>
         <div class="auth-btns" id="authBtns"></div>
-        <div class="badge">🏓 Round Robin Cá Nhân</div>
+        <div class="badge">🏓 Robin Round Cá Nhân</div>
         <h1 id="headerTitle">Giải Đấu Pickleball</h1>
-        <p id="headerSub">Thể thức ghép cặp luân phiên <br> Xếp hạng cá nhân</p>
+        <p id="headerSub">Ghép đôi luân phiên <br> Thành tích cá nhân</p>
         <div class="divider"></div>
     </header>
 
@@ -377,6 +372,20 @@ header p {
     </div>
 </div>
 
+<!-- MODAL ĐỔI MẬT KHẨU (MỚI) -->
+<div id="changePasswordModal" class="modal-overlay">
+    <div class="modal-box">
+        <h2>🔒 Đổi mật khẩu</h2>
+        <div class="input-row" style="flex-direction:column">
+            <input type="password" id="cp_old_pass" placeholder="Mật khẩu hiện tại">
+            <input type="password" id="cp_new_pass" placeholder="Mật khẩu mới">
+            <input type="password" id="cp_confirm_pass" placeholder="Xác nhận mật khẩu mới">
+        </div>
+        <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="handleChangePassword()">Lưu thay đổi</button>
+        <button class="btn btn-secondary" style="width:100%;margin-top:8px" onclick="closeModal('changePasswordModal')">Hủy</button>
+    </div>
+</div>
+
 <script>
 const SUPABASE_URL = 'https://mvefkcaqvjflrgmaybev.supabase.co'.trim().replace(/\/+$/, '');
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12ZWZrY2FxdmpmbHJnbWF5YmV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2MDAzOTksImV4cCI6MjEwMjE3NjM5OX0.vCY4_JlSBqi6QRh7DYWAe42Ot-pChKaVSHn7DY2C34Q'.trim();
@@ -402,11 +411,13 @@ function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 function isSuperAdmin() { return CURRENT_USER && CURRENT_USER.username.toLowerCase() === 'admin'; }
 function canManageTour(tour) { if (!CURRENT_USER) return false; return isSuperAdmin() || (tour.admin_id === CURRENT_USER.id); }
 
+// ĐÃ CẬP NHẬT: Thêm nút đổi mật khẩu
 function updateAuthUI() {
     const c = document.getElementById('authBtns');
     if (CURRENT_USER) {
         const badge = isSuperAdmin() ? '<span style="background:var(--accent);color:#000;padding:1px 3px;border-radius:3px;font-size:0.55rem;font-weight:700;margin-left:3px">ADMIN</span>' : '';
         c.innerHTML = `<span class="user-label">👤 ${CURRENT_USER.username}${badge}</span>
+        <button class="btn btn-secondary btn-sm" onclick="showModal('changePasswordModal')" title="Đổi mật khẩu">🔒</button>
         <button class="btn btn-secondary btn-sm" onclick="doLogout()">Thoát</button>`;
         document.body.classList.add('is-owner');
     } else {
@@ -437,6 +448,45 @@ async function doLogin() {
 }
 
 function doLogout() { CURRENT_USER = null; sessionStorage.removeItem('pb_admin'); updateAuthUI(); backToList(); toast('Đã đăng xuất'); }
+
+// HÀM MỚI: Xử lý đổi mật khẩu
+async function handleChangePassword() {
+    const oldPass = document.getElementById('cp_old_pass').value.trim();
+    const newPass = document.getElementById('cp_new_pass').value.trim();
+    const confirmPass = document.getElementById('cp_confirm_pass').value.trim();
+
+    if (!oldPass || !newPass || !confirmPass) return toast('Vui lòng nhập đầy đủ thông tin', true);
+    if (newPass !== confirmPass) return toast('Mật khẩu mới không khớp', true);
+    if (newPass.length < 4) return toast('Mật khẩu mới quá ngắn (tối thiểu 4 ký tự)', true);
+
+    // 1. Kiểm tra mật khẩu cũ có đúng không
+    const { data: verifyData, error: verifyError } = await sb.from('admin_users')
+        .select('*')
+        .eq('id', CURRENT_USER.id)
+        .eq('password', oldPass)
+        .single();
+
+    if (verifyError || !verifyData) {
+        return toast('Mật khẩu hiện tại không đúng!', true);
+    }
+
+    // 2. Cập nhật mật khẩu mới
+    const { error: updateError } = await sb.from('admin_users')
+        .update({ password: newPass })
+        .eq('id', CURRENT_USER.id);
+
+    if (updateError) {
+        return toast('Lỗi cập nhật: ' + updateError.message, true);
+    }
+
+    toast('✅ Đổi mật khẩu thành công!');
+    closeModal('changePasswordModal');
+    
+    // Xóa trắng các ô nhập liệu
+    document.getElementById('cp_old_pass').value = '';
+    document.getElementById('cp_new_pass').value = '';
+    document.getElementById('cp_confirm_pass').value = '';
+}
 
 async function deleteTour(ma_giai, tourName) {
     if (!CURRENT_USER) return toast('Vui lòng đăng nhập', true);
