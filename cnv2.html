@@ -387,31 +387,7 @@ header p {
 </div>
 
 <script>
-    // 🌟 XỬ LÝ URL PARAMETER ĐỂ VÀO THẲNG TAB XẾP HẠNG
-const urlParamsCaNhan = new URLSearchParams(window.location.search);
-const maGiaiCaNhan = urlParamsCaNhan.get('ma_giai');
-const tabCaNhan = urlParamsCaNhan.get('tab');
-
-if (maGiaiCaNhan) {
-  // 1. Ẩn trang chủ, hiện trang chi tiết
-  const homeScreen = document.getElementById('homeScreen');
-  if (homeScreen) homeScreen.style.display = 'none';
-  
-  const detailScreen = document.getElementById('detailCaNhan');
-  if (detailScreen) detailScreen.classList.add('active');
-
-  // 2. Load dữ liệu giải đấu
-  cnLoadTour(maGiaiCaNhan).then(() => {
-    // 3. Nếu URL yêu cầu tab standings, giả lập click vào tab đó
-    if (tabCaNhan === 'standings') {
-      const standingsTabBtn = document.querySelector('#cnTabs .detail-tab'); // Tab đầu tiên là Standings
-      if (standingsTabBtn) {
-        switchCnTab('standings', standingsTabBtn);
-      }
-    }
-  });
-}
-    
+        
 const SUPABASE_URL = 'https://mvefkcaqvjflrgmaybev.supabase.co'.trim().replace(/\/+$/, '');
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12ZWZrY2FxdmpmbHJnbWF5YmV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2MDAzOTksImV4cCI6MjEwMjE3NjM5OX0.vCY4_JlSBqi6QRh7DYWAe42Ot-pChKaVSHn7DY2C34Q'.trim();
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
