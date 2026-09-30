@@ -194,11 +194,12 @@ body::after {
 @keyframes modalPop { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .modal-box h2 { font-family: 'Oswald', sans-serif; font-size: 1.2rem; text-align: center; margin-bottom: 16px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
 .input-row { display: flex; gap: 8px; margin-bottom: 10px; flex-direction: column; }
-.input-row input {
+.input-row input, .input-row select {
   background: var(--bg-deeper); border: 1px solid var(--border); color: var(--text);
   padding: 10px 12px; border-radius: 10px; font-size: 0.85rem; font-family: 'Inter', sans-serif; transition: all 0.2s;
+  width: 100%;
 }
-.input-row input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1); }
+.input-row input:focus, .input-row select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1); }
 .modal-close-x {
   position: absolute; top: 12px; right: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);
   color: var(--text-dim); width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
@@ -305,8 +306,8 @@ body::after {
         <div class="section-icon canhan">🎾</div>
         <div>
           <h2 class="section-title">
-            ROBIN CÁ NHÂN
-            <span>Thể thức cặp đôi · Tính điểm cá nhân</span>
+            ROBIN CÁ NHÂN 2V2
+            <span>Thể thức ghép cặp đôi luân phiên · Tính điểm cá nhân</span>
           </h2>
         </div>
       </div>
@@ -362,6 +363,30 @@ body::after {
   </div>
 </div>
 
+<!-- CREATE TOUR MODAL (MỚI) -->
+<div id="createTourModal" class="modal-overlay">
+  <div class="modal-box">
+    <button class="modal-close-x" onclick="closeModal('createTourModal')" title="Đóng (ESC)">✕</button>
+    <h2>🎉 Tạo giải đấu mới</h2>
+    <div class="input-row">
+      <select id="ct_type">
+        <option value="canhan">🎾 Robin Cá Nhân 2v2</option>
+        <option value="capdoi">🤝 Team Round Robin</option>
+      </select>
+    </div>
+    <div class="input-row">
+      <input type="text" id="ct_name" placeholder="Tên giải đấu (VD: Giải CLB Pickleball)">
+    </div>
+    <div class="input-row">
+      <input type="text" id="ct_location" placeholder="Địa điểm thi đấu">
+    </div>
+    <div class="input-row">
+      <input type="date" id="ct_date">
+    </div>
+    <button class="btn btn-primary" id="createTourSubmitBtn" style="width: 100%; margin-top: 10px;" onclick="doCreateTour()">Tạo giải ngay</button>
+  </div>
+</div>
+
 <script>
 const SUPABASE_URL = 'https://mvefkcaqvjflrgmaybev.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12ZWZrY2FxdmpmbHJnbWF5YmV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2MDAzOTksImV4cCI6MjEwMjE3NjM5OX0.vCY4_JlSBqi6QRh7DYWAe42Ot-pChKaVSHn7DY2C34Q';
@@ -381,7 +406,7 @@ function showModal(id) {
   const modal = document.getElementById(id);
   modal.classList.add('show');
   setTimeout(() => {
-    const firstInput = modal.querySelector('input:not([disabled])');
+    const firstInput = modal.querySelector('input:not([disabled]), select:not([disabled])');
     if (firstInput) firstInput.focus();
   }, 100);
 }
@@ -404,11 +429,14 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
 
 function isSuperAdmin() { return CURRENT_USER && CURRENT_USER.username.toLowerCase() === 'admin'; }
 
+// ĐÃ CẬP NHẬT: Thêm nút "Tạo giải" khi đã đăng nhập
 function updateAuthUI() {
   const c = document.getElementById('authBtns');
   if (CURRENT_USER) {
     const badge = isSuperAdmin() ? '<span class="admin-badge">ADMIN</span>' : '';
-    c.innerHTML = `<span class="user-chip">👤 ${CURRENT_USER.username}${badge}</span>
+    c.innerHTML = `
+      <button class="btn btn-primary btn-sm" onclick="showModal('createTourModal')">➕ Tạo giải</button>
+      <span class="user-chip">👤 ${CURRENT_USER.username}${badge}</span>
       <button class="btn btn-ghost btn-sm" onclick="doLogout()">Thoát</button>`;
   } else {
     c.innerHTML = `<button class="btn btn-ghost btn-sm" onclick="showModal('loginModal')">🔑 Đăng nhập</button>
@@ -482,7 +510,7 @@ function renderEmpty(type, context) {
   if (context === 'guest') {
     message = 'Chưa có giải nào trong hệ thống.<br><span class="highlight">Hãy là người đầu tiên tạo giải đấu!</span>';
   } else if (context === 'user') {
-    message = 'Bạn chưa tạo giải nào.<br><span class="highlight">Bấm nút "Đăng ký" để tạo giải đấu của riêng bạn.</span>';
+    message = 'Bạn chưa tạo giải nào.<br><span class="highlight">Bấm nút "➕ Tạo giải" ở trên đầu trang.</span>';
   } else {
     message = 'Chưa có giải nào trong hệ thống.<br><span class="highlight">Hãy tạo giải đầu tiên!</span>';
   }
@@ -490,7 +518,6 @@ function renderEmpty(type, context) {
   return `<div class="empty-state"><div class="icon">${icon}</div><h3>Chưa có giải ${name}</h3><p>${message}</p></div>`;
 }
 
-// 🌟 LOGIC LỌC GIẢI ĐẤU THEO QUYỀN HẠN
 async function loadTournaments() {
   try {
     await loadAllUsers();
@@ -505,23 +532,19 @@ async function loadTournaments() {
     let visibleCapDoi, visibleCaNhan, context;
 
     if (isSuperAdmin()) {
-      // 1. ADMIN: Thấy tất cả, chỉnh sửa được tất cả
       visibleCapDoi = allCapDoi;
       visibleCaNhan = allCaNhan;
       context = 'admin';
     } else if (CURRENT_USER) {
-      // 2. USER THƯỜNG: Chỉ thấy và chỉnh sửa được giải của mình (admin_id trùng với id của user)
       visibleCapDoi = allCapDoi.filter(t => t.admin_id === CURRENT_USER.id);
       visibleCaNhan = allCaNhan.filter(t => t.admin_id === CURRENT_USER.id);
       context = 'user';
     } else {
-      // 3. KHÁCH (Chưa đăng nhập): Thấy tất cả để tham khảo, nhưng không có quyền chỉnh sửa
       visibleCapDoi = allCapDoi;
       visibleCaNhan = allCaNhan;
       context = 'guest';
     }
 
-    // Cập nhật số liệu dựa trên những gì đang hiển thị thực tế
     document.getElementById('totalTours').textContent = visibleCapDoi.length + visibleCaNhan.length;
     document.getElementById('totalCapDoi').textContent = visibleCapDoi.length;
     document.getElementById('totalCaNhan').textContent = visibleCaNhan.length;
@@ -538,6 +561,54 @@ async function loadTournaments() {
 
   } catch (e) {
     toast('Lỗi tải dữ liệu: ' + e.message, true);
+  }
+}
+
+// 🌟 HÀM MỚI: XỬ LÝ TẠO GIẢI ĐẤU
+async function doCreateTour() {
+  const btn = document.getElementById('createTourSubmitBtn');
+  if (btn.disabled) return;
+  
+  const type = document.getElementById('ct_type').value;
+  const name = document.getElementById('ct_name').value.trim();
+  const location = document.getElementById('ct_location').value.trim();
+  const date = document.getElementById('ct_date').value;
+  
+  if (!name || !date) return toast('Vui lòng nhập Tên giải và Ngày tổ chức', true);
+  
+  btn.disabled = true;
+  btn.innerHTML = '<span class="btn-spinner"></span> Đang tạo...';
+  
+  try {
+    // Tạo mã giải duy nhất
+    const ma_giai = 'G' + Date.now().toString().slice(-8);
+    const targetTable = type === 'capdoi' ? 'robin_tour' : 'robin_canhan_tour';
+    
+    const { error } = await sb.from(targetTable).insert({
+      ma_giai: ma_giai,
+      ten_giai: name,
+      dia_diem: location,
+      ngay_to_chuc: date,
+      admin_id: CURRENT_USER.id
+    });
+    
+    if (error) throw error;
+    
+    closeModal('createTourModal');
+    toast('✅ Tạo giải đấu thành công!');
+    
+    // Reset form
+    document.getElementById('ct_name').value = '';
+    document.getElementById('ct_location').value = '';
+    
+    // Load lại danh sách để hiển thị giải mới
+    loadTournaments();
+    
+  } catch (e) {
+    toast('Lỗi tạo giải: ' + e.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Tạo giải ngay';
   }
 }
 
@@ -567,7 +638,7 @@ async function doLogin() {
     closeModal('loginModal');
     updateAuthUI();
     toast('✅ Chào, ' + CURRENT_USER.username);
-    loadTournaments(); // Load lại để áp dụng bộ lọc quyền hạn
+    loadTournaments();
   } catch (e) {
     toast('Lỗi: ' + e.message, true);
   } finally {
@@ -581,7 +652,7 @@ function doLogout() {
   sessionStorage.removeItem('pb_admin');
   updateAuthUI();
   toast('Đã đăng xuất');
-  loadTournaments(); // Load lại để chuyển về chế độ khách
+  loadTournaments();
 }
 
 async function doRegister() {
@@ -625,6 +696,8 @@ async function doRegister() {
     try { CURRENT_USER = JSON.parse(u); } catch (e) { sessionStorage.removeItem('pb_admin'); }
   }
   updateAuthUI();
+  // Đặt ngày mặc định là hôm nay cho modal tạo giải
+  document.getElementById('ct_date').valueAsDate = new Date();
   loadTournaments();
 })();
 </script>
